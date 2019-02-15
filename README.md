@@ -1,4 +1,13 @@
-# dry-effects [![Join the chat at https://gitter.im/dry-rb/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dry-rb/chat)
+[travis]: https://travis-ci.org/dry-rb/dry-effects
+[codeclimate]: https://codeclimate.com/github/dry-rb/dry-effects/maintainability
+[coverage]: https://codeclimate.com/github/dry-rb/dry-effects/test_coverage
+[gitter]: https://gitter.im/dry-rb/chat
+
+# dry-effects [![Join the chat at https://gitter.im/dry-rb/chat](https://badges.gitter.im/Join%20Chat.svg)][gitter]
+[![Build Status](https://travis-ci.org/dry-rb/dry-effects.svg?branch=master)][travis]
+[![Maintainability](https://api.codeclimate.com/v1/badges/83bdab1ec9e1097c2284/maintainability)][codeclimate]
+[![Test Coverage](https://api.codeclimate.com/v1/badges/83bdab1ec9e1097c2284/test_coverage)][coverage]
+
 
 ## Development
 
