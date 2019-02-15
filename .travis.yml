@@ -1,5 +1,4 @@
 ---
-sudo: false
 language: ruby
 cache: bundler
 bundler_args: --without benchmarks tools
@@ -13,8 +12,6 @@ rvm:
   - jruby
 after_script:
   - "[ -d coverage ] && ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
-script:
-  - bundle exec rake
 before_install: gem update bundler
 env:
   global:
