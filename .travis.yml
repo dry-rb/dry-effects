@@ -15,7 +15,6 @@ after_script:
   - "[ -d coverage ] && ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 script:
   - bundle exec rake
-before_install: gem install bundler -v 1.17.3
 env:
   global:
     - COVERAGE=true
