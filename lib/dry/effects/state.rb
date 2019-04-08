@@ -9,7 +9,7 @@ module Dry
         end
 
         def write(value)
-          Fiber.yield(:write, value)
+          Fiber.yield([:write, value])
         end
       end
 
