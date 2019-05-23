@@ -4,6 +4,9 @@ module Dry
       class Random
         public :rand
 
+        def initialize(_seed = Undefined)
+        end
+
         def output(result)
           result
         end

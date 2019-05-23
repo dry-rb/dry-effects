@@ -12,7 +12,7 @@ RSpec.describe 'handling random' do
 
   context 'with custom consumer' do
     let(:consumer) do
-      Class.new {
+      Class.new do
         def initialize(seed)
           @seed = seed
         end
@@ -32,14 +32,14 @@ RSpec.describe 'handling random' do
         def shift
           @seed = @seed % 1000 + @seed / 1000
         end
-      }.new(seed)
+      end
     end
 
     context 'seed = 10' do
       let(:seed) { 121 }
 
       example 'getting random values' do
-        result = handler.() do
+        result = handler.(seed) do
           [rand(5), rand(9)]
         end
 
@@ -49,7 +49,7 @@ RSpec.describe 'handling random' do
   end
 
   context 'with default consumer' do
-    let(:consumer) { Dry::Effects::Consumers::Random.new }
+    let(:consumer) { Dry::Effects::Consumers::Random }
 
     example 'producing random values' do
       result = handler.() do

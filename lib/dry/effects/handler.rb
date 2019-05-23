@@ -1,13 +1,16 @@
+require 'fiber'
+
 module Dry
   module Effects
     class Handler
-      attr_reader :consumer
+      attr_reader :consumer_factory
 
-      def initialize(consumer)
-        @consumer = consumer
+      def initialize(consumer_factory)
+        @consumer_factory = consumer_factory
       end
 
       def call(*args)
+        consumer = consumer_factory.new(*args)
         fiber = ::Fiber.new { yield }
 
         result = fiber.resume
