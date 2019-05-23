@@ -13,6 +13,11 @@ if RUBY_ENGINE == 'ruby' && ENV['COVERAGE'] == 'true'
   end
 end
 
+begin
+  require 'pry-byebug'
+rescue LoadError
+end
+
 require "pathname"
 
 SPEC_ROOT = Pathname(__FILE__).dirname
