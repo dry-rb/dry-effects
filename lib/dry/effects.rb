@@ -8,3 +8,5 @@ module Dry
     class Error < StandardError; end
   end
 end
+
+require "dry/effects/handler"

@@ -4,7 +4,7 @@ module Dry
   module Effects
     module State
       def read
-        Fiber.yield(:read)
+        Fiber.yield([:read])
       end
 
       def write(value)

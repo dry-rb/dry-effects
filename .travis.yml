@@ -9,7 +9,7 @@ before_script:
 rvm:
   - 2.5.5
   - 2.6.3
-  - jruby
+  - jruby-9.2.6.0
 after_script:
   - "[ -d coverage ] && ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 before_install: gem update bundler
