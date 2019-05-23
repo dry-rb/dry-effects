@@ -8,7 +8,7 @@ before_script:
   - ./cc-test-reporter before-build
 rvm:
   - 2.5.5
-  - 2.6.2
+  - 2.6.3
   - jruby
 after_script:
   - "[ -d coverage ] && ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
