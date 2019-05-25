@@ -18,6 +18,8 @@ module Dry
         end
       end
 
+      BREAK = Object.new.freeze
+
       attr_reader :consumers, :effect_type, :identifier
 
       def initialize(effect_type, identifier = Undefined, consumers: Effects.consumers)
@@ -36,7 +38,13 @@ module Dry
           break result unless fiber.alive?
 
           if result.is_a?(Effect) && handle?(consumer, result)
-            result = fiber.resume(consumer.public_send(result.name, *result.payload))
+            instruction = consumer.public_send(result.name, *result.payload)
+
+            if BREAK.equal?(instruction)
+              break result
+            else
+              result = fiber.resume(instruction)
+            end
           else
             result = fiber.resume(Effects.yield(result))
           end
