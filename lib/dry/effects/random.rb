@@ -1,5 +1,3 @@
-require 'dry/effects/consumers/random'
-
 module Dry
   module Effects
     module Random
