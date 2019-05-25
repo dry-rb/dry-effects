@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency 'dry-core'
+  spec.add_runtime_dependency 'dry-equalizer'
   spec.add_runtime_dependency 'dry-container'
   spec.add_runtime_dependency 'dry-inflector'
   spec.add_development_dependency 'bundler'

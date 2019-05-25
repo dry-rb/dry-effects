@@ -1,4 +1,5 @@
 require 'dry/effects/state'
+require 'dry/effects/consumers/state'
 
 RSpec.describe 'handling state' do
   let(:consumer) { Dry::Effects::Consumers::State }

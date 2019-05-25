@@ -1,5 +1,6 @@
 require 'dry/effects/handler'
 require 'dry/effects/cache'
+require 'dry/effects/consumers/cache'
 
 RSpec.describe 'handling random' do
   let(:consumer) { Dry::Effects::Consumers::Cache }

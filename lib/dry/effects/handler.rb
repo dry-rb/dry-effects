@@ -1,4 +1,5 @@
 require 'fiber'
+require 'dry/effects/effect'
 
 module Dry
   module Effects
@@ -26,8 +27,8 @@ module Dry
         fiber_result = loop do
           break result unless fiber.alive?
 
-          if consumer.respond_to?(result[0])
-            result = fiber.resume(consumer.public_send(*result))
+          if result.is_a?(Effect) && consumer.respond_to?(result.name)
+            result = fiber.resume(consumer.public_send(result.name, *result.payload))
           else
             result = fiber.resume(Fiber.yield(result))
           end
