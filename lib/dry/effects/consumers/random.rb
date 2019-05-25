@@ -1,10 +1,13 @@
+require 'dry/effects/consumer'
+
 module Dry
   module Effects
     module Consumers
-      class Random
+      class Random < Consumer
         public :rand
 
-        def initialize(_seed = Undefined)
+        def initialize(_seed = Undefined, identifier: Undefined)
+          super(identifier: Undefined.default(identifier, :kernel))
         end
 
         def output(result)

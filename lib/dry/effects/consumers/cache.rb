@@ -1,8 +1,12 @@
+require 'dry/effects/consumer'
+
 module Dry
   module Effects
     module Consumers
-      class Cache
-        def initialize
+      class Cache < Consumer
+        def initialize(identifier:)
+          super(identifier: identifier)
+
           @cache = Hash.new
         end
 

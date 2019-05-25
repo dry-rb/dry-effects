@@ -1,37 +1,28 @@
+require 'dry/effects/consumers/random'
+
 RSpec.describe Dry::Effects do
   describe '.[]' do
     let(:mod) { described_class[*args] }
 
-    let(:klass) do
-      mod = self.mod
-      Class.new do
-        attr_reader :handler
-
-        def initialize(handler)
-          @handler = handler
-        end
-
-        include mod
-      end
-    end
+    before { extend mod }
 
     context 'random effect' do
-      let(:handler) { Dry::Effects::Handler.new(Dry::Effects::Consumers::Random) }
+      let(:handler) { Dry::Effects::Handler.new(:random, :kernel) }
 
       let(:args) { [:random] }
 
-      before do
-        klass.class_exec do
-          def call
-            handler.() do
-              rand(10)
-            end
-          end
-        end
+      it 'mixes in effects' do
+        expect(handler.() { rand(10) }).to be < 10
       end
+    end
 
-      it 'includes effects' do
-        expect(klass.new(handler).()).to be < 10
+    context 'state effect' do
+      let(:handler) { Dry::Effects::Handler.new(:state, :counter) }
+
+      let(:args) { [state: :counter] }
+
+      it 'mixes in effects' do
+        expect(handler.(2) { self.counter += 1; :done }).to eql([3, :done])
       end
     end
   end
