@@ -3,6 +3,14 @@ require 'fiber'
 module Dry
   module Effects
     class Handler
+      def self.[](effect, as:)
+        consumer = Effects.consumers[effect]
+        handler = new(consumer)
+        Module.new do
+          define_method(as) { |*args, &block| handler.(*args, &block) }
+        end
+      end
+
       attr_reader :consumer_factory
 
       def initialize(consumer_factory)
