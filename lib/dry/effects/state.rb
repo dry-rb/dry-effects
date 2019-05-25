@@ -2,7 +2,7 @@ require 'dry/effects/effect'
 
 module Dry
   module Effects
-    module State
+    class State
       READ = Effect.new(:state, :read)
       WRITE = Effect.new(:state, :write)
 

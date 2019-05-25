@@ -1,3 +1,5 @@
+require 'dry/effects/consumers/random'
+
 RSpec.describe Dry::Effects do
   describe '.[]' do
     let(:mod) { described_class[*args] }

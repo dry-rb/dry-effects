@@ -9,7 +9,7 @@ RSpec.describe 'handling state' do
   end
 
   let(:effects) do
-    Object.new.extend(Dry::Effects::State)
+    Dry::Effects::State.new
   end
 
   def inc

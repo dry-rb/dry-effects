@@ -7,7 +7,7 @@ RSpec.describe 'handling random' do
 
   let(:handler) { Dry::Effects::Handler.new(consumer) }
 
-  let(:effects) { Object.new.extend(Dry::Effects::Cache) }
+  let(:effects) { Object.new.extend(Dry::Effects::Cache.new) }
 
   def fetch_or_store(n, &block)
     effects.fetch_or_store(n, &block)

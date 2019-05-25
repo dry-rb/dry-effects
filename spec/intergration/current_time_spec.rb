@@ -5,7 +5,7 @@ RSpec.describe 'handling current time' do
   let(:handler) { Dry::Effects::Handler.new(consumer) }
   let(:consumer) { Dry::Effects::Consumers::CurrentTime }
 
-  let(:effects) { Object.new.extend(Dry::Effects::CurrentTime) }
+  let(:effects) { Object.new.extend(Dry::Effects::CurrentTime.new) }
 
   def current_time
     effects.current_time

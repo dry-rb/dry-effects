@@ -4,7 +4,7 @@ require 'dry/effects/random'
 RSpec.describe 'handling random' do
   let(:handler) { Dry::Effects::Handler.new(consumer) }
 
-  let(:effects) { Object.new.extend(Dry::Effects::Random) }
+  let(:effects) { Object.new.extend(Dry::Effects::Random.new) }
 
   def rand(n)
     effects.rand(n)

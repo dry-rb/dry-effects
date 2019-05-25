@@ -2,7 +2,7 @@ require 'dry/effects/random'
 require 'dry/effects/current_time'
 
 RSpec.describe 'stacked effects' do
-  let(:effects) { Object.new.extend(Dry::Effects::Random, Dry::Effects::CurrentTime) }
+  let(:effects) { Object.new.extend(Dry::Effects::Random.new, Dry::Effects::CurrentTime.new) }
 
   let(:rand_handler) { Dry::Effects::Handler.new(Dry::Effects::Consumers::Random) }
 
