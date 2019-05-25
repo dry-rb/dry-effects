@@ -10,7 +10,7 @@ RSpec.describe Dry::Effects::Handler do
     end
 
     context 'random effect' do
-      include Dry::Effects.effects[:current_time]
+      include Dry::Effects[:current_time]
 
       before do
         klass.class_exec do

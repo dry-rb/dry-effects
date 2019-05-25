@@ -8,7 +8,7 @@ module Dry
     default.each do |key|
       effects.register(key, memoize: true) do
         require "dry/effects/#{key}"
-        const_get(Inflector.camelize(key)).new
+        const_get(Inflector.camelize(key))
       end
     end
 

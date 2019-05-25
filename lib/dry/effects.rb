@@ -15,7 +15,14 @@ module Dry
       attr_reader :effects, :consumers
 
       def [](effect)
-        effects[effect]
+        if effect.is_a?(::Symbol)
+          type = effect
+          identifier = Undefined
+        else
+          type, identifier = effect.to_a.first
+        end
+
+        effects[type].new(identifier)
       end
 
       def yield(effect)
