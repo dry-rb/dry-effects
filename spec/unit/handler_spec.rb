@@ -1,37 +1,28 @@
 RSpec.describe Dry::Effects::Handler do
   describe '.[]' do
-    let(:args) { [:current_time, as: :with_current_time] }
-
     let(:mod) { described_class[*args] }
 
-    let(:klass) do
-      mod = self.mod
-      Class.new { include mod }
-    end
+    before { extend mod }
 
-    context 'random effect' do
+    context 'current time effect' do
+      let(:args) { [:current_time, as: :with_current_time] }
+
       include Dry::Effects[:current_time]
-
-      before do
-        klass.class_exec do
-          attr_reader :time
-
-          def initialize(time)
-            @time = time
-          end
-
-          def call
-            with_current_time(time) do
-              yield
-            end
-          end
-        end
-      end
 
       let(:frozen_time) { Time.now - 100 }
 
-      it 'uses provides' do
-        expect(klass.new(frozen_time).() { current_time }).to be(frozen_time)
+      it 'uses provided time' do
+        expect(with_current_time(frozen_time) { current_time }).to be(frozen_time)
+      end
+    end
+
+    context 'state effect' do
+      include Dry::Effects[state: :counter]
+
+      let(:args) { [state: :counter, as: :with_counter] }
+
+      it 'uses provided state' do
+        expect(with_counter(5) { self.counter += 7; :done }).to eql([12, :done])
       end
     end
   end

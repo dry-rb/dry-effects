@@ -4,8 +4,15 @@ require 'dry/effects/effect'
 module Dry
   module Effects
     class Handler
-      def self.[](effect, as:)
-        handler = new(effect)
+      def self.[](effect = Undefined, as:, **kwargs)
+        if Undefined.equal?(effect)
+          type, identifier = kwargs.to_a.first
+        else
+          type, identifier = effect, Undefined
+        end
+
+        handler = new(type, identifier)
+
         Module.new do
           define_method(as) { |*args, &block| handler.(*args, &block) }
         end
