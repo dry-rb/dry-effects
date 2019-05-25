@@ -3,9 +3,7 @@ require 'dry/effects/cache'
 require 'dry/effects/consumers/cache'
 
 RSpec.describe 'handling random' do
-  let(:consumer) { Dry::Effects::Consumers::Cache }
-
-  let(:handler) { Dry::Effects::Handler.new(consumer) }
+  let(:handler) { Dry::Effects::Handler.new(:cache) }
 
   let(:effects) { Object.new.extend(Dry::Effects::Cache.new) }
 

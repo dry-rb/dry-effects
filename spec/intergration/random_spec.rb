@@ -2,7 +2,9 @@ require 'dry/effects/handler'
 require 'dry/effects/random'
 
 RSpec.describe 'handling random' do
-  let(:handler) { Dry::Effects::Handler.new(consumer) }
+  let(:opts) { {} }
+
+  let(:handler) { Dry::Effects::Handler.new(:random, **opts) }
 
   let(:effects) { Object.new.extend(Dry::Effects::Random.new) }
 
@@ -12,8 +14,10 @@ RSpec.describe 'handling random' do
 
   context 'with custom consumer' do
     let(:consumer) do
-      Class.new do
-        def initialize(seed)
+      Class.new(Dry::Effects::Consumer) do
+        def initialize(seed, identifier:)
+          super(identifier: identifier)
+
           @seed = seed
         end
 
@@ -35,6 +39,8 @@ RSpec.describe 'handling random' do
       end
     end
 
+    let(:opts) { { consumers: { random: consumer } } }
+
     context 'seed = 10' do
       let(:seed) { 121 }
 
@@ -49,7 +55,7 @@ RSpec.describe 'handling random' do
   end
 
   context 'with default consumer' do
-    let(:consumer) { Dry::Effects::Consumers::Random }
+    let(:consumer) { :random }
 
     example 'producing random values' do
       result = handler.() do

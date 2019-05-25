@@ -2,8 +2,7 @@ require 'dry/effects/handler'
 require 'dry/effects/current_time'
 
 RSpec.describe 'handling current time' do
-  let(:handler) { Dry::Effects::Handler.new(consumer) }
-  let(:consumer) { Dry::Effects::Consumers::CurrentTime }
+  let(:handler) { Dry::Effects::Handler.new(:current_time) }
 
   let(:effects) { Object.new.extend(Dry::Effects::CurrentTime.new) }
 

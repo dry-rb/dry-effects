@@ -4,9 +4,9 @@ require 'dry/effects/current_time'
 RSpec.describe 'stacked effects' do
   let(:effects) { Object.new.extend(Dry::Effects::Random.new, Dry::Effects::CurrentTime.new) }
 
-  let(:rand_handler) { Dry::Effects::Handler.new(Dry::Effects::Consumers::Random) }
+  let(:rand_handler) { Dry::Effects::Handler.new(:random) }
 
-  let(:time_handler) { Dry::Effects::Handler.new(Dry::Effects::Consumers::CurrentTime) }
+  let(:time_handler) { Dry::Effects::Handler.new(:current_time) }
 
   example 'nesting handlers' do
     past = Time.now

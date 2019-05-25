@@ -1,8 +1,11 @@
+require 'dry/effects/consumer'
+
 module Dry
   module Effects
     module Consumers
-      class State
-        def initialize(initial)
+      class State < Consumer
+        def initialize(initial, identifier:)
+          super(identifier: identifier)
           @state = initial
         end
 

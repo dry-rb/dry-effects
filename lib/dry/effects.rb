@@ -19,7 +19,7 @@ module Dry
       end
 
       def yield(effect)
-        Fiber.yield(effect)
+        ::Fiber.yield(effect)
       end
     end
   end

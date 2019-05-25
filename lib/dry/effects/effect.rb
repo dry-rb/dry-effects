@@ -3,19 +3,19 @@ require 'dry/equalizer'
 module Dry
   module Effects
     class Effect
-      attr_reader :scope, :name, :key, :payload
+      attr_reader :type, :name, :identifier, :payload
 
-      include ::Dry::Equalizer(:scope, :name, :key, :payload)
+      include ::Dry::Equalizer(:type, :name, :identifier, :payload)
 
-      def initialize(scope, name, key = Undefined, payload = EMPTY_ARRAY)
-        @scope = scope
+      def initialize(type, name, identifier = :default, payload = EMPTY_ARRAY)
+        @type = type
         @name = name
-        @key = key
+        @identifier = identifier
         @payload = payload
       end
 
       def with(*payload)
-        self.class.new(scope, name, key, payload)
+        self.class.new(type, name, identifier, payload)
       end
     end
   end

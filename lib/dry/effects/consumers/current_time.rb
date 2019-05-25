@@ -1,8 +1,11 @@
+require 'dry/effects/consumer'
+
 module Dry
   module Effects
     module Consumers
-      class CurrentTime
-        def initialize(time = Undefined)
+      class CurrentTime < Consumer
+        def initialize(time = Undefined, identifier: :default)
+          super(identifier: identifier)
           @time = time
         end
 

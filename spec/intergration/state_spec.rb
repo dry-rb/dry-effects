@@ -2,10 +2,8 @@ require 'dry/effects/state'
 require 'dry/effects/consumers/state'
 
 RSpec.describe 'handling state' do
-  let(:consumer) { Dry::Effects::Consumers::State }
-
   let(:handler) do
-    Dry::Effects::Handler.new(consumer)
+    Dry::Effects::Handler.new(:state)
   end
 
   let(:effects) do
