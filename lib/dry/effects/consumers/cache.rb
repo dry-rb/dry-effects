@@ -4,7 +4,7 @@ module Dry
   module Effects
     module Consumers
       class Cache < Consumer
-        def initialize(identifier: :default)
+        def initialize(identifier:)
           super(identifier: identifier)
 
           @cache = Hash.new

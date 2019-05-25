@@ -6,8 +6,8 @@ module Dry
       class Random < Consumer
         public :rand
 
-        def initialize(_seed = Undefined, identifier: :default)
-          super(identifier: identifier)
+        def initialize(_seed = Undefined, identifier: Undefined)
+          super(identifier: Undefined.default(identifier, :kernel))
         end
 
         def output(result)

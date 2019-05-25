@@ -3,21 +3,17 @@ require 'dry/effects/consumers/state'
 
 RSpec.describe 'handling state' do
   let(:handler) do
-    Dry::Effects::Handler.new(:state)
+    Dry::Effects::Handler.new(:state, :counter)
   end
 
-  let(:effects) do
-    Object.new.extend(Dry::Effects::State.new)
-  end
-
-  def inc
-    effects.write(effects.read + 1)
+  before do
+    extend Dry::Effects::State.new(:counter)
   end
 
   example 'manipulating state' do
     state, result = handler.(0) do
-      inc
-      inc
+      self.counter += 1
+      self.counter += 1
       :done
     end
 

@@ -4,8 +4,8 @@ module Dry
   module Effects
     module Consumers
       class CurrentTime < Consumer
-        def initialize(time = Undefined, identifier: :default)
-          super(identifier: identifier)
+        def initialize(time = Undefined, identifier: Undefined)
+          super(identifier: Undefined.default(identifier, :global))
           @time = time
         end
 

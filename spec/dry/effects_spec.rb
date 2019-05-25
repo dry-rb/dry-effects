@@ -18,7 +18,7 @@ RSpec.describe Dry::Effects do
     end
 
     context 'random effect' do
-      let(:handler) { Dry::Effects::Handler.new(:random) }
+      let(:handler) { Dry::Effects::Handler.new(:random, :kernel) }
 
       let(:args) { [:random] }
 

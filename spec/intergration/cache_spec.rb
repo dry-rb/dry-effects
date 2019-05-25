@@ -3,19 +3,17 @@ require 'dry/effects/cache'
 require 'dry/effects/consumers/cache'
 
 RSpec.describe 'handling random' do
-  let(:handler) { Dry::Effects::Handler.new(:cache) }
+  let(:handler) { Dry::Effects::Handler.new(:cache, :cached) }
 
-  let(:effects) { Object.new.extend(Dry::Effects::Cache.new) }
-
-  def fetch_or_store(n, &block)
-    effects.fetch_or_store(n, &block)
+  before do
+    extend Dry::Effects::Cache.new(:cached)
   end
 
   example 'fetching cached values' do
     result = handler.() do
       [
-        fetch_or_store([1, 2, 3]) { :foo },
-        fetch_or_store([1, 2, 3]) { :bar }
+        cached([1, 2, 3]) { :foo },
+        cached([1, 2, 3]) { :bar }
       ]
     end
 

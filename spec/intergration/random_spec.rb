@@ -4,7 +4,7 @@ require 'dry/effects/random'
 RSpec.describe 'handling random' do
   let(:opts) { {} }
 
-  let(:handler) { Dry::Effects::Handler.new(:random, **opts) }
+  let(:handler) { Dry::Effects::Handler.new(:random, :kernel, **opts) }
 
   let(:effects) { Object.new.extend(Dry::Effects::Random.new) }
 

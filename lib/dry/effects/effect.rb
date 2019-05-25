@@ -7,7 +7,7 @@ module Dry
 
       include ::Dry::Equalizer(:type, :name, :identifier, :payload)
 
-      def initialize(type, name, identifier = :default, payload = EMPTY_ARRAY)
+      def initialize(type, name, identifier, payload = EMPTY_ARRAY)
         @type = type
         @name = name
         @identifier = identifier

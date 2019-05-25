@@ -4,7 +4,9 @@ module Dry
       attr_reader :identifier
 
       def initialize(identifier:)
-        @identifier = identifier
+        @identifier = Undefined.default(identifier) do
+          raise ArgumentError, "No identifier given"
+        end
       end
     end
   end
