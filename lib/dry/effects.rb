@@ -1,6 +1,6 @@
-require "dry/core/constants"
-require "dry/effects/version"
-require "dry/effects/container"
+require 'dry/core/constants'
+require 'dry/effects/version'
+require 'dry/effects/container'
 
 module Dry
   module Effects
@@ -13,8 +13,13 @@ module Dry
 
     class << self
       attr_reader :effects, :consumers
+
+      def [](effect)
+        effects[effect]
+      end
     end
   end
 end
 
-require "dry/effects/handler"
+require 'dry/effects/handler'
+require 'dry/effects/all'
