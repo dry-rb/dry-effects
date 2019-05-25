@@ -10,7 +10,9 @@ module Dry
       def initialize(type, name, identifier, payload = EMPTY_ARRAY)
         @type = type
         @name = name
-        @identifier = identifier
+        @identifier = Undefined.default(identifier) {
+          raise ArgumentError, "No identifier provided for a #{type} effect (#{name})"
+        }
         @payload = payload
       end
 
