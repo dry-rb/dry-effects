@@ -17,6 +17,10 @@ module Dry
       def [](effect)
         effects[effect]
       end
+
+      def yield(effect)
+        Fiber.yield(effect)
+      end
     end
   end
 end

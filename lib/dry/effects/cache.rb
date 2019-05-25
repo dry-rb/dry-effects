@@ -3,12 +3,12 @@ require 'dry/effects/effect'
 module Dry
   module Effects
     class Cache < ::Module
-      FETCH_OR_STORE = Effect.new(:cache, :fetch_or_store)
-
       def initialize
+        fetch_or_store = Effect.new(:cache, :fetch_or_store)
+
         module_eval do
-          def fetch_or_store(key, &block)
-            Fiber.yield(FETCH_OR_STORE.with(key, block))
+          define_method(:fetch_or_store) do |key, &block|
+            Effects.yield(fetch_or_store.with(key, block))
           end
         end
       end
