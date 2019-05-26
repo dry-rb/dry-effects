@@ -1,27 +1,38 @@
 require 'dry/equalizer'
+require 'dry/effects/initializer'
 
 module Dry
   module Effects
     class Effect
-      attr_reader :type, :name, :identifier, :payload
+      extend Initializer
+
+      option :type
+
+      option :name, default: -> { type }
+
+      option :identifier
+
+      option :payload, default: -> { EMPTY_ARRAY }
 
       include ::Dry::Equalizer(:type, :name, :identifier, :payload)
 
-      def initialize(type, name, identifier, payload = EMPTY_ARRAY)
-        @type = type
-        @name = name
-        @identifier = Undefined.default(identifier) {
+      def initialize(*)
+        super
+        if Undefined.equal?(identifier)
           raise ArgumentError, "No identifier provided for a #{type} effect (#{name})"
-        }
-        @payload = payload
+        end
       end
 
-      def with(*payload)
-        self.class.new(type, name, identifier, payload)
+      def payload(*payload)
+        if payload.empty?
+          @payload
+        else
+          with(payload: payload)
+        end
       end
 
       def with_identifier(identifier)
-        self.class.new(type, name, identifier, payload)
+        with(identifier: identifier)
       end
     end
   end

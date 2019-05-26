@@ -1,13 +1,13 @@
+require 'dry/effects/initializer'
+
 module Dry
   module Effects
     class Provider
-      attr_reader :identifier
+      extend Initializer
 
-      def initialize(identifier:)
-        @identifier = Undefined.default(identifier) do
-          raise ArgumentError, "No identifier given"
-        end
-      end
+      option :identifier, type: -> id {
+        Undefined.default(id) { raise ArgumentError, "No identifier given" }
+      }
 
       def call
         yield

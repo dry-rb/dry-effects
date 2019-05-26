@@ -1,4 +1,5 @@
 require 'fiber'
+require 'dry/effects/initializer'
 require 'dry/effects/effect'
 require 'dry/effects/errors'
 
@@ -19,16 +20,16 @@ module Dry
         end
       end
 
-      attr_reader :providers, :effect_type, :identifier
+      extend Initializer
 
-      def initialize(effect_type, identifier = Undefined, providers: Effects.providers)
-        @providers = providers
-        @effect_type = effect_type
-        @identifier = identifier
-      end
+      param :effect_type
+
+      param :identifier, default: -> { Undefined }
+
+      option :registry, default: -> { Effects.providers }
 
       def call(*args)
-        provider = providers[effect_type].new(*args, identifier: identifier)
+        provider = registry[effect_type].new(*args, identifier: identifier)
 
         provider.() do
           fiber = ::Fiber.new { yield }
@@ -38,9 +39,7 @@ module Dry
             break result unless fiber.alive?
 
             if result.is_a?(Effect) && handle?(provider, result)
-              instruction = provider.public_send(result.name, *result.payload)
-
-              result = fiber.resume(instruction)
+              result = fiber.resume(provider.public_send(result.name, *result.payload))
             else
               result = fiber.resume(Effects.yield(result))
             end

@@ -4,14 +4,14 @@ module Dry
   module Effects
     class Interrupt < ::Module
       def initialize(identifier = Undefined)
-        interrupt = Effect.new(:interrupt, :interrupt, identifier)
+        interrupt = Effect.new(type: :interrupt, identifier: identifier)
 
         module_eval do
           define_method(identifier) do |payload = Undefined|
             if Undefined.equal?(payload)
               Effects.yield(interrupt)
             else
-              Effects.yield(interrupt.with(payload))
+              Effects.yield(interrupt.payload(payload))
             end
           end
         end
