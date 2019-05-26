@@ -9,10 +9,10 @@ module Dry
     class Error < StandardError; end
 
     @effects = Container.new
-    @consumers = Container.new
+    @providers = Container.new
 
     class << self
-      attr_reader :effects, :consumers
+      attr_reader :effects, :providers
 
       def [](effect)
         if effect.is_a?(::Symbol)

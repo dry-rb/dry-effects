@@ -1,6 +1,6 @@
-require 'dry/effects/consumers/random'
+require 'dry/effects/providers/random'
 
-RSpec.describe Dry::Effects::Consumers::Random do
+RSpec.describe Dry::Effects::Providers::Random do
   subject(:random) { described_class.new }
 
   describe '#rand' do
@@ -11,13 +11,6 @@ RSpec.describe Dry::Effects::Consumers::Random do
       second = Array.new(10) { random.rand(10) }
 
       expect(first).to eql(second)
-    end
-  end
-
-  describe '#output' do
-    it 'returns result' do
-      input = Object.new
-      expect(random.output(input)).to be(input)
     end
   end
 end

@@ -1,6 +1,6 @@
-require 'dry/effects/consumers/cache'
+require 'dry/effects/providers/cache'
 
-RSpec.describe Dry::Effects::Consumers::Cache do
+RSpec.describe Dry::Effects::Providers::Cache do
   subject(:cache) { described_class.new(identifier: :test) }
 
   describe '#fetch_or_store' do
