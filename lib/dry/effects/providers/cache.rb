@@ -17,10 +17,6 @@ module Dry
             @cache[key] = block.call
           end
         end
-
-        def output(result)
-          result
-        end
       end
     end
   end

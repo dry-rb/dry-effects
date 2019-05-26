@@ -8,6 +8,10 @@ module Dry
           raise ArgumentError, "No identifier given"
         end
       end
+
+      def call
+        yield
+      end
     end
   end
 end

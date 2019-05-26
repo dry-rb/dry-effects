@@ -17,8 +17,9 @@ module Dry
           @state = value
         end
 
-        def output(result)
-          [@state, result]
+        def call
+          r = super
+          [@state, r]
         end
       end
     end

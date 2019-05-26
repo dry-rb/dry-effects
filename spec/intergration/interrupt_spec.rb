@@ -29,4 +29,12 @@ RSpec.describe 'handle interruption' do
     expect(result).to eql([10, nil])
     expect(reached).to be(false)
   end
+
+  it 'returns result if no interruption was triggerred' do
+    result = outer(10) do
+      catch_halt { :success }
+    end
+
+    expect(result).to eql([10, :success])
+  end
 end

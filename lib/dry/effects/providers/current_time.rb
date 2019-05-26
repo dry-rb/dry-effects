@@ -12,10 +12,6 @@ module Dry
         def current_time
           Undefined.default(@time) { Time.now }
         end
-
-        def output(result)
-          result
-        end
       end
     end
   end

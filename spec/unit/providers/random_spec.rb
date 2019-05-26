@@ -13,11 +13,4 @@ RSpec.describe Dry::Effects::Providers::Random do
       expect(first).to eql(second)
     end
   end
-
-  describe '#output' do
-    it 'returns result' do
-      input = Object.new
-      expect(random.output(input)).to be(input)
-    end
-  end
 end
