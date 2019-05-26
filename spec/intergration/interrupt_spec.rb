@@ -37,4 +37,39 @@ RSpec.describe 'handle interruption' do
 
     expect(result).to eql([10, :success])
   end
+
+  context 'stacked' do
+    context 'same identifiers' do
+      include Dry::Effects[interrupt: :halt]
+      include Dry::Effects[interrupt: :raise]
+      include Dry::Effects::Handler[interrupt: :halt, as: :catch_halt]
+      include Dry::Effects::Handler[interrupt: :raise, as: :catch_raise]
+
+      example 'handling within inner block' do
+        outer = catch_halt do
+          inner = catch_raise do
+            raise 20
+            10
+          end
+          halt inner + 10
+          100
+        end
+
+        expect(outer).to be(30)
+      end
+
+      example 'handling within outer block' do
+        outer = catch_halt do
+          inner = catch_raise do
+            halt 20
+            10
+          end
+          halt inner + 10
+          100
+        end
+
+        expect(outer).to be(20)
+      end
+    end
+  end
 end
