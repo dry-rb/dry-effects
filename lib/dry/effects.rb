@@ -1,6 +1,7 @@
 require 'dry/core/constants'
 require 'dry/effects/version'
 require 'dry/effects/container'
+require 'dry/effects/errors'
 
 module Dry
   module Effects
@@ -27,6 +28,8 @@ module Dry
 
       def yield(effect)
         ::Fiber.yield(effect)
+      rescue FiberError
+        raise Errors::UnhandledEffect.new(effect)
       end
     end
   end

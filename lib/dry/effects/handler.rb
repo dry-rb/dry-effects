@@ -1,5 +1,6 @@
 require 'fiber'
 require 'dry/effects/effect'
+require 'dry/effects/errors'
 
 module Dry
   module Effects
