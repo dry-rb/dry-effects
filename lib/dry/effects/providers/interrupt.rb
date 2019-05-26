@@ -8,7 +8,7 @@ module Dry
 
         def initializer(*)
           super
-          @signal = :"effect_interrupt_#{identifier}"
+          @signal = :"effect_interrupt_interrupt_#{identifier}"
         end
 
         def interrupt(*payload)
