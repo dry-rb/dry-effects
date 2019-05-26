@@ -25,24 +25,50 @@ RSpec.describe 'stacked effects' do
     end
 
     context 'same types' do
-      before do
-        extend Dry::Effects::State.new(:counter_a), Dry::Effects::State.new(:counter_b)
-      end
-
-      let(:state_a) { Dry::Effects::Handler.new(:state, :counter_a) }
-
-      let(:state_b) { Dry::Effects::Handler.new(:state, :counter_b) }
-
-      example 'works nicely' do
-        accumulated_state = state_a.(0) do
-          state_b.(10) do
-            self.counter_a += 4
-            self.counter_b = counter_a + 20
-            :result
-          end
+      context 'different identifier' do
+        before do
+          extend Dry::Effects::State.new(:counter_a), Dry::Effects::State.new(:counter_b)
         end
 
-        expect(accumulated_state).to eql([4, [24, :result]])
+        let(:state_a) { Dry::Effects::Handler.new(:state, :counter_a) }
+
+        let(:state_b) { Dry::Effects::Handler.new(:state, :counter_b) }
+
+        example 'works nicely' do
+          accumulated_state = state_a.(0) do
+            state_b.(10) do
+              self.counter_a += 4
+              self.counter_b = counter_a + 20
+              :result
+            end
+          end
+
+          expect(accumulated_state).to eql([4, [24, :result]])
+        end
+      end
+
+      context 'same identifier' do
+        before do
+          extend Dry::Effects[state: :counter]
+        end
+
+        let(:state) { Dry::Effects::Handler.new(:state, :counter) }
+
+        example do
+          accumulated_state = state.(0) do
+            self.counter += 1
+            state.(10) do
+              self.counter += 30
+              :result
+            ensure
+              self.counter += 50
+            end
+          ensure
+            self.counter += 4
+          end
+
+          expect(accumulated_state).to eql([5, [90, :result]])
+        end
       end
     end
   end
