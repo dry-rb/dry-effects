@@ -13,9 +13,9 @@ module Dry
     end
 
     default.each do |key|
-      consumers.register(key, memoize: true) do
-        require "dry/effects/consumers/#{key}"
-        Consumers.const_get(Inflector.camelize(key))
+      providers.register(key, memoize: true) do
+        require "dry/effects/providers/#{key}"
+        Providers.const_get(Inflector.camelize(key))
       end
     end
   end

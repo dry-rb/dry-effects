@@ -1,9 +1,9 @@
-require 'dry/effects/consumer'
+require 'dry/effects/provider'
 
 module Dry
   module Effects
-    module Consumers
-      class State < Consumer
+    module Providers
+      class State < Provider
         def initialize(initial, identifier:)
           super(identifier: identifier)
           @state = initial

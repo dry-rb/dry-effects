@@ -1,6 +1,6 @@
 module Dry
   module Effects
-    class Consumer
+    class Provider
       attr_reader :identifier
 
       def initialize(identifier:)

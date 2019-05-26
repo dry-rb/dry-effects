@@ -20,16 +20,16 @@ module Dry
 
       BREAK = Object.new.freeze
 
-      attr_reader :consumers, :effect_type, :identifier
+      attr_reader :providers, :effect_type, :identifier
 
-      def initialize(effect_type, identifier = Undefined, consumers: Effects.consumers)
-        @consumers = consumers
+      def initialize(effect_type, identifier = Undefined, providers: Effects.providers)
+        @providers = providers
         @effect_type = effect_type
         @identifier = identifier
       end
 
       def call(*args)
-        consumer = consumers[effect_type].new(*args, identifier: identifier)
+        provider = providers[effect_type].new(*args, identifier: identifier)
         fiber = ::Fiber.new { yield }
 
         result = fiber.resume
@@ -37,8 +37,8 @@ module Dry
         fiber_result = loop do
           break result unless fiber.alive?
 
-          if result.is_a?(Effect) && handle?(consumer, result)
-            instruction = consumer.public_send(result.name, *result.payload)
+          if result.is_a?(Effect) && handle?(provider, result)
+            instruction = provider.public_send(result.name, *result.payload)
 
             if BREAK.equal?(instruction)
               break result
@@ -50,11 +50,11 @@ module Dry
           end
         end
 
-        consumer.output(fiber_result)
+        provider.output(fiber_result)
       end
 
-      def handle?(consumer, effect)
-        effect.type.equal?(effect_type) && effect.identifier.equal?(consumer.identifier)
+      def handle?(provider, effect)
+        effect.type.equal?(effect_type) && effect.identifier.equal?(provider.identifier)
       end
     end
   end

@@ -1,6 +1,6 @@
-require 'dry/effects/consumers/current_time'
+require 'dry/effects/providers/current_time'
 
-RSpec.describe Dry::Effects::Consumers::CurrentTime do
+RSpec.describe Dry::Effects::Providers::CurrentTime do
   subject(:current_time) { described_class.new }
 
   describe '#current_time' do

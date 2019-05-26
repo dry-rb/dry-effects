@@ -1,9 +1,9 @@
-require 'dry/effects/consumer'
+require 'dry/effects/provider'
 
 module Dry
   module Effects
-    module Consumers
-      class Cache < Consumer
+    module Providers
+      class Cache < Provider
         def initialize(identifier:)
           super(identifier: identifier)
 

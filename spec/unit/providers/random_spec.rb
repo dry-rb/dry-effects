@@ -1,6 +1,6 @@
-require 'dry/effects/consumers/random'
+require 'dry/effects/providers/random'
 
-RSpec.describe Dry::Effects::Consumers::Random do
+RSpec.describe Dry::Effects::Providers::Random do
   subject(:random) { described_class.new }
 
   describe '#rand' do

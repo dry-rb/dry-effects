@@ -1,9 +1,9 @@
-require 'dry/effects/consumer'
+require 'dry/effects/provider'
 
 module Dry
   module Effects
-    module Consumers
-      class CurrentTime < Consumer
+    module Providers
+      class CurrentTime < Provider
         def initialize(time = Undefined, identifier: Undefined)
           super(identifier: Undefined.default(identifier, :global))
           @time = time

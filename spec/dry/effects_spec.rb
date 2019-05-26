@@ -1,4 +1,4 @@
-require 'dry/effects/consumers/random'
+require 'dry/effects/providers/random'
 
 RSpec.describe Dry::Effects do
   describe '.[]' do

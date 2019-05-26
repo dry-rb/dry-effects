@@ -1,9 +1,9 @@
-require 'dry/effects/consumer'
+require 'dry/effects/provider'
 
 module Dry
   module Effects
-    module Consumers
-      class Interrupt < Consumer
+    module Providers
+      class Interrupt < Provider
         def interrupt(_ = Undefined)
           Handler::BREAK
         end

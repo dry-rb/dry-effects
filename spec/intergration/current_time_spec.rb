@@ -10,7 +10,7 @@ RSpec.describe 'handling current time' do
     effects.current_time
   end
 
-  context 'with default consumer' do
+  context 'with default provider' do
     context 'with not fixed time' do
       example 'producing random values' do
         before, after = handler.() do
