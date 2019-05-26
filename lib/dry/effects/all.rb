@@ -3,7 +3,7 @@ require 'dry/effects/inflector'
 
 module Dry
   module Effects
-    default = %w(cache current_time random state interrupt amb)
+    default = %w(cache current_time random state interrupt amb retry)
 
     default.each do |key|
       effects.register(key, memoize: true) do

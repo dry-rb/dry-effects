@@ -19,6 +19,10 @@ module Dry
       def with(*payload)
         self.class.new(type, name, identifier, payload)
       end
+
+      def with_identifier(identifier)
+        self.class.new(type, name, identifier, payload)
+      end
     end
   end
 end
