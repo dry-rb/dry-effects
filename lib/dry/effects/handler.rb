@@ -2,6 +2,7 @@ require 'fiber'
 require 'dry/effects/initializer'
 require 'dry/effects/effect'
 require 'dry/effects/errors'
+require 'dry/effects/stack'
 
 module Dry
   module Effects
@@ -31,24 +32,22 @@ module Dry
       def call(*args)
         provider = registry[effect_type].new(*args, identifier: identifier)
 
-        provider.() do
+        stack = Stack.current
+
+        stack.push(effect_type, provider) do
           fiber = ::Fiber.new { yield }
           result = fiber.resume
 
           fiber_result = loop do
             break result unless fiber.alive?
 
-            if result.is_a?(Effect) && handle?(provider, result)
+            if (provider = stack.provider(effect_type, result))
               result = fiber.resume(provider.public_send(result.name, *result.payload))
             else
               result = fiber.resume(Effects.yield(result))
             end
           end
         end
-      end
-
-      def handle?(provider, effect)
-        effect.type.equal?(effect_type) && effect.identifier.equal?(provider.identifier)
       end
     end
   end

@@ -12,7 +12,7 @@ module Dry
         def initialize(effect)
           @effect = effect
           super(
-            "Effect #{effect} not handled. "\
+            "Effect #{effect.inspect} not handled. "\
             "Effects must be wrapped with corresponding handlers"
           )
         end
