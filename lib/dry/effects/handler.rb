@@ -34,17 +34,32 @@ module Dry
 
         stack = Stack.current
 
-        stack.push(effect_type, provider) do
-          fiber = ::Fiber.new { yield }
-          result = fiber.resume
+        if provider.reuse_stack? && !stack.empty?
+          stack.push(effect_type, provider) do
+            yield
+          end
+        else
+          stack.push(effect_type, provider) do
+            fiber = ::Fiber.new { yield }
+            result = fiber.resume
+            error = nil
 
-          fiber_result = loop do
-            break result unless fiber.alive?
+            fiber_result = loop do
+              break result unless fiber.alive?
 
-            if (provider = stack.provider(effect_type, result))
-              result = fiber.resume(provider.public_send(result.name, *result.payload))
-            else
-              result = fiber.resume(Effects.yield(result))
+              begin
+                if (provider = stack.provider(effect_type, result))
+                  value = provider.public_send(result.name, *result.payload)
+                elsif READ_ERROR.equal?(result)
+                  value = error
+                else
+                  value = Effects.yield(result)
+                end
+              rescue Exception => error
+                value = FAIL
+              end
+
+              result = fiber.resume(value)
             end
           end
         end

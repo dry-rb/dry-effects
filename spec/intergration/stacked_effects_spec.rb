@@ -1,5 +1,6 @@
 require 'dry/effects/random'
 require 'dry/effects/current_time'
+require 'dry/effects/state'
 
 RSpec.describe 'stacked effects' do
   context 'nesting' do
