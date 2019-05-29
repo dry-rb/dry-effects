@@ -21,10 +21,6 @@ module Dry
           r = super
           [@state, r]
         end
-
-        def reuse_stack?
-          true
-        end
       end
     end
   end

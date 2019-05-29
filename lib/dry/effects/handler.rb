@@ -29,38 +29,25 @@ module Dry
 
       option :registry, default: -> { Effects.providers }
 
-      def call(*args)
+      def call(*args, &block)
         provider = registry[effect_type].new(*args, identifier: identifier)
 
         stack = Stack.current
 
-        if provider.reuse_stack? && !stack.empty?
+        if stack.empty?
           stack.push(effect_type, provider) do
-            yield
-          end
-        else
-          stack.push(effect_type, provider) do
-            fiber = ::Fiber.new { yield }
+            fiber = ::Fiber.new(&block)
             result = fiber.resume
-            error = nil
 
             fiber_result = loop do
               break result unless fiber.alive?
 
-              begin
-                if (provider = stack.provider(effect_type, result))
-                  value = provider.public_send(result.name, *result.payload)
-                elsif READ_ERROR.equal?(result)
-                  value = error
-                else
-                  value = Effects.yield(result)
-                end
-              rescue Exception => error
-                value = FAIL
-              end
-
-              result = fiber.resume(value)
+              result = fiber.resume(stack.(result))
             end
+          end
+        else
+          stack.push(effect_type, provider) do
+            yield
           end
         end
       end

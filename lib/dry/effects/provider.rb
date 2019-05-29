@@ -12,10 +12,6 @@ module Dry
       def call
         yield
       end
-
-      def reuse_stack?
-        false
-      end
     end
   end
 end

@@ -16,13 +16,25 @@ module Dry
 
       extend Initializer
 
-      attr_accessor :size
-
       param :providers, default: -> { {} }
 
       def initialize(*)
         super
-        self.size = 0
+        @size = 0
+        @error = nil
+      end
+
+      def call(effect)
+        if effect.is_a?(Effect) && (provider = provider(effect))
+          provider.public_send(effect.name, *effect.payload)
+        elsif READ_ERROR.equal?(effect)
+          error, @error = @error, nil
+          error
+        else
+          Effects.yield(effect)
+        end
+      rescue Exception => @error
+        FAIL
       end
 
       def push(type, provider)
@@ -31,21 +43,21 @@ module Dry
         else
           providers[type] = [provider]
         end
-        self.size += 1
+        @size += 1
         provider.() { yield }
       ensure
         providers[type].shift
-        self.size -= 1
+        @size -= 1
       end
 
-      def provider(type, effect)
-        if effect.is_a?(Effect)
-          providers.fetch(type, EMPTY_ARRAY).find { |p| effect.identifier.equal?(p.identifier) }
+      def provider(effect)
+        providers.fetch(effect.type, EMPTY_ARRAY).find do |p|
+          effect.identifier.equal?(p.identifier)
         end
       end
 
       def empty?
-        size.zero?
+        @size.zero?
       end
     end
   end
