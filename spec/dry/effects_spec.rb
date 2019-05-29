@@ -26,4 +26,17 @@ RSpec.describe Dry::Effects do
       end
     end
   end
+
+  context 'without handlers' do
+    before do
+      extend Dry::Effects[:random]
+    end
+
+    example 'raising an effect results in an error' do
+      expect { rand(10) }.to raise_error(
+        Dry::Effects::Errors::UnhandledEffect,
+        /not handled/
+      )
+    end
+  end
 end

@@ -4,13 +4,15 @@ module Dry
   module Effects
     module Providers
       class Retry < Provider
-        attr_reader :limit, :attempts, :repeat_signal
+        param :limit
 
-        def initialize(limit, identifier:)
-          super(identifier: identifier)
-          @limit = limit
+        option :repeat_signal, default: -> {
+          :"effect_retry_repeat_#{identifier}"
+        }
+
+        def initialize(*)
+          super
           @attempts = 0
-          @repeat_signal = :"effect_retry_repeat_#{identifier}"
         end
 
         def call
@@ -35,7 +37,7 @@ module Dry
         end
 
         def attempts_exhausted?
-          attempts.equal?(limit)
+          @attempts.equal?(limit)
         end
       end
     end

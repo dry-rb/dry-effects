@@ -35,10 +35,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency 'dry-core'
-  spec.add_runtime_dependency 'dry-equalizer'
-  spec.add_runtime_dependency 'dry-container'
-  spec.add_runtime_dependency 'dry-inflector'
+  spec.add_runtime_dependency 'dry-core', '~> 0.4', '>= 0.4.7'
+  spec.add_runtime_dependency 'dry-equalizer', '~> 0.2', '>= 0.2.2'
+  spec.add_runtime_dependency 'dry-container', '~> 0.7'
+  spec.add_runtime_dependency 'dry-inflector', '~> 0.1', '>= 0.1.2'
+  spec.add_runtime_dependency 'dry-initializer', '~> 3.0'
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'

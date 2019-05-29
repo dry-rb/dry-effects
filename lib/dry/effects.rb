@@ -1,6 +1,7 @@
 require 'dry/core/constants'
 require 'dry/effects/version'
 require 'dry/effects/container'
+require 'dry/effects/errors'
 
 module Dry
   module Effects
@@ -10,6 +11,9 @@ module Dry
 
     @effects = Container.new
     @providers = Container.new
+
+    FAIL = ::Object.new.freeze
+    READ_ERROR = ::Object.new.freeze
 
     class << self
       attr_reader :effects, :providers
@@ -26,7 +30,15 @@ module Dry
       end
 
       def yield(effect)
-        ::Fiber.yield(effect)
+        result = ::Fiber.yield(effect)
+
+        if FAIL.equal?(result)
+          raise ::Fiber.yield(READ_ERROR)
+        else
+          result
+        end
+      rescue FiberError
+        raise Errors::UnhandledEffect.new(effect)
       end
     end
   end

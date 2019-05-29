@@ -1,5 +1,8 @@
 require 'fiber'
+require 'dry/effects/initializer'
 require 'dry/effects/effect'
+require 'dry/effects/errors'
+require 'dry/effects/stack'
 
 module Dry
   module Effects
@@ -18,37 +21,35 @@ module Dry
         end
       end
 
-      attr_reader :providers, :effect_type, :identifier
+      extend Initializer
 
-      def initialize(effect_type, identifier = Undefined, providers: Effects.providers)
-        @providers = providers
-        @effect_type = effect_type
-        @identifier = identifier
-      end
+      param :effect_type
 
-      def call(*args)
-        provider = providers[effect_type].new(*args, identifier: identifier)
+      param :identifier, default: -> { Undefined }
 
-        provider.() do
-          fiber = ::Fiber.new { yield }
-          result = fiber.resume
+      option :registry, default: -> { Effects.providers }
 
-          fiber_result = loop do
-            break result unless fiber.alive?
+      def call(*args, &block)
+        provider = registry[effect_type].new(*args, identifier: identifier)
 
-            if result.is_a?(Effect) && handle?(provider, result)
-              instruction = provider.public_send(result.name, *result.payload)
+        stack = Stack.current
 
-              result = fiber.resume(instruction)
-            else
-              result = fiber.resume(Effects.yield(result))
+        if stack.empty?
+          stack.push(effect_type, provider) do
+            fiber = ::Fiber.new(&block)
+            result = fiber.resume
+
+            fiber_result = loop do
+              break result unless fiber.alive?
+
+              result = fiber.resume(stack.(result))
             end
           end
+        else
+          stack.push(effect_type, provider) do
+            yield
+          end
         end
-      end
-
-      def handle?(provider, effect)
-        effect.type.equal?(effect_type) && effect.identifier.equal?(provider.identifier)
       end
     end
   end

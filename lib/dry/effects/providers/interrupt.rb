@@ -4,12 +4,9 @@ module Dry
   module Effects
     module Providers
       class Interrupt < Provider
-        attr_reader :signal
-
-        def initializer(*)
-          super
-          @signal = :"effect_interrupt_interrupt_#{identifier}"
-        end
+        option :signal, default: -> {
+          :"effect_interrupt_interrupt_#{identifier}"
+        }
 
         def interrupt(*payload)
           throw signal, payload

@@ -39,7 +39,7 @@ RSpec.describe 'handling random' do
       end
     end
 
-    let(:opts) { { providers: { random: provider } } }
+    let(:opts) { { registry: { random: provider } } }
 
     context 'seed = 10' do
       let(:seed) { 121 }
