@@ -18,9 +18,15 @@ module Dry
 
       param :providers, default: -> { {} }
 
+      attr_reader :size
+
       def initialize(*)
         super
-        @size = 0
+        if providers.empty?
+          @size = 0
+        else
+          @size = providers.flat_map { |_, ps| ps.size }.sum
+        end
         @error = nil
       end
 
@@ -59,6 +65,27 @@ module Dry
       def empty?
         @size.zero?
       end
+
+      def dup
+        Stack.new(providers.transform_values { |ps| ps.map(&:dup) })
+      end
+
+      def to_s
+        if empty?
+          "#<Dry::Effects::Stack>"
+        else
+          stack = providers.map { |type, ps|
+            if ps.empty?
+              nil
+            else
+              "#{type}[#{ps.map { |p| p.represent }.join(',')}]"
+            end
+          }.compact.join(', ')
+
+          "#<Dry::Effects::Stack #{stack}>"
+        end
+      end
+      alias_method :inspect, :to_s
     end
   end
 end

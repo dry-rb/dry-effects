@@ -21,6 +21,10 @@ module Dry
           r = super
           [@state, r]
         end
+
+        def represent
+          "#{super}(#{@state})"
+        end
       end
     end
   end

@@ -39,16 +39,14 @@ module Dry
             fiber = ::Fiber.new(&block)
             result = fiber.resume
 
-            fiber_result = loop do
+            loop do
               break result unless fiber.alive?
 
               result = fiber.resume(stack.(result))
             end
           end
         else
-          stack.push(effect_type, provider) do
-            yield
-          end
+          stack.push(effect_type, provider, &block)
         end
       end
     end

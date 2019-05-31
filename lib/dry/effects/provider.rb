@@ -12,6 +12,10 @@ module Dry
       def call
         yield
       end
+
+      def represent
+        "#{identifier}"
+      end
     end
   end
 end
