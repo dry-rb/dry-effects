@@ -3,7 +3,7 @@ require 'dry/effects/provider'
 module Dry
   module Effects
     module Providers
-      class Amb < Provider
+      class Amb < Provider[:amb]
         def initialize(*)
           super
           @value = false

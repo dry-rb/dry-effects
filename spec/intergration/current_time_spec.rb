@@ -2,17 +2,12 @@ require 'dry/effects/handler'
 require 'dry/effects/current_time'
 
 RSpec.describe 'handling current time' do
-  let(:handler) { Dry::Effects::Handler.new(:current_time) }
-
-  let(:effects) { Object.new.extend(Dry::Effects::CurrentTime.new) }
-
-  def current_time
-    effects.current_time
-  end
+  let(:handler) { make_handler(:current_time) }
+  include Dry::Effects[:current_time]
 
   context 'with default provider' do
     context 'with not fixed time' do
-      example 'producing random values' do
+      example 'getting current timme' do
         before, after = handler.() do
           before = current_time
           sleep 0.01
@@ -26,7 +21,7 @@ RSpec.describe 'handling current time' do
     end
 
     context 'with fixed time' do
-      example 'producing random values' do
+      example 'getting fixed time' do
         before, after = handler.(Time.now) do
           before = current_time
           sleep 0.01

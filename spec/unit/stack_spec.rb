@@ -20,8 +20,8 @@ RSpec.describe Dry::Effects::Stack do
     let(:stack) { described_class.new }
 
     it 'combines two providers' do
-      result = stack.push(:state, words_provider) do
-        stack.push(:state, chars_provider) do
+      result = stack.push(words_provider) do
+        stack.push(chars_provider) do
           expect(stack.size).to eql(2)
           expect(stack.provider(read_chars)).not_to be_nil
           expect(stack.provider(read_words)).not_to be_nil
@@ -34,7 +34,7 @@ RSpec.describe Dry::Effects::Stack do
 
   describe '#provider' do
     let(:providers) do
-      { state: [words_provider, chars_provider] }
+      [words_provider, chars_provider]
     end
 
     let(:stack) { described_class.new(providers) }
@@ -46,7 +46,7 @@ RSpec.describe Dry::Effects::Stack do
 
   describe '#dup' do
     let(:providers) do
-      { state: [words_provider, chars_provider] }
+      [words_provider, chars_provider]
     end
 
     let(:stack) { described_class.new(providers) }
@@ -56,6 +56,21 @@ RSpec.describe Dry::Effects::Stack do
     it 'creates a copy of a stack' do
       chars_provider.write(200)
       expect(copy.(read_chars)).to eql(100)
+    end
+  end
+
+  describe '#fork' do
+    let(:providers) do
+      [chars_provider]
+    end
+
+    let(:stack) { described_class.new(providers) }
+
+    it 'returns a callable that restores stack' do
+      copy = stack.fork.() { |s| s }
+
+      expect(copy).to eql(stack)
+      expect(copy).not_to be(stack)
     end
   end
 end

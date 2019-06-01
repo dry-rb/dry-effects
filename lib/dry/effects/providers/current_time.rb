@@ -3,7 +3,7 @@ require 'dry/effects/provider'
 module Dry
   module Effects
     module Providers
-      class CurrentTime < Provider
+      class CurrentTime < Provider[:current_time]
         def initialize(time = Undefined, identifier: Undefined)
           super(identifier: Undefined.default(identifier, :global))
           @time = time

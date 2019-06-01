@@ -4,4 +4,9 @@ module EffectHelper
       type: type, name: name, identifier: identifier, payload: payload
     )
   end
+
+  def make_handler(type, identifier = Dry::Effects::Undefined)
+    provider = Dry::Effects.providers[type]
+    Dry::Effects::Handler.new(provider, identifier)
+  end
 end

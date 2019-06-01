@@ -3,7 +3,7 @@ require 'dry/effects/provider'
 module Dry
   module Effects
     module Providers
-      class Interrupt < Provider
+      class Interrupt < Provider[:interrupt]
         option :signal, default: -> {
           :"effect_interrupt_interrupt_#{identifier}"
         }

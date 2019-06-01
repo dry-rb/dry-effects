@@ -3,7 +3,7 @@ require 'dry/effects/provider'
 module Dry
   module Effects
     module Providers
-      class Retry < Provider
+      class Retry < Provider[:retry]
         param :limit
 
         option :repeat_signal, default: -> {

@@ -2,19 +2,13 @@ require 'dry/effects/handler'
 require 'dry/effects/random'
 
 RSpec.describe 'handling random' do
-  let(:opts) { {} }
+  let(:handler) { Dry::Effects::Handler.new(provider, :kernel) }
 
-  let(:handler) { Dry::Effects::Handler.new(:random, :kernel, **opts) }
-
-  let(:effects) { Object.new.extend(Dry::Effects::Random.new) }
-
-  def rand(n)
-    effects.rand(n)
-  end
+  include Dry::Effects[:random]
 
   context 'with custom provider' do
     let(:provider) do
-      Class.new(Dry::Effects::Provider) do
+      Class.new(Dry::Effects::Provider[:random]) do
         def initialize(seed, identifier:)
           super(identifier: identifier)
 
@@ -39,8 +33,6 @@ RSpec.describe 'handling random' do
       end
     end
 
-    let(:opts) { { registry: { random: provider } } }
-
     context 'seed = 10' do
       let(:seed) { 121 }
 
@@ -55,7 +47,7 @@ RSpec.describe 'handling random' do
   end
 
   context 'with default provider' do
-    let(:provider) { :random }
+    let(:handler) { make_handler(:random) }
 
     example 'producing random values' do
       result = handler.() do

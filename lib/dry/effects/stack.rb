@@ -15,18 +15,13 @@ module Dry
       end
 
       extend Initializer
+      include Enumerable
+      include Dry::Equalizer(:providers)
 
-      param :providers, default: -> { {} }
-
-      attr_reader :size
+      param :providers, default: -> { [] }
 
       def initialize(*)
         super
-        if providers.empty?
-          @size = 0
-        else
-          @size = providers.flat_map { |_, ps| ps.size }.sum
-        end
         @error = nil
       end
 
@@ -43,44 +38,47 @@ module Dry
         FAIL
       end
 
-      def push(type, provider)
-        if providers.key?(type)
-          providers[type].unshift(provider)
-        else
-          providers[type] = [provider]
-        end
-        @size += 1
+      def push(provider)
+        providers.unshift(provider)
         provider.() { yield }
       ensure
-        providers[type].shift
-        @size -= 1
+        providers.shift
+      end
+
+      def with_stack(&block)
+        providers.map { |p| p.method(:call).to_proc }.reduce(:>>).(&block)
+      end
+
+      def fork
+        copy = dup
+        proc { |&block| block.(copy) }
       end
 
       def provider(effect)
-        providers.fetch(effect.type, EMPTY_ARRAY).find do |p|
-          effect.identifier.equal?(p.identifier)
-        end
+        find { |p| p.type == effect.type && effect.identifier.equal?(p.identifier) }
+      end
+
+      def each(&block)
+        providers.each(&block)
+      end
+
+      def size
+        providers.size
       end
 
       def empty?
-        @size.zero?
+        providers.empty?
       end
 
       def dup
-        Stack.new(providers.transform_values { |ps| ps.map(&:dup) })
+        Stack.new(map(&:dup))
       end
 
       def to_s
         if empty?
           "#<Dry::Effects::Stack>"
         else
-          stack = providers.map { |type, ps|
-            if ps.empty?
-              nil
-            else
-              "#{type}[#{ps.map { |p| p.represent }.join(',')}]"
-            end
-          }.compact.join(', ')
+          stack = map(&:represent).join('->')
 
           "#<Dry::Effects::Stack #{stack}>"
         end
