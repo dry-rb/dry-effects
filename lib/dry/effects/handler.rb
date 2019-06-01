@@ -56,8 +56,10 @@ module Dry
 
           provided = stack.(result) do
             if FORK.equal?(result)
-              copy = stack.dup
-              -> &cont { Stack.use(copy) { spawn_fiber(copy, &cont) } }
+              lambda do |&cont|
+                copy = stack.dup
+                Stack.use(copy) { spawn_fiber(copy, &cont) }
+              end
             else
               Effects.yield(result)
             end
