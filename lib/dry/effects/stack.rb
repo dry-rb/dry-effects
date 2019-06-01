@@ -10,7 +10,15 @@ module Dry
         end
 
         def current?
-          ::Thread.current.key?(:dry_effects_stack)
+          !::Thread.current[:dry_effects_stack].nil?
+        end
+
+        def use(stack, &block)
+          prev = current
+          ::Thread.current[:dry_effects_stack] = stack
+          stack.with_stack(&block)
+        ensure
+          ::Thread.current[:dry_effects_stack] = prev
         end
       end
 
@@ -32,7 +40,7 @@ module Dry
           error, @error = @error, nil
           error
         else
-          Effects.yield(effect)
+          yield
         end
       rescue Exception => @error
         FAIL
@@ -47,11 +55,6 @@ module Dry
 
       def with_stack(&block)
         providers.map { |p| p.method(:call).to_proc }.reduce(:>>).(&block)
-      end
-
-      def fork
-        copy = dup
-        proc { |&block| block.(copy) }
       end
 
       def provider(effect)

@@ -23,6 +23,8 @@ module Dry
         end
       end
 
+      FORK = Object.new.freeze
+
       extend Initializer
 
       param :provider_type, default: -> { Undefined }
@@ -39,18 +41,29 @@ module Dry
         stack = Stack.current
 
         if stack.empty?
-          stack.push(provider) do
-            fiber = ::Fiber.new(&block)
-            result = fiber.resume
-
-            loop do
-              break result unless fiber.alive?
-
-              result = fiber.resume(stack.(result))
-            end
-          end
+          stack.push(provider) { spawn_fiber(stack, &block) }
         else
           stack.push(provider, &block)
+        end
+      end
+
+      def spawn_fiber(stack, &block)
+        fiber = ::Fiber.new(&block)
+        result = fiber.resume
+
+        loop do
+          break result unless fiber.alive?
+
+          provided = stack.(result) do
+            if FORK.equal?(result)
+              copy = stack.dup
+              -> &cont { Stack.use(copy) { spawn_fiber(copy, &cont) } }
+            else
+              Effects.yield(result)
+            end
+          end
+
+          result = fiber.resume(provided)
         end
       end
     end

@@ -58,19 +58,4 @@ RSpec.describe Dry::Effects::Stack do
       expect(copy.(read_chars)).to eql(100)
     end
   end
-
-  describe '#fork' do
-    let(:providers) do
-      [chars_provider]
-    end
-
-    let(:stack) { described_class.new(providers) }
-
-    it 'returns a callable that restores stack' do
-      copy = stack.fork.() { |s| s }
-
-      expect(copy).to eql(stack)
-      expect(copy).not_to be(stack)
-    end
-  end
 end
