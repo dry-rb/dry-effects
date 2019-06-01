@@ -3,12 +3,10 @@ require 'dry/effects/providers/state'
 
 RSpec.describe 'handling state' do
   let(:handler) do
-    Dry::Effects::Handler.new(:state, :counter)
+    make_handler(:state, :counter)
   end
 
-  before do
-    extend Dry::Effects::State.new(:counter)
-  end
+  include Dry::Effects[state: :counter]
 
   example 'manipulating state' do
     state, result = handler.(0) do

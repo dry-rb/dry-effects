@@ -3,7 +3,11 @@ require 'dry/effects/provider'
 module Dry
   module Effects
     module Providers
-      class State < Provider
+      class State < Provider[:state]
+        include Dry::Equalizer(:identifier, :state)
+
+        attr_reader :state
+
         def initialize(initial, identifier:)
           super(identifier: identifier)
           @state = initial
@@ -20,6 +24,10 @@ module Dry
         def call
           r = super
           [@state, r]
+        end
+
+        def represent
+          "#{super}(#{@state})"
         end
       end
     end

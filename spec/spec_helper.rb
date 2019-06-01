@@ -21,6 +21,7 @@ end
 require "pathname"
 
 SPEC_ROOT = Pathname(__FILE__).dirname
+Dir[SPEC_ROOT.join('support/**/*.rb')].each(&method(:require))
 
 require "dry/effects"
 
@@ -38,4 +39,6 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.include EffectHelper
 end

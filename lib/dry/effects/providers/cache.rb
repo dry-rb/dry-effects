@@ -3,7 +3,7 @@ require 'dry/effects/provider'
 module Dry
   module Effects
     module Providers
-      class Cache < Provider
+      class Cache < Provider[:cache]
         def initialize(identifier:)
           super(identifier: identifier)
 

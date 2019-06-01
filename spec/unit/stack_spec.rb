@@ -1,36 +1,61 @@
 require 'dry/effects/errors'
 
 RSpec.describe Dry::Effects::Stack do
+  let(:words_provider) do
+    Dry::Effects.providers[:state].new(10, identifier: :words)
+  end
+
+  let(:chars_provider) do
+    Dry::Effects.providers[:state].new(100, identifier: :chars)
+  end
+
+  let(:read_chars) { effect(:state, :read, :chars) }
+
+  let(:read_words) { effect(:state, :read, :words) }
+
   describe '#push' do
-    include Dry::Effects[state: :words_counter]
-    include Dry::Effects[state: :chars_counter]
+    include Dry::Effects[state: :words]
+    include Dry::Effects[state: :chars]
 
-    let(:handler) { Dry::Effects::Handler.new(:state, :words_counter) }
-
-    let(:chars_counter_provider) do
-      Dry::Effects.providers[:state].new(0, identifier: :chars_counter)
-    end
-
-    let!(:stack) { Dry::Effects::Stack.current }
+    let(:stack) { described_class.new }
 
     it 'combines two providers' do
-      result = handler.(0) do
-        self.words_counter += 1
-
-        chars = stack.push(:state, chars_counter_provider) do
-          self.words_counter += 1
-          self.chars_counter += 10
+      result = stack.push(words_provider) do
+        stack.push(chars_provider) do
+          expect(stack.size).to eql(2)
+          expect(stack.provider(read_chars)).not_to be_nil
+          expect(stack.provider(read_words)).not_to be_nil
           :done
         end
-
-        self.words_counter += 2
-
-        expect { chars_counter }.to raise_error(Dry::Effects::Errors::UnhandledEffect)
-
-        chars
       end
+      expect(result).to eql([10, [100, :done]])
+    end
+  end
 
-      expect(result).to eql([4, [10, :done]])
+  describe '#provider' do
+    let(:providers) do
+      [words_provider, chars_provider]
+    end
+
+    let(:stack) { described_class.new(providers) }
+
+    it 'looks up provider for a given effect' do
+      expect(stack.provider(read_chars)).to be(chars_provider)
+    end
+  end
+
+  describe '#dup' do
+    let(:providers) do
+      [words_provider, chars_provider]
+    end
+
+    let(:stack) { described_class.new(providers) }
+
+    let!(:copy) { stack.dup }
+
+    it 'creates a copy of a stack' do
+      chars_provider.write(200)
+      expect(copy.(read_chars)).to eql(100)
     end
   end
 end

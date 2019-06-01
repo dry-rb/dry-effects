@@ -3,7 +3,7 @@ require 'dry/effects/cache'
 require 'dry/effects/providers/cache'
 
 RSpec.describe 'handling cache' do
-  let(:handler) { Dry::Effects::Handler.new(:cache, :cached) }
+  let(:handler) { make_handler(:cache, :cached) }
 
   before do
     extend Dry::Effects::Cache.new(:cached)

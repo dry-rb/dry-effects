@@ -7,7 +7,7 @@ RSpec.describe Dry::Effects do
     before { extend mod }
 
     context 'random effect' do
-      let(:handler) { Dry::Effects::Handler.new(:random, :kernel) }
+      let(:handler) { make_handler(:random, :kernel) }
 
       let(:args) { [:random] }
 
@@ -17,7 +17,7 @@ RSpec.describe Dry::Effects do
     end
 
     context 'state effect' do
-      let(:handler) { Dry::Effects::Handler.new(:state, :counter) }
+      let(:handler) { make_handler(:state, :counter) }
 
       let(:args) { [state: :counter] }
 
