@@ -1,7 +1,5 @@
-Effects, Handlers = Dry::Effects.modules
-
 class Operation
-  include Effects::State[:counter]
+  include Dry::Effects[state: :counter]
 
   def call
     3.times do
@@ -13,17 +11,17 @@ class Operation
 end
 
 class Wrapper
-  include Handlers::State[handle: :counter]
+  include Dry::Effects::Handler[state: :counter, as: :with_state]
 
   def initialize
     @operation = Operation.new
   end
 
   def call
-    handle(0) { @operation.call }
+    with_state(0) { @operation.call }
   end
 end
 
 __END__
 
-Wrapper.new.call # => [:done, 3]
+Wrapper.new.call # => [3, :done]
