@@ -3,7 +3,7 @@ require 'dry/effects/inflector'
 
 module Dry
   module Effects
-    default = %w(cache current_time random state interrupt amb retry fork)
+    default = %w(cache current_time random state interrupt amb retry fork parallel)
 
     default.each do |key|
       if File.exists?("#{__dir__}/#{key}.rb")
