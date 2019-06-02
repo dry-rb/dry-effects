@@ -40,6 +40,10 @@ module Dry
       def type
         self.class.type
       end
+
+      def provide?(effect)
+        type.equal?(effect.type) && identifier.equal?(effect.identifier)
+      end
     end
   end
 end

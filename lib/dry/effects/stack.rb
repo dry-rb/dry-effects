@@ -58,7 +58,7 @@ module Dry
       end
 
       def provider(effect)
-        find { |p| p.type == effect.type && effect.identifier.equal?(p.identifier) }
+        find { |p| p.provide?(effect) }
       end
 
       def each(&block)
