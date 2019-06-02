@@ -1,12 +1,7 @@
-require 'dry/effects/random'
-require 'dry/effects/current_time'
-require 'dry/effects/state'
-
 RSpec.describe 'stacked effects' do
   context 'different effect types' do
-    before do
-      extend Dry::Effects::Random.new, Dry::Effects::CurrentTime.new
-    end
+    include Dry::Effects[:random]
+    include Dry::Effects[:current_time]
 
     let(:rand_handler) { make_handler(:random) }
 

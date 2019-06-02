@@ -18,7 +18,7 @@ module Dry
         end
 
         def call
-          @run_with_stack = Effects.yield(Handler::FORK)
+          @run_with_stack = ::Dry::Effects.yield(Handler::FORK)
           super
         end
       end

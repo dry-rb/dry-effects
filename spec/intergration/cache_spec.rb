@@ -1,13 +1,9 @@
 require 'dry/effects/handler'
-require 'dry/effects/cache'
-require 'dry/effects/providers/cache'
 
 RSpec.describe 'handling cache' do
   let(:handler) { make_handler(:cache, :cached) }
 
-  before do
-    extend Dry::Effects::Cache.new(:cached)
-  end
+  include Dry::Effects[cache: :cached]
 
   example 'fetching cached values' do
     result = handler.() do

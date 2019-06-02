@@ -6,10 +6,10 @@ module Dry
     default = %w(cache current_time random state interrupt amb retry fork parallel)
 
     default.each do |key|
-      if File.exists?("#{__dir__}/#{key}.rb")
+      if File.exists?("#{__dir__}/effects/#{key}.rb")
         effects.register(key, memoize: true) do
-          require "dry/effects/#{key}"
-          const_get(Inflector.camelize(key))
+          require "dry/effects/effects/#{key}"
+          Effects.const_get(Inflector.camelize(key))
         end
       end
 

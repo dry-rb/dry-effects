@@ -1,6 +1,3 @@
-require 'dry/effects/state'
-require 'dry/effects/providers/state'
-
 RSpec.describe 'handling state' do
   let(:handler) do
     make_handler(:state, :counter)

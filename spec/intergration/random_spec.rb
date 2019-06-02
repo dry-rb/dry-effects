@@ -1,6 +1,3 @@
-require 'dry/effects/handler'
-require 'dry/effects/random'
-
 RSpec.describe 'handling random' do
   let(:handler) { Dry::Effects::Handler.new(provider, :kernel) }
 

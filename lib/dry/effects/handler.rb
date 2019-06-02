@@ -14,16 +14,16 @@ module Dry
           type, identifier = effect, Undefined
         end
 
-        provider_type = Effects.providers[type]
+        provider_type = ::Dry::Effects::providers[type]
 
         handler = new(provider_type, identifier)
 
-        Module.new do
+        ::Module.new do
           define_method(as) { |init = Undefined, &block| handler.(init, &block) }
         end
       end
 
-      FORK = Object.new.freeze
+      FORK = ::Object.new.freeze
 
       extend Initializer
 
@@ -61,7 +61,7 @@ module Dry
                 Stack.use(copy) { spawn_fiber(copy, &cont) }
               end
             else
-              Effects.yield(result)
+              ::Dry::Effects.yield(result)
             end
           end
 

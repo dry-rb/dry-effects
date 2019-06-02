@@ -1,5 +1,4 @@
 require 'dry/effects/handler'
-require 'dry/effects/current_time'
 
 RSpec.describe 'handling current time' do
   let(:handler) { make_handler(:current_time) }
