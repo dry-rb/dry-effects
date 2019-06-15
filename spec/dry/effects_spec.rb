@@ -13,4 +13,10 @@ RSpec.describe Dry::Effects do
       )
     end
   end
+
+  example 'reusing effect mixins' do
+    conter_effects = Dry::Effects.State(:counter)
+    expect(conter_effects).to be(Dry::Effects.State(:counter))
+    expect(conter_effects).to be_frozen
+  end
 end
