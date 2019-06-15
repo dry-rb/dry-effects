@@ -1,5 +1,5 @@
 RSpec.describe 'handle interruption' do
-  include Dry::Effects[interrupt: :halt]
+  include Dry::Effects.Interrupt(:halt)
   include Dry::Effects::Handler[interrupt: :halt, as: :catch_halt]
   include Dry::Effects::Handler[state: :counter_a, as: :outer]
   include Dry::Effects::Handler[state: :counter_b, as: :inner]
@@ -40,8 +40,8 @@ RSpec.describe 'handle interruption' do
 
   context 'stacked' do
     context 'same identifiers' do
-      include Dry::Effects[interrupt: :halt]
-      include Dry::Effects[interrupt: :raise]
+      include Dry::Effects.Interrupt(:halt)
+      include Dry::Effects.Interrupt(:raise)
       include Dry::Effects::Handler[interrupt: :halt, as: :catch_halt]
       include Dry::Effects::Handler[interrupt: :raise, as: :catch_raise]
 

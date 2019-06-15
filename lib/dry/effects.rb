@@ -18,17 +18,6 @@ module Dry
     class << self
       attr_reader :effects, :providers
 
-      def [](effect)
-        if effect.is_a?(::Symbol)
-          type = effect
-          identifier = Undefined
-        else
-          type, identifier = effect.to_a.first
-        end
-
-        effects[type].new(identifier)
-      end
-
       def yield(effect)
         result = ::Fiber.yield(effect)
 

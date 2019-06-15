@@ -14,8 +14,8 @@ RSpec.describe Dry::Effects::Stack do
   let(:read_words) { effect(:state, :read, :words) }
 
   describe '#push' do
-    include Dry::Effects[state: :words]
-    include Dry::Effects[state: :chars]
+    include Dry::Effects.State(:words)
+    include Dry::Effects.State(:chars)
 
     let(:stack) { described_class.new }
 

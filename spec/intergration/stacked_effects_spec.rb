@@ -1,7 +1,7 @@
 RSpec.describe 'stacked effects' do
   context 'different effect types' do
-    include Dry::Effects[:random]
-    include Dry::Effects[:current_time]
+    include Dry::Effects.Random
+    include Dry::Effects.CurrentTime
 
     let(:rand_handler) { make_handler(:random) }
 
@@ -22,7 +22,7 @@ RSpec.describe 'stacked effects' do
   context 'same types' do
     context 'different identifier' do
       before do
-        extend Dry::Effects[state: :counter_a], Dry::Effects[state: :counter_b]
+        extend Dry::Effects.State(:counter_a), Dry::Effects.State(:counter_b)
       end
 
       let(:state_a) { make_handler(:state, :counter_a) }
@@ -44,7 +44,7 @@ RSpec.describe 'stacked effects' do
 
     context 'same identifier' do
       before do
-        extend Dry::Effects[state: :counter]
+        extend Dry::Effects.State(:counter)
       end
 
       let(:state) { make_handler(:state, :counter) }
@@ -69,8 +69,8 @@ RSpec.describe 'stacked effects' do
 
   context 'mixing two stack-affecting effects' do
     before do
-      extend Dry::Effects[amb: :feature]
-      extend Dry::Effects[interrupt: :stop]
+      extend Dry::Effects.Amb(:feature)
+      extend Dry::Effects.Interrupt(:stop)
       extend Dry::Effects::Handler[amb: :feature, as: :test_feature]
       extend Dry::Effects::Handler[interrupt: :stop, as: :catch]
     end
@@ -85,7 +85,7 @@ RSpec.describe 'stacked effects' do
 
     context 'more nesting' do
       before do
-        extend Dry::Effects[amb: :feature2]
+        extend Dry::Effects.Amb(:feature2)
         extend Dry::Effects::Handler[amb: :feature2, as: :test_feature_2]
       end
 

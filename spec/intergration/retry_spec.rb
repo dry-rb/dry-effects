@@ -1,5 +1,5 @@
 RSpec.describe 'retrying' do
-  include Dry::Effects[:retry]
+  include Dry::Effects.Retry
   include Dry::Effects::Handler[retry: :inner, as: :retry_inner]
   include Dry::Effects::Handler[retry: :outer, as: :retry_outer]
 

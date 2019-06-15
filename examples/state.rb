@@ -1,5 +1,5 @@
 class Operation
-  include Dry::Effects[state: :counter]
+  include Dry::Effects.State(:counter)
 
   def call
     3.times do

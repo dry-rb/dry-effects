@@ -1,7 +1,7 @@
 RSpec.describe 'handling random' do
   let(:handler) { Dry::Effects::Handler.new(provider, :kernel) }
 
-  include Dry::Effects[:random]
+  include Dry::Effects.Random
 
   context 'with custom provider' do
     let(:provider) do

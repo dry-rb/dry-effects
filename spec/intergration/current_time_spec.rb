@@ -2,7 +2,8 @@ require 'dry/effects/handler'
 
 RSpec.describe 'handling current time' do
   let(:handler) { make_handler(:current_time) }
-  include Dry::Effects[:current_time]
+
+  include Dry::Effects.CurrentTime
 
   context 'with default provider' do
     context 'with not fixed time' do
