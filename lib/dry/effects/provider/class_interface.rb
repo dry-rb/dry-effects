@@ -28,13 +28,17 @@ module Dry
         end
 
         def mixin(identifier = Undefined, *args, **kwargs)
-          handler = Handler.new(self, identifier)
+          handler = handler(identifier, *args, **kwargs)
 
           handle_method = handle_method(identifier, *args, **kwargs)
 
           ::Module.new do
             define_method(handle_method) { |init = Undefined, &block| handler.(init, &block) }
           end
+        end
+
+        def handler(identifier = Undefined, *args, **kwargs)
+          Handler.new(self, identifier)
         end
 
         def handle_method(identifier = Undefined, *, as: Undefined, **)
