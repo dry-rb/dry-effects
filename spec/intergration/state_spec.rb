@@ -3,7 +3,7 @@ RSpec.describe 'handling state' do
     make_handler(:state, :counter)
   end
 
-  include Dry::Effects[state: :counter]
+  include Dry::Effects.State(:counter)
 
   example 'manipulating state' do
     state, result = handler.(0) do

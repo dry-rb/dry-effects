@@ -1,7 +1,7 @@
 RSpec.describe 'using parallel effects' do
-  include Dry::Effects[:parallel]
-  include Dry::Effects[:current_time]
-  include Dry::Effects[state: :counter]
+  include Dry::Effects.Parallel
+  include Dry::Effects.CurrentTime
+  include Dry::Effects.State(:counter)
   include Dry::Effects::Handler[:current_time, as: :with_fixed_time]
   include Dry::Effects::Handler[state: :counter, as: :with_counter]
 

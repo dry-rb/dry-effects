@@ -7,7 +7,7 @@ RSpec.describe Dry::Effects::Handler do
     context 'current time effect' do
       let(:args) { [:current_time, as: :with_current_time] }
 
-      include Dry::Effects[:current_time]
+      include Dry::Effects.CurrentTime
 
       let(:frozen_time) { Time.now - 100 }
 
@@ -17,7 +17,7 @@ RSpec.describe Dry::Effects::Handler do
     end
 
     context 'state effect' do
-      include Dry::Effects[state: :counter]
+      include Dry::Effects.State(:counter)
 
       let(:args) { [state: :counter, as: :with_counter] }
 
@@ -31,8 +31,8 @@ RSpec.describe Dry::Effects::Handler do
     context 'forking' do
       let(:handler) { make_handler(:state, :counter) }
 
-      include Dry::Effects[state: :counter]
-      include Dry::Effects[:fork]
+      include Dry::Effects.State(:counter)
+      include Dry::Effects.Fork
 
       it 'duplicates a handler with the current stack' do
         result = handler.(0) do

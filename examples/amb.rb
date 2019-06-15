@@ -1,6 +1,6 @@
 class Operation
-  include Dry::Effects[state: :counter]
-  include Dry::Effects[amb: :feature_enabled]
+  include Dry::Effects.State(:counter)
+  include Dry::Effects.Amb(:feature_enabled)
 
   def call
     if feature_enabled?
