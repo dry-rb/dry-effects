@@ -14,8 +14,8 @@ class Operation
 end
 
 module Handler
-  include Dry::Effects::Handler[state: :counter, as: :with_counter]
-  include Dry::Effects::Handler[amb: :feature_enabled, as: :test_feature]
+  include Dry::Effects::Handler.State(:counter, as: :with_counter)
+  include Dry::Effects::Handler.Amb(:feature_enabled, as: :test_feature)
 end
 
 class AmbState

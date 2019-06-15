@@ -7,22 +7,6 @@ require 'dry/effects/stack'
 module Dry
   module Effects
     class Handler
-      def self.[](effect = Undefined, as:, **kwargs)
-        if Undefined.equal?(effect)
-          type, identifier = kwargs.to_a.first
-        else
-          type, identifier = effect, Undefined
-        end
-
-        provider_type = ::Dry::Effects::providers[type]
-
-        handler = new(provider_type, identifier)
-
-        ::Module.new do
-          define_method(as) { |init = Undefined, &block| handler.(init, &block) }
-        end
-      end
-
       FORK = ::Object.new.freeze
 
       extend Initializer

@@ -1,12 +1,11 @@
 require 'dry/effects/handler'
 
 RSpec.describe 'handling cache' do
-  let(:handler) { make_handler(:cache, :cached) }
-
+  include Dry::Effects::Handler.Cache(:cached)
   include Dry::Effects.Cache(:cached)
 
   example 'fetching cached values' do
-    result = handler.() do
+    result = handle_cached do
       [
         cached([1, 2, 3]) { :foo },
         cached([1, 2, 3]) { :bar }

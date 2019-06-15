@@ -1,6 +1,6 @@
 RSpec.describe 'ambivalent effect' do
   include Dry::Effects.Amb(:feature)
-  include Dry::Effects::Handler[amb: :feature, as: :alternative]
+  include Dry::Effects::Handler.Amb(:feature, as: :alternative)
 
   it 'runs code with both options' do
     result = alternative do
