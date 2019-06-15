@@ -1,7 +1,7 @@
 RSpec.describe 'retrying' do
   include Dry::Effects.Retry
-  include Dry::Effects::Handler[retry: :inner, as: :retry_inner]
-  include Dry::Effects::Handler[retry: :outer, as: :retry_outer]
+  include Dry::Effects::Handler.Retry(:inner, as: :retry_inner)
+  include Dry::Effects::Handler.Retry(:outer, as: :retry_outer)
 
   example 'exhausting all attempts' do
     counter = 0

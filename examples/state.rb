@@ -11,14 +11,14 @@ class Operation
 end
 
 class Wrapper
-  include Dry::Effects::Handler[state: :counter, as: :with_state]
+  include Dry::Effects::Handler.State(:counter)
 
   def initialize
     @operation = Operation.new
   end
 
   def call
-    with_state(0) { @operation.call }
+    handle_state(0) { @operation.call }
   end
 end
 

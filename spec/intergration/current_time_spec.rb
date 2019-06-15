@@ -1,14 +1,13 @@
 require 'dry/effects/handler'
 
 RSpec.describe 'handling current time' do
-  let(:handler) { make_handler(:current_time) }
-
+  include Dry::Effects::Handler.CurrentTime
   include Dry::Effects.CurrentTime
 
   context 'with default provider' do
     context 'with not fixed time' do
       example 'getting current timme' do
-        before, after = handler.() do
+        before, after = handle_current_time do
           before = current_time
           sleep 0.01
           after = current_time
@@ -22,7 +21,7 @@ RSpec.describe 'handling current time' do
 
     context 'with fixed time' do
       example 'getting fixed time' do
-        before, after = handler.(Time.now) do
+        before, after = handle_current_time(Time.now) do
           before = current_time
           sleep 0.01
           after = current_time

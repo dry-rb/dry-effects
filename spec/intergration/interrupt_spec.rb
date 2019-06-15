@@ -1,8 +1,8 @@
 RSpec.describe 'handle interruption' do
   include Dry::Effects.Interrupt(:halt)
-  include Dry::Effects::Handler[interrupt: :halt, as: :catch_halt]
-  include Dry::Effects::Handler[state: :counter_a, as: :outer]
-  include Dry::Effects::Handler[state: :counter_b, as: :inner]
+  include Dry::Effects::Handler.Interrupt(:halt, as: :catch_halt)
+  include Dry::Effects::Handler.State(:counter_a, as: :outer)
+  include Dry::Effects::Handler.State(:counter_b, as: :inner)
 
   it 'aborts execution with payload' do
     reached = false
@@ -42,12 +42,12 @@ RSpec.describe 'handle interruption' do
     context 'same identifiers' do
       include Dry::Effects.Interrupt(:halt)
       include Dry::Effects.Interrupt(:raise)
-      include Dry::Effects::Handler[interrupt: :halt, as: :catch_halt]
-      include Dry::Effects::Handler[interrupt: :raise, as: :catch_raise]
+      include Dry::Effects::Handler.Interrupt(:halt)
+      include Dry::Effects::Handler.Interrupt(:raise)
 
       example 'handling within inner block' do
-        outer = catch_halt do
-          inner = catch_raise do
+        outer = handle_halt do
+          inner = handle_raise do
             raise 20
             10
           end
@@ -59,8 +59,8 @@ RSpec.describe 'handle interruption' do
       end
 
       example 'handling within outer block' do
-        outer = catch_halt do
-          inner = catch_raise do
+        outer = handle_halt do
+          inner = handle_raise do
             halt 20
             10
           end
