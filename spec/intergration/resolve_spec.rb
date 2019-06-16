@@ -33,4 +33,8 @@ RSpec.describe 'resolving dependencies' do
       expect(result).to be(10)
     end
   end
+
+  it 'uses fallback' do
+    expect(foo { :fallback }).to be(:fallback)
+  end
 end
