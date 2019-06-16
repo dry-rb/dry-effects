@@ -13,13 +13,13 @@ module Dry
 
       param :provider_type, default: -> { Undefined }
 
-      param :identifier, default: -> { Undefined }
+      param :provider_args, default: -> { EMPTY_ARRAY }
 
       def call(initial = Undefined, &block)
         if Undefined.equal?(initial)
-          provider = provider_type.new(identifier: identifier)
+          provider = provider_type.new(*provider_args)
         else
-          provider = provider_type.new(initial, identifier: identifier)
+          provider = provider_type.new(initial, *provider_args)
         end
 
         stack = Stack.current

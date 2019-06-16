@@ -4,6 +4,10 @@ module Dry
   module Effects
     module Providers
       class Interrupt < Provider[:interrupt]
+        def self.mixin(identifier, **kwargs)
+          super(identifier: identifier, **kwargs)
+        end
+
         option :signal, default: -> {
           :"effect_interrupt_interrupt_#{identifier}"
         }
@@ -12,7 +16,7 @@ module Dry
           throw signal, payload
         end
 
-        def call
+        def call(_, _)
           caught = true
           result = catch(signal) do
             result = yield

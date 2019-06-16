@@ -4,17 +4,19 @@ module Dry
   module Effects
     module Providers
       class Cache < Provider[:cache]
-        def initialize(identifier:)
-          super(identifier: identifier)
-
-          @cache = Hash.new
+        def self.mixin(identifier, **kwargs)
+          super(identifier: identifier, **kwargs)
         end
 
+        option :cache, default: -> { ::Hash.new }
+
+        include Dry::Equalizer(:identifier, :cache)
+
         def fetch_or_store(key, block)
-          if @cache.key?(key)
-            @cache[key]
+          if cache.key?(key)
+            cache[key]
           else
-            @cache[key] = block.call
+            cache[key] = block.call
           end
         end
       end
