@@ -7,6 +7,6 @@ module EffectHelper
 
   def make_handler(type, identifier = Dry::Effects::Undefined)
     provider = Dry::Effects.providers[type]
-    Dry::Effects::Handler.new(provider, identifier)
+    Dry::Effects::Handler.new(provider, [identifier: identifier])
   end
 end

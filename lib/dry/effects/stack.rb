@@ -47,14 +47,15 @@ module Dry
       end
 
       def push(provider)
+        idx = size
         providers.unshift(provider)
-        provider.() { yield }
+        provider.(self, idx) { yield }
       ensure
         providers.shift
       end
 
       def with_stack(&block)
-        providers.map { |p| p.method(:call).to_proc }.reduce(:>>).(&block)
+        providers.map.with_index { |p, i| -> &b { p.(self, i, &b) } }.reduce(:>>).(&block)
       end
 
       def provider(effect)

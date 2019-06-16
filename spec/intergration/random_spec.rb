@@ -1,19 +1,17 @@
+require 'dry/effects/provider'
+
 RSpec.describe 'handling random' do
-  let(:handler) { Dry::Effects::Handler.new(provider, :kernel) }
+  let(:handler) { Dry::Effects::Handler.new(provider) }
 
   include Dry::Effects.Random
 
   context 'with custom provider' do
     let(:provider) do
       Class.new(Dry::Effects::Provider[:random]) do
-        def initialize(seed, identifier:)
-          super(identifier: identifier)
-
-          @seed = seed
-        end
+        param :seed
 
         def rand(modulo)
-          n = @seed % modulo
+          n = seed % modulo
           shift
           n
         end
@@ -25,7 +23,7 @@ RSpec.describe 'handling random' do
         private
 
         def shift
-          @seed = @seed % 1000 + @seed / 1000
+          @seed = seed % 1000 + seed / 1000
         end
       end
     end

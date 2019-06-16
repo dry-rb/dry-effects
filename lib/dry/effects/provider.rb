@@ -8,11 +8,9 @@ module Dry
       extend ClassInterface
       include Dry::Equalizer(:identifier)
 
-      option :identifier, type: -> id {
-        Undefined.default(id) { raise ArgumentError, "No identifier given" }
-      }
+      option :identifier, default: -> { Undefined }
 
-      def call
+      def call(_stack, _index)
         yield
       end
 

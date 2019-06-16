@@ -10,18 +10,11 @@ module Dry
 
       option :name, default: -> { type }
 
-      option :identifier
+      option :identifier, default: -> { Undefined }
 
       option :payload, default: -> { EMPTY_ARRAY }
 
       include ::Dry::Equalizer(:type, :name, :identifier, :payload)
-
-      def initialize(*)
-        super
-        if Undefined.equal?(identifier)
-          raise ArgumentError, "No identifier provided for a #{type} effect (#{name})"
-        end
-      end
 
       def payload(*payload)
         if payload.empty?

@@ -2,8 +2,7 @@ module Dry
   module Effects
     module Effects
       class Parallel < ::Module
-        def initialize(identifier = Undefined)
-          id = Undefined.default(identifier, :root)
+        def initialize(id = Undefined)
           par = Effect.new(type: :parallel, name: :par, identifier: id)
           join = Effect.new(type: :parallel, name: :join, identifier: id)
 

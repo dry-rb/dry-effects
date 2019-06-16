@@ -4,7 +4,10 @@ require 'dry/effects/inflector'
 
 module Dry
   module Effects
-    default = %w(cache current_time random state interrupt amb retry fork parallel)
+    default = %i(
+      cache current_time random resolve
+      state interrupt amb retry fork parallel
+    )
 
     effect_modules = ::Concurrent::Map.new
 

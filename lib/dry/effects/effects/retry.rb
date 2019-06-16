@@ -4,7 +4,7 @@ module Dry
   module Effects
     module Effects
       class Retry < ::Module
-        def initialize(_ = Undefined)
+        def initialize
           module_eval do
             define_method(:repeat) do |identifier|
               effect = Effect.new(type: :retry, name: :repeat, identifier: identifier)

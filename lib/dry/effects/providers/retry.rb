@@ -4,18 +4,21 @@ module Dry
   module Effects
     module Providers
       class Retry < Provider[:retry]
+        def self.mixin(identifier, **kwargs)
+          super(identifier: identifier, **kwargs)
+        end
+
         param :limit
+
+        option :identifier
 
         option :repeat_signal, default: -> {
           :"effect_retry_repeat_#{identifier}"
         }
 
-        def initialize(*)
-          super
-          @attempts = 0
-        end
+        option :attempts, default: -> { 0 }
 
-        def call
+        def call(_, _)
           loop do
             catch(repeat_signal) do
               return attempt { yield }

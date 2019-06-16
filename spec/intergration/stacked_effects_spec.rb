@@ -45,14 +45,13 @@ RSpec.describe 'stacked effects' do
     context 'same identifier' do
       before do
         extend Dry::Effects.State(:counter)
+        extend Dry::Effects::Handler.State(:counter)
       end
 
-      let(:state) { make_handler(:state, :counter) }
-
       example do
-        accumulated_state = state.(0) do
+        accumulated_state = handle_counter(0) do
           self.counter += 1
-          state.(10) do
+          handle_counter(10) do
             self.counter += 30
             :result
           ensure

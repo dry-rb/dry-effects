@@ -4,12 +4,8 @@ module Dry
   module Effects
     module Effects
       class Random < ::Module
-        def initialize(identifier = Undefined)
-          read = Effect.new(
-            type: :random,
-            name: :rand,
-            identifier: Undefined.default(identifier, :kernel)
-          )
+        def initialize
+          read = Effect.new(type: :random, name: :rand)
 
           module_eval do
             define_method(:rand) { |n| ::Dry::Effects.yield(read.payload(n)) }

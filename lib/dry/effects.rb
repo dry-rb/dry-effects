@@ -27,7 +27,11 @@ module Dry
           result
         end
       rescue FiberError
-        raise Errors::UnhandledEffect.new(effect)
+        if block_given?
+          yield
+        else
+          raise Errors::UnhandledEffect.new(effect)
+        end
       end
     end
   end

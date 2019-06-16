@@ -4,13 +4,10 @@ module Dry
   module Effects
     module Providers
       class CurrentTime < Provider[:current_time]
-        def initialize(time = Undefined, identifier: Undefined)
-          super(identifier: Undefined.default(identifier, :global))
-          @time = time
-        end
+        param :time, default: -> { Undefined }
 
         def current_time
-          Undefined.default(@time) { Time.now }
+          Undefined.default(time) { Time.now }
         end
       end
     end

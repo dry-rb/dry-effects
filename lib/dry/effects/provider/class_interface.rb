@@ -27,17 +27,27 @@ module Dry
           @effects[type]
         end
 
-        def mixin(identifier = Undefined, *args, **kwargs)
-          handler = Handler.new(self, identifier)
+        def mixin(*args, **kwargs)
+          handle_method = handle_method(**kwargs)
 
-          handle_method = handle_method(identifier, *args, **kwargs)
+          handler = handler(*args, **kwargs)
 
           ::Module.new do
-            define_method(handle_method) { |init = Undefined, &block| handler.(init, &block) }
+            define_method(handle_method) do |init = Undefined, &block|
+              handler.(init, &block)
+            end
           end
         end
 
-        def handle_method(identifier = Undefined, *, as: Undefined, **)
+        def handler(*args, **kwargs)
+          if kwargs.empty?
+            Handler.new(self, args)
+          else
+            Handler.new(self, [*args, kwargs])
+          end
+        end
+
+        def handle_method(identifier: Undefined, as: Undefined, **)
           Undefined.default(as) do
             if Undefined.equal?(identifier)
               :"handle_#{type}"
