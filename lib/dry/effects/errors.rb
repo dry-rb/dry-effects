@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dry
   module Effects
     module Errors
@@ -13,7 +15,7 @@ module Dry
           @effect = effect
           super(
             "Effect #{effect.inspect} not handled. "\
-            "Effects must be wrapped with corresponding handlers"
+            'Effects must be wrapped with corresponding handlers'
           )
         end
       end

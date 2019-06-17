@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/initializer'
 require 'dry/effects/provider/class_interface'
 

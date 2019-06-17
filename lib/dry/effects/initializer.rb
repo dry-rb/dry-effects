@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/initializer'
 
 module Dry
@@ -19,11 +21,11 @@ module Dry
 
         # @api private
         def __define_with__
-          seq_names = dry_initializer.
-                        definitions.
-                        reject { |_, d| d.option }.
-                        keys.
-                        join(', ')
+          seq_names = dry_initializer
+            .definitions
+            .reject { |_, d| d.option }
+            .keys
+            .join(', ')
 
           seq_names << ', ' unless seq_names.empty?
 
@@ -34,7 +36,7 @@ module Dry
               if new_options.empty?
                 self
               else
-                self.class.new(#{ seq_names }options.merge(new_options))
+                self.class.new(#{seq_names}options.merge(new_options))
               end
             end
           RUBY

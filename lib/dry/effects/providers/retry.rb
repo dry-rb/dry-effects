@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/provider'
 
 module Dry
@@ -12,7 +14,7 @@ module Dry
 
         option :identifier
 
-        option :repeat_signal, default: -> {
+        option :repeat_signal, default: lambda {
           :"effect_retry_repeat_#{identifier}"
         }
 

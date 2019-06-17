@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/handler'
 
 RSpec.describe 'handling cache' do
@@ -12,6 +14,6 @@ RSpec.describe 'handling cache' do
       ]
     end
 
-    expect(result).to eql([:foo, :foo])
+    expect(result).to eql(%i[foo foo])
   end
 end

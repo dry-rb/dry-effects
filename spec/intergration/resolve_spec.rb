@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'resolving dependencies' do
   include Dry::Effects.Resolve(:foo, :bar)
   include Dry::Effects::Handler.Resolve(:foo, :bar)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fiber'
 require 'dry/effects/initializer'
 require 'dry/effects/effect'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EffectHelper
   def effect(type, name, identifier, *payload)
     Dry::Effects::Effect.new(

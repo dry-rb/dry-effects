@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'retrying' do
   include Dry::Effects.Retry
   include Dry::Effects::Handler.Retry(:inner, as: :retry_inner)

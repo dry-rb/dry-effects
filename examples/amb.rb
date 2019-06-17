@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Operation
   include Dry::Effects.State(:counter)
   include Dry::Effects.Amb(:feature_enabled)
@@ -47,4 +49,3 @@ state_then_amb = StateAmb.new
 
 amb_then_state.() # => [[1, :without_feature], [10, :with_feature]]
 state_then_amb.() # => [11, [:without_feature, :with_feature]]
-

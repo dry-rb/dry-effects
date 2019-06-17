@@ -1,4 +1,6 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
@@ -12,4 +14,3 @@ group :tools do
   gem 'pry-byebug', platform: :mri
   gem 'rubocop'
 end
-

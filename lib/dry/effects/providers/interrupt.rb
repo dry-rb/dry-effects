@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/provider'
 require 'dry/effects/instructions/raise'
 require 'dry/effects/halt'
@@ -10,7 +12,7 @@ module Dry
           super(identifier: identifier, **kwargs)
         end
 
-        option :signal, default: -> {
+        option :signal, default: lambda {
           :"effect_interrupt_interrupt_#{identifier}"
         }
 

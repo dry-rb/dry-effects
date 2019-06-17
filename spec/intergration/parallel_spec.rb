@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'using parallel effects' do
   include Dry::Effects.Parallel
   include Dry::Effects.CurrentTime
@@ -16,7 +18,7 @@ RSpec.describe 'using parallel effects' do
       end
     end
 
-    expect(result).to eql([["Thread#0", time], ["Thread#1", time], ["Thread#2", time]])
+    expect(result).to eql([['Thread#0', time], ['Thread#1', time], ['Thread#2', time]])
   end
 
   example 'running effectful code in parallel' do

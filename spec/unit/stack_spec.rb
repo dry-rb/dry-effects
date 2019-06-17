@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/errors'
 
 RSpec.describe Dry::Effects::Stack do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/providers/random'
 
 RSpec.describe Dry::Effects::Providers::Random do

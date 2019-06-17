@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/handler'
 
 RSpec.describe 'handling current time' do

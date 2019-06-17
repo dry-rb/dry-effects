@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'handling state' do
   include Dry::Effects::Handler.State(:counter)
   include Dry::Effects.State(:counter)

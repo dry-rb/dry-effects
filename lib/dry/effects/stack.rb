@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/initializer'
 require 'dry/effects/effect'
 require 'dry/effects/instructions/raise'
@@ -35,8 +37,8 @@ module Dry
         else
           yield
         end
-      rescue Exception => error
-        Instructions::Raise.new(error)
+      rescue Exception => e
+        Instructions::Raise.new(e)
       end
 
       def push(provider)
@@ -73,7 +75,7 @@ module Dry
 
       def to_s
         if empty?
-          "#<Dry::Effects::Stack>"
+          '#<Dry::Effects::Stack>'
         else
           stack = map(&:represent).join('->')
 

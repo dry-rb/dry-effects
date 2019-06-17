@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'handle interruption' do
   include Dry::Effects.Interrupt(:halt)
   include Dry::Effects::Handler.Interrupt(:halt, as: :catch_halt)

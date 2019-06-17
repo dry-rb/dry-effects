@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/effects/providers/current_time'
 
 RSpec.describe Dry::Effects::Providers::CurrentTime do
@@ -22,4 +24,3 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
     end
   end
 end
-

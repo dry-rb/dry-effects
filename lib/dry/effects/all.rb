@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 require 'concurrent/map'
 require 'dry/effects'
 require 'dry/effects/inflector'
 
 module Dry
   module Effects
-    default = %i(
+    default = %i[
       cache current_time random resolve
       state interrupt amb retry fork parallel
-    )
+    ]
 
     effect_modules = ::Concurrent::Map.new
 
     default.each do |key|
       class_name = Inflector.camelize(key)
 
-      if ::File.exists?("#{__dir__}/effects/#{key}.rb")
+      if ::File.exist?("#{__dir__}/effects/#{key}.rb")
         effects.register(key, memoize: true) do
           require "dry/effects/effects/#{key}"
           Effects.const_get(Inflector.camelize(key))

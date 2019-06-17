@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/core/constants'
 require 'dry/effects/version'
 require 'dry/effects/container'
@@ -28,7 +30,7 @@ module Dry
         if block_given?
           yield
         else
-          raise Errors::UnhandledEffect.new(effect)
+          raise Errors::UnhandledEffect, effect
         end
       end
 

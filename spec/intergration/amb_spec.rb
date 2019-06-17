@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'ambivalent effect' do
   include Dry::Effects.Amb(:feature)
   include Dry::Effects::Handler.Amb(:feature, as: :alternative)
@@ -11,6 +13,6 @@ RSpec.describe 'ambivalent effect' do
       end
     end
 
-    expect(result).to eql([:no_feature, :feature])
+    expect(result).to eql(%i[no_feature feature])
   end
 end
