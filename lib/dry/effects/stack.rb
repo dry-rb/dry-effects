@@ -1,5 +1,6 @@
 require 'dry/effects/initializer'
 require 'dry/effects/effect'
+require 'dry/effects/instructions/raise'
 
 module Dry
   module Effects
@@ -36,14 +37,11 @@ module Dry
       def call(effect)
         if effect.is_a?(Effect) && (provider = provider(effect))
           provider.public_send(effect.name, *effect.payload)
-        elsif READ_ERROR.equal?(effect)
-          error, @error = @error, nil
-          error
         else
           yield
         end
-      rescue Exception => @error
-        FAIL
+      rescue Exception => error
+        Instructions::Raise.new(error)
       end
 
       def push(provider)

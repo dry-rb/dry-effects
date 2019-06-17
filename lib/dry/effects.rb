@@ -2,6 +2,7 @@ require 'dry/core/constants'
 require 'dry/effects/version'
 require 'dry/effects/container'
 require 'dry/effects/errors'
+require 'dry/effects/instructions/raise'
 
 module Dry
   module Effects
@@ -12,17 +13,14 @@ module Dry
     @effects = Container.new
     @providers = Container.new
 
-    FAIL = ::Object.new.freeze
-    READ_ERROR = ::Object.new.freeze
-
     class << self
       attr_reader :effects, :providers
 
       def yield(effect)
         result = ::Fiber.yield(effect)
 
-        if FAIL.equal?(result)
-          raise ::Fiber.yield(READ_ERROR)
+        if result.is_a?(Instruction)
+          process_instruction(result)
         else
           result
         end
@@ -31,6 +29,15 @@ module Dry
           yield
         else
           raise Errors::UnhandledEffect.new(effect)
+        end
+      end
+
+      def process_instruction(instruction)
+        case instruction
+        when Instructions::Raise
+          raise instruction.error
+        else
+          raise ArgumentError, "Unknown instruction: #{instruction.inspect}"
         end
       end
     end

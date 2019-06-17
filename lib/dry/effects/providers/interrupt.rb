@@ -1,4 +1,6 @@
 require 'dry/effects/provider'
+require 'dry/effects/instructions/raise'
+require 'dry/effects/halt'
 
 module Dry
   module Effects
@@ -13,22 +15,13 @@ module Dry
         }
 
         def interrupt(*payload)
-          throw signal, payload
+          Instructions.Raise(Halt[signal].new(payload))
         end
 
         def call(_, _)
-          caught = true
-          result = catch(signal) do
-            result = yield
-            caught = false
-            result
-          end
-
-          if caught
-            result[0]
-          else
-            result
-          end
+          yield
+        rescue Halt[signal] => e
+          e.payload[0]
         end
       end
     end
