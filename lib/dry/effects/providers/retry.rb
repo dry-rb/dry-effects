@@ -22,14 +22,13 @@ module Dry
 
         def call(_, _)
           loop do
-            catch(repeat_signal) do
-              return attempt { yield }
-            end
+            return attempt { yield }
+          rescue Halt[repeat_signal] => e
           end
         end
 
         def repeat
-          throw repeat_signal
+          Instructions.Raise(Halt[repeat_signal].new)
         end
 
         def attempt
