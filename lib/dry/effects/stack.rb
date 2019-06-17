@@ -29,11 +29,6 @@ module Dry
 
       param :providers, default: -> { [] }
 
-      def initialize(*)
-        super
-        @error = nil
-      end
-
       def call(effect)
         if effect.is_a?(Effect) && (provider = provider(effect))
           provider.public_send(effect.name, *effect.payload)
