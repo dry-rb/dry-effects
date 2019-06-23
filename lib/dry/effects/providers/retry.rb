@@ -23,7 +23,7 @@ module Dry
         def call(_, _)
           loop do
             return attempt { yield }
-          rescue Halt[repeat_signal] => e
+          rescue Halt[repeat_signal]
           end
         end
 

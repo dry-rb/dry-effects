@@ -9,8 +9,10 @@ module Dry
       class Defer < Provider[:defer]
         option :executor, default: -> { :io }
 
-        def defer(callable)
-          ::Concurrent::Promise.execute(executor: executor, &callable)
+        def defer(block)
+          ::Concurrent::Promise.execute(executor: executor) do
+            @run_with_stack.(&block)
+          end
         end
 
         def wait(promises)
@@ -19,6 +21,11 @@ module Dry
           else
             promises.value!
           end
+        end
+
+        def call(_, _)
+          @run_with_stack = ::Dry::Effects.yield(Handler::FORK) { -> &cont { cont.call } }
+          super
         end
       end
     end

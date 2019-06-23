@@ -95,4 +95,60 @@ RSpec.describe 'stacked effects' do
       end
     end
   end
+
+  context 'defer + parallel' do
+    before do
+      extend Dry::Effects.Defer
+      extend Dry::Effects.Parallel
+      extend Dry::Effects::Handler.Parallel
+      extend Dry::Effects::Handler.Defer
+    end
+
+    example 'defer : parallel' do
+      pending 'should work after refactoring stack managing'
+      tasks = [0, 1, 2]
+      observed_order = []
+      result = handle_defer do
+        handle_parallel do
+          pars = tasks.map do |i|
+            defer do
+              par do
+                sleep((tasks.size - i) / 20.0)
+                observed_order << i
+                i
+              end
+            end
+          end
+
+          wait(join(pars))
+        end
+      end
+
+      expect(result).to eql([0, 1, 2])
+      expect(observed_order).to eql([2, 1, 0])
+    end
+
+    example 'parallel : defer' do
+      tasks = [0, 1, 2]
+      observed_order = []
+      result = handle_parallel do
+        handle_defer do
+          pars = tasks.map do |i|
+            defer do
+              par do
+                sleep((tasks.size - i) / 20.0)
+                observed_order << i
+                i
+              end
+            end
+          end
+
+          wait(join(pars))
+        end
+      end
+
+      expect(result).to eql([0, 1, 2])
+      expect(observed_order).to eql([2, 1, 0])
+    end
+  end
 end
