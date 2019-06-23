@@ -7,7 +7,7 @@ require 'dry/effects/inflector'
 module Dry
   module Effects
     default = %i[
-      cache current_time random resolve
+      cache current_time random resolve defer
       state interrupt amb retry fork parallel
     ]
 
