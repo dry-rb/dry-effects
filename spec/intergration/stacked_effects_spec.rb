@@ -105,7 +105,6 @@ RSpec.describe 'stacked effects' do
     end
 
     example 'defer : parallel' do
-      pending 'should work after refactoring stack managing'
       tasks = [0, 1, 2]
       observed_order = []
       result = handle_defer do

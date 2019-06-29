@@ -17,7 +17,11 @@ module Dry
       end
 
       def represent
-        "#{type}##{identifier}"
+        if Undefined.equal?(identifier)
+          type.to_s
+        else
+          "#{type}##{identifier}"
+        end
       end
 
       def type
