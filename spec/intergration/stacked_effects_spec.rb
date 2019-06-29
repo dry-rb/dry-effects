@@ -150,4 +150,36 @@ RSpec.describe 'stacked effects' do
       expect(observed_order).to eql([2, 1, 0])
     end
   end
+
+  context 'async + state' do
+    include Dry::Effects.Async
+    include Dry::Effects::Handler.Async
+    include Dry::Effects.State(:counter)
+    include Dry::Effects::Handler.State(:counter)
+
+    let(:outputs) { [] }
+
+    def program
+      tasks = Array.new(3) do
+        async do
+          self.counter += 10
+          outputs << counter
+        end
+      end
+
+      tasks.each { |t| await(t) }
+    end
+
+    example 'async : state' do
+      result = handle_async { handle_counter(100) { program } }
+      expect(outputs).to eql([110, 120, 130])
+      expect(result).to be_nil
+    end
+
+    example 'state : async' do
+      result = handle_counter(100) { handle_async { program } }
+      expect(outputs).to eql([110, 120, 130])
+      expect(result).to eql([130, nil])
+    end
+  end
 end

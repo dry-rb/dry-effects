@@ -23,6 +23,7 @@ module Dry
         def call(stack, _)
           @stack = stack
           super
+          nil
         end
       end
     end
