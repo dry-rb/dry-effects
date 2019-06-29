@@ -14,3 +14,6 @@ group :tools do
   gem 'pry-byebug', platform: :mri
   gem 'rubocop'
 end
+
+gem 'dry-struct'
+gem 'dry-monads'

@@ -10,8 +10,8 @@ module Dry
           lookup = Effect.new(type: :implicit, identifier: method)
 
           module_eval do
-            define_method(method) do |arg|
-              ::Dry::Effects.yield(lookup.payload(arg)).(arg)
+            define_method(method) do |*args|
+              ::Dry::Effects.yield(lookup.payload(args[0])).(*args)
             end
           end
         end

@@ -23,6 +23,14 @@ RSpec.describe 'resolving implicits' do
 
       expect(shown).to eql(['<5>', '"foo"'])
     end
+
+    example 'extra arguments' do
+      shown = handle_show(Integer => -> x, y { "<#{x + y}>" }) do
+        show(5, 5)
+      end
+
+      expect(shown).to eql('<10>')
+    end
   end
 
   context 'static implicits' do
