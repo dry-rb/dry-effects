@@ -44,6 +44,8 @@ module Dry
       def call(initial = Undefined, &block)
         if Undefined.equal?(initial)
           provider = provider_type.new(*provider_args)
+        elsif provider_args.empty?
+          provider = provider_type.new(initial, EMPTY_HASH)
         else
           provider = provider_type.new(initial, *provider_args)
         end
