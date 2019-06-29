@@ -9,7 +9,33 @@ require 'dry/effects/stack'
 module Dry
   module Effects
     class Handler
-      FORK = ::Object.new.freeze
+      class << self
+        def stack
+          ::Thread.current[:dry_effects_stack] ||= Stack.new
+        end
+
+        def stack=(stack)
+          ::Thread.current[:dry_effects_stack] = stack
+        end
+
+        def spawn_fiber(stack)
+          fiber = ::Fiber.new do
+            self.stack = stack
+            yield
+          end
+          result = fiber.resume
+
+          loop do
+            break result unless fiber.alive?
+
+            provided = stack.(result) do
+              ::Dry::Effects.yield(result)
+            end
+
+            result = fiber.resume(provided)
+          end
+        end
+      end
 
       extend Initializer
 
@@ -24,34 +50,12 @@ module Dry
           provider = provider_type.new(initial, *provider_args)
         end
 
-        stack = Stack.current
+        stack = Handler.stack
 
         if stack.empty?
-          stack.push(provider) { spawn_fiber(stack, &block) }
+          stack.push(provider) { Handler.spawn_fiber(stack, &block) }
         else
           stack.push(provider, &block)
-        end
-      end
-
-      def spawn_fiber(stack, &block)
-        fiber = ::Fiber.new(&block)
-        result = fiber.resume
-
-        loop do
-          break result unless fiber.alive?
-
-          provided = stack.(result) do
-            if FORK.equal?(result)
-              lambda do |&cont|
-                copy = stack.dup
-                Stack.use(copy) { spawn_fiber(copy, &cont) }
-              end
-            else
-              ::Dry::Effects.yield(result)
-            end
-          end
-
-          result = fiber.resume(provided)
         end
       end
     end

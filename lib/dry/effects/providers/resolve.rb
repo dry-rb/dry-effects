@@ -22,12 +22,17 @@ module Dry
 
         attr_reader :parent
 
+        attr_reader :index
+
         def call(stack, index)
+          @index = index
+
           if overridable
             locate = Effect.new(
               type: :resolve,
               name: :locate,
-              identifier: :default
+              identifier: :default,
+              payload: [index]
             )
             @parent = ::Dry::Effects.yield(locate) { nil }
 
@@ -45,7 +50,7 @@ module Dry
           end
         end
 
-        def locate
+        def locate(_)
           self
         end
 
@@ -54,7 +59,7 @@ module Dry
             if effect.name.equal?(:resolve)
               key?(effect.identifier)
             else
-              effect.name.equal?(:locate)
+              effect.name.equal?(:locate) && index < effect.payload[0]
             end
           else
             false

@@ -34,6 +34,6 @@ RSpec.describe 'using parallel effects' do
       end
     end
 
-    expect(result).to eql([0, [[1, 1], [1, 1]]])
+    expect(result).to eql([0, [1, 1]])
   end
 end

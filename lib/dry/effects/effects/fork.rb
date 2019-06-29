@@ -6,8 +6,10 @@ module Dry
   module Effects
     module Effects
       class Fork < ::Module
-        def initialize(_ = Undefined)
-          define_method(:fork) { |&block| ::Dry::Effects.yield(Handler::FORK).(&block) }
+        def initialize(identifier = Undefined)
+          fork = Effect.new(type: :fork, identifier: identifier)
+
+          define_method(:fork) { |&block| ::Dry::Effects.yield(fork).(&block) }
         end
       end
     end

@@ -9,10 +9,13 @@ module Dry
       class Parallel < Provider[:parallel]
         option :executor, default: -> { :io }
 
+        attr_reader :stack
+
         def par
+          stack = self.stack.dup
           proc do |&block|
             ::Concurrent::Promise.execute(executor: executor) do
-              @run_with_stack.(&block)
+              Handler.spawn_fiber(stack, &block)
             end
           end
         end
@@ -21,8 +24,8 @@ module Dry
           xs.map(&:value!)
         end
 
-        def call(_, _)
-          @run_with_stack = ::Dry::Effects.yield(Handler::FORK) { -> &cont { cont.call } }
+        def call(stack, _)
+          @stack = stack
           super
         end
       end

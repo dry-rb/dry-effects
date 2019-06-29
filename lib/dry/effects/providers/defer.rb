@@ -9,9 +9,12 @@ module Dry
       class Defer < Provider[:defer]
         option :executor, default: -> { :io }
 
+        attr_reader :stack
+
         def defer(block)
+          stack = self.stack.dup
           ::Concurrent::Promise.execute(executor: executor) do
-            @run_with_stack.(&block)
+            Handler.spawn_fiber(stack, &block)
           end
         end
 
@@ -23,8 +26,8 @@ module Dry
           end
         end
 
-        def call(_, _)
-          @run_with_stack = ::Dry::Effects.yield(Handler::FORK) { -> &cont { cont.call } }
+        def call(stack, _)
+          @stack = stack
           super
         end
       end

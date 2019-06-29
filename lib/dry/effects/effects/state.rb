@@ -12,7 +12,10 @@ module Dry
 
           module_eval do
             define_method(identifier) { ::Dry::Effects.yield(read) }
-            define_method(:"#{identifier}=") { |value| ::Dry::Effects.yield(write.payload(value)) }
+
+            define_method(:"#{identifier}=") do |value|
+              ::Dry::Effects.yield(write.payload(value))
+            end
           end
         end
       end
