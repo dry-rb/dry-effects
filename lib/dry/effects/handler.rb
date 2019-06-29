@@ -10,25 +10,17 @@ module Dry
   module Effects
     class Handler
       class << self
-        def current_stack
+        def stack
           ::Thread.current[:dry_effects_stack] ||= Stack.new
         end
 
-        def use_stack(stack, &block)
-          prev = current
-          ::Thread.current[:dry_effects_stack] = stack
-          stack.with_stack(&block)
-        ensure
-          ::Thread.current[:dry_effects_stack] = prev
-        end
-
-        def set_stack(stack)
+        def stack=(stack)
           ::Thread.current[:dry_effects_stack] = stack
         end
 
         def spawn_fiber(stack)
           fiber = ::Fiber.new do
-            set_stack(stack)
+            self.stack = stack
             yield
           end
           result = fiber.resume
@@ -58,7 +50,7 @@ module Dry
           provider = provider_type.new(initial, *provider_args)
         end
 
-        stack = Handler.current_stack
+        stack = Handler.stack
 
         if stack.empty?
           stack.push(provider) { Handler.spawn_fiber(stack, &block) }
