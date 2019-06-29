@@ -28,9 +28,7 @@ module Dry
           loop do
             break result unless fiber.alive?
 
-            provided = stack.(result) do
-              ::Dry::Effects.yield(result)
-            end
+            provided = stack.(result) { ::Dry::Effects.yield(result) }
 
             result = fiber.resume(provided)
           end
