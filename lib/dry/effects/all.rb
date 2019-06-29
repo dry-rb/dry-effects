@@ -8,7 +8,8 @@ module Dry
   module Effects
     default = %i[
       cache current_time random resolve defer
-      state interrupt amb retry fork parallel async
+      state interrupt amb retry fork parallel
+      async implicit
     ]
 
     effect_modules = ::Concurrent::Map.new
