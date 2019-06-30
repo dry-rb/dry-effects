@@ -9,6 +9,8 @@ module Dry
       class Defer < Provider[:defer]
         option :executor, default: -> { :io }
 
+        attr_reader :later_calls
+
         attr_reader :stack
 
         def defer(block)
@@ -16,6 +18,14 @@ module Dry
           ::Concurrent::Promise.execute(executor: executor) do
             Handler.spawn_fiber(stack, &block)
           end
+        end
+
+        def later(block)
+          stack = self.stack.dup
+          @later_calls << ::Concurrent::Promise.new(executor: executor) do
+            Handler.spawn_fiber(stack, &block)
+          end
+          nil
         end
 
         def wait(promises)
@@ -28,7 +38,10 @@ module Dry
 
         def call(stack, _)
           @stack = stack
+          @later_calls = []
           super
+        ensure
+          later_calls.each(&:execute)
         end
       end
     end
