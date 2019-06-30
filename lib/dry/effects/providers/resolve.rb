@@ -31,7 +31,6 @@ module Dry
             locate = Effect.new(
               type: :resolve,
               name: :locate,
-              identifier: :default,
               payload: [index]
             )
             @parent = ::Dry::Effects.yield(locate) { nil }
