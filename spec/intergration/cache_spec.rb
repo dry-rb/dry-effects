@@ -7,7 +7,7 @@ RSpec.describe 'handling cache' do
   include Dry::Effects.Cache(:cached)
 
   example 'fetching cached values' do
-    result = handle_cached do
+    result = handle_cache do
       [
         cached([1, 2, 3]) { :foo },
         cached([1, 2, 3]) { :bar }

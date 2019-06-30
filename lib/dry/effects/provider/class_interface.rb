@@ -49,14 +49,8 @@ module Dry
           end
         end
 
-        def handle_method(identifier: Undefined, as: Undefined, **)
-          Undefined.default(as) do
-            if Undefined.equal?(identifier)
-              :"handle_#{type}"
-            else
-              :"handle_#{identifier}"
-            end
-          end
+        def handle_method(as: Undefined, **)
+          Undefined.default(as) { :"handle_#{type}" }
         end
       end
     end

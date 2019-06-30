@@ -7,7 +7,7 @@ RSpec.describe 'resolving implicits' do
     include Dry::Effects::Handler.Implicit(:show)
 
     example 'providing implicits' do
-      shown = handle_show(Integer => -> int { "<#{int}>" }) do
+      shown = handle_implicit(Integer => -> int { "<#{int}>" }) do
         show(5)
       end
 
@@ -15,8 +15,8 @@ RSpec.describe 'resolving implicits' do
     end
 
     example 'multiple handlers' do
-      shown = handle_show(String => -> str { str.inspect }) do
-        handle_show(Integer => -> int { "<#{int}>" }) do
+      shown = handle_implicit(String => -> str { str.inspect }) do
+        handle_implicit(Integer => -> int { "<#{int}>" }) do
           [show(5), show('foo')]
         end
       end
@@ -25,7 +25,7 @@ RSpec.describe 'resolving implicits' do
     end
 
     example 'extra arguments' do
-      shown = handle_show(Integer => -> x, y { "<#{x + y}>" }) do
+      shown = handle_implicit(Integer => -> x, y { "<#{x + y}>" }) do
         show(5, 5)
       end
 
@@ -40,7 +40,7 @@ RSpec.describe 'resolving implicits' do
     })
 
     example 'using static lookup' do
-      shown = handle_show do
+      shown = handle_implicit do
         [show(5), show('foo')]
       end
 
@@ -54,7 +54,7 @@ RSpec.describe 'resolving implicits' do
           Time => -> t { t.strftime('%Y-%m-%d') }
         }
 
-        shown = handle_show(map) do
+        shown = handle_implicit(map) do
           [show(5), show('foo'), show(Time.new(2020, 1, 1))]
         end
 

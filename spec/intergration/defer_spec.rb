@@ -40,7 +40,7 @@ RSpec.describe 'defer effects' do
       results = []
 
       handle_defer do
-        handle_counter(10) do
+        handle_state(10) do
           later { results << (self.counter += 11) }
           later { results << (self.counter += 12) }
         end
