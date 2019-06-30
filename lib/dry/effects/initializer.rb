@@ -9,14 +9,34 @@ module Dry
       module DefineWithHook
         # @api private
         def param(*)
-          super.tap { __define_with__ }
+          super.tap do
+            @params_arity = nil
+            __define_with__
+          end
         end
 
         # @api private
         def option(*)
           super.tap do
             __define_with__ unless method_defined?(:with)
+            @has_options = true
           end
+        end
+
+        # @api private
+        def params_arity
+          @params_arity ||= begin
+            dry_initializer
+              .definitions
+              .reject { |_, d| d.option }
+              .size
+          end
+        end
+
+        # @api private
+        def options?
+          return @has_options if defined? @has_options
+          @has_options = false
         end
 
         # @api private

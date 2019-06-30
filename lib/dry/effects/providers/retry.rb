@@ -7,29 +7,20 @@ module Dry
   module Effects
     module Providers
       class Retry < Provider[:retry]
-        def self.mixin(identifier, **kwargs)
-          super(identifier: identifier, **kwargs)
-        end
+        param :scope
 
         param :limit
 
-        option :identifier
-
-        option :repeat_signal, default: lambda {
-          :"effect_retry_repeat_#{identifier}"
-        }
-
-        option :attempts, default: -> { 0 }
-
         def call(_, _)
+          @attempts = 0
           loop do
             return attempt { yield }
-          rescue Halt[repeat_signal]
+          rescue halt
           end
         end
 
         def repeat
-          Instructions.Raise(Halt[repeat_signal].new)
+          Instructions.Raise(halt.new)
         end
 
         def attempt
@@ -43,6 +34,14 @@ module Dry
 
         def attempts_exhausted?
           @attempts.equal?(limit)
+        end
+
+        def halt
+          Halt[scope]
+        end
+
+        def provide?(effect)
+          super && scope.equal?(effect.scope)
         end
       end
     end

@@ -3,7 +3,7 @@
 require 'dry/effects/providers/cache'
 
 RSpec.describe Dry::Effects::Providers::Cache do
-  subject(:cache) { described_class.new(identifier: :test) }
+  subject(:cache) { described_class.new(:test) }
 
   describe '#fetch_or_store' do
     it 'returns caches result' do

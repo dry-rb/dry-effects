@@ -1,19 +1,26 @@
 # frozen_string_literal: true
 
 require 'dry/effects/errors'
+require 'dry/effects/effects/state'
 
 RSpec.describe Dry::Effects::Stack do
+  def state_effect(name, scope)
+    Dry::Effects::Effects::State::StateEffect.new(
+      type: :state, name: name, scope: scope
+    )
+  end
+
   let(:words_provider) do
-    Dry::Effects.providers[:state].new(10, identifier: :words)
+    Dry::Effects.providers[:state].new(:words, 10)
   end
 
   let(:chars_provider) do
-    Dry::Effects.providers[:state].new(100, identifier: :chars)
+    Dry::Effects.providers[:state].new(:chars, 100)
   end
 
-  let(:read_chars) { effect(:state, :read, :chars) }
+  let(:read_chars) { state_effect(:read, :chars) }
 
-  let(:read_words) { effect(:state, :read, :words) }
+  let(:read_words) { state_effect(:read, :words) }
 
   describe '#push' do
     include Dry::Effects.State(:words)

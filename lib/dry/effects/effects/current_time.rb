@@ -6,10 +6,11 @@ module Dry
   module Effects
     module Effects
       class CurrentTime < ::Module
-        def initialize(_identifier = Undefined)
-          current_time = Effect.new(type: :current_time)
+        CurrentTime = Effect.new(type: :current_time)
+
+        def initialize
           module_eval do
-            define_method(:current_time) { ::Dry::Effects.yield(current_time) }
+            define_method(:current_time) { ::Dry::Effects.yield(CurrentTime) }
           end
         end
       end

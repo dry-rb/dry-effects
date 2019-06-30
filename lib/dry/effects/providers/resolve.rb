@@ -41,7 +41,7 @@ module Dry
         def provide?(effect)
           if effect.type.equal?(:resolve)
             if effect.name.equal?(:resolve)
-              key?(effect.identifier)
+              key?(effect.payload[0])
             else
               true
             end

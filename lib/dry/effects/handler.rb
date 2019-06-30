@@ -37,18 +37,30 @@ module Dry
 
       extend Initializer
 
-      EMPTY_ARGS = [EMPTY_HASH].freeze
-
       param :provider_type
 
-      param :provider_args, default: -> { EMPTY_ARGS }
+      param :curried_args, default: -> { EMPTY_ARRAY }
 
-      def call(initial = Undefined, &block)
-        if Undefined.equal?(initial)
-          provider = provider_type.new(*provider_args)
-        else
-          provider = provider_type.new(initial, *provider_args)
-        end
+      param :curried_kwargs, default: -> { EMPTY_HASH }
+
+      def call(args = EMPTY_ARRAY, kwargs = EMPTY_HASH, &block)
+        merged_kwargs = curried_kwargs.merge(kwargs)
+        unapplied = unapplied(args)
+
+        provider =
+          if unapplied.zero?
+            if merged_kwargs.empty?
+              provider_type.new(*curried_args, *args)
+            else
+              provider_type.new(*curried_args, *args, merged_kwargs)
+            end
+          elsif merged_kwargs.empty? && !provider_type.options?
+            provider_type.new(*curried_args, *args)
+          elsif provider_type.options?
+            provider_type.new(*curried_args, *args, merged_kwargs, EMPTY_HASH)
+          else
+            provider_type.new(*curried_args, *args, merged_kwargs)
+          end
 
         stack = Handler.stack
 
@@ -57,6 +69,10 @@ module Dry
         else
           stack.push(provider, &block)
         end
+      end
+
+      def unapplied(args)
+        provider_type.params_arity - args.size - curried_args.size
       end
     end
   end

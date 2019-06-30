@@ -6,16 +6,20 @@ module Dry
   module Effects
     module Effects
       class Cache < ::Module
-        def initialize(identifier)
-          fetch_or_store = Effect.new(
+        class CacheEffect < Effect
+          option :scope
+        end
+
+        def initialize(scope)
+          fetch_or_store = CacheEffect.new(
             type: :cache,
             name: :fetch_or_store,
-            identifier: identifier
+            scope: scope
           )
 
           module_eval do
-            define_method(identifier) do |key, &block|
-              ::Dry::Effects.yield(fetch_or_store.payload(key, block))
+            define_method(scope) do |key, &block|
+              ::Dry::Effects.yield(fetch_or_store.(key, block))
             end
           end
         end

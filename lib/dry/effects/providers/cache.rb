@@ -6,13 +6,11 @@ module Dry
   module Effects
     module Providers
       class Cache < Provider[:cache]
-        def self.mixin(identifier, **kwargs)
-          super(identifier: identifier, **kwargs)
-        end
+        param :scope
 
         option :cache, default: -> { ::Hash.new }
 
-        include Dry::Equalizer(:identifier, :cache)
+        include Dry::Equalizer(:scope, :cache)
 
         def fetch_or_store(key, block)
           if cache.key?(key)
@@ -20,6 +18,10 @@ module Dry
           else
             cache[key] = block.call
           end
+        end
+
+        def provide?(effect)
+          super && scope.eql?(effect.scope)
         end
       end
     end

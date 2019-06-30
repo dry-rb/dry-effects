@@ -34,7 +34,7 @@ RSpec.describe 'handling random' do
       let(:seed) { 121 }
 
       example 'getting random values' do
-        result = handler.(seed) do
+        result = handler.([seed]) do
           [rand(5), rand(9)]
         end
 

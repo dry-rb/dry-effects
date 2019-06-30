@@ -6,15 +6,19 @@ module Dry
   module Effects
     module Effects
       class State < ::Module
-        def initialize(identifier)
-          read = Effect.new(type: :state, name: :read, identifier: identifier)
-          write = Effect.new(type: :state, name: :write, identifier: identifier)
+        class StateEffect < Effect
+          option :scope
+        end
+
+        def initialize(scope)
+          read = StateEffect.new(type: :state, name: :read, scope: scope)
+          write = StateEffect.new(type: :state, name: :write, scope: scope)
 
           module_eval do
-            define_method(identifier) { ::Dry::Effects.yield(read) }
+            define_method(scope) { ::Dry::Effects.yield(read) }
 
-            define_method(:"#{identifier}=") do |value|
-              ::Dry::Effects.yield(write.payload(value))
+            define_method(:"#{scope}=") do |value|
+              ::Dry::Effects.yield(write.(value))
             end
           end
         end

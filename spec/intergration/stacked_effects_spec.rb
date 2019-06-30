@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'stacked effects' do
   context 'different effect types' do
     include Dry::Effects.Random

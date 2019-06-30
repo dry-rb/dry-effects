@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
+require 'dry/effects/effect'
+
 module Dry
   module Effects
     module Effects
       class Parallel < ::Module
-        def initialize(id = Undefined)
-          par = Effect.new(type: :parallel, name: :par, identifier: id)
-          join = Effect.new(type: :parallel, name: :join, identifier: id)
+        Par = Effect.new(type: :parallel, name: :par)
+        Join = Effect.new(type: :parallel, name: :join)
 
-          define_method(:par) { |&block| ::Dry::Effects.yield(par).(&block) }
-          define_method(:join) { |xs| ::Dry::Effects.yield(join.payload(xs)) }
+        def initialize
+          define_method(:par) { |&block| ::Dry::Effects.yield(Par).(&block) }
+          define_method(:join) { |xs| ::Dry::Effects.yield(Join.(xs)) }
         end
       end
     end

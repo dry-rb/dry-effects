@@ -10,7 +10,7 @@ module Dry
 
         option :overridable, default: -> { false }
 
-        def env(key)
+        def read(key)
           values.fetch(key) do
             if key.is_a?(::String)
               ::ENV.fetch(key)
@@ -21,7 +21,7 @@ module Dry
         end
 
         def provide?(effect)
-          super && key?(effect.payload[0])
+          super && effect.name.equal?(:read) && key?(effect.payload[0])
         end
 
         def key?(key)

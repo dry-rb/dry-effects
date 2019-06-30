@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'dry/effects/handler'
+require 'dry/effects/effect'
 
 module Dry
   module Effects
     module Effects
       class Fork < ::Module
-        def initialize(identifier = Undefined)
-          fork = Effect.new(type: :fork, identifier: identifier)
+        Fork = Effect.new(type: :fork)
 
-          define_method(:fork) { |&block| ::Dry::Effects.yield(fork).(&block) }
+        def initialize
+          define_method(:fork) { |&block| ::Dry::Effects.yield(Fork).(&block) }
         end
       end
     end

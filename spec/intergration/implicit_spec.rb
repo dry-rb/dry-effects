@@ -34,10 +34,11 @@ RSpec.describe 'resolving implicits' do
   end
 
   context 'static implicits' do
-    include Dry::Effects::Handler.Implicit(:show, lookup_map: {
+    include Dry::Effects::Handler.Implicit(
+      :show,
       Integer => -> int { "<#{int}>" },
       String => -> str { str.inspect }
-    })
+    )
 
     example 'using static lookup' do
       shown = handle_implicit do

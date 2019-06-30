@@ -8,7 +8,7 @@ module Dry
       class Async < Provider[:async]
         option :tasks, default: -> { ::Hash.new }
 
-        include Dry::Equalizer(:identifier)
+        include Dry::Equalizer(:tasks)
 
         attr_reader :stack
 

@@ -32,11 +32,11 @@ module Dry
         def mixin(*args, **kwargs)
           handle_method = handle_method(**kwargs)
 
-          handler = Handler.new(self, [*args, kwargs])
+          handler = Handler.new(self, args, kwargs)
 
           ::Module.new do
-            define_method(handle_method) do |init = Undefined, &block|
-              handler.(init, &block)
+            define_method(handle_method) do |*args, **kwargs, &block|
+              handler.(args, kwargs, &block)
             end
           end
         end
