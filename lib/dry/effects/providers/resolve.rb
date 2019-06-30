@@ -12,51 +12,38 @@ module Dry
 
         include Dry::Equalizer(:container)
 
-        param :container
+        Locate = Effect.new(type: :resolve, name: :locate)
 
-        option :identifier, default: -> { Undefined }
+        param :container
 
         option :overridable, default: -> { false }
 
-        attr_reader :parent
-
-        attr_reader :index
-
-        def call(stack, index)
-          @index = index
-
+        option :parent, default: -> {
           if overridable
-            locate = Effect.new(
-              type: :resolve,
-              name: :locate,
-              payload: [index]
-            )
-            @parent = ::Dry::Effects.yield(locate) { nil }
-
-            super
+            ::Dry::Effects.yield(Locate) { nil }
           else
-            super
+            nil
           end
-        end
+        }
 
         def resolve(key)
-          if overridable && parent && parent.container.key?(key)
+          if parent && parent.container.key?(key)
             parent.resolve(key)
           else
             container.fetch(key)
           end
         end
 
-        def locate(_)
+        def locate
           self
         end
 
         def provide?(effect)
-          if type.equal?(effect.type)
+          if effect.type.equal?(:resolve)
             if effect.name.equal?(:resolve)
               key?(effect.identifier)
             else
-              effect.name.equal?(:locate) && index < effect.payload[0]
+              true
             end
           else
             false
@@ -64,7 +51,7 @@ module Dry
         end
 
         def key?(key)
-          container.key?(key)
+          container.key?(key) || parent && parent.key?(key)
         end
       end
     end
