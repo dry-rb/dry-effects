@@ -6,10 +6,8 @@ module Dry
   module Effects
     module Providers
       class Resolve < Provider[:resolve]
-        class << self
-          def handle_method(*, as: Undefined, **)
-            Undefined.default(as, :provide)
-          end
+        def self.handle_method(*, as: Undefined, **)
+          Undefined.default(as, :provide)
         end
 
         include Dry::Equalizer(:container)

@@ -32,20 +32,12 @@ module Dry
         def mixin(*args, **kwargs)
           handle_method = handle_method(**kwargs)
 
-          handler = handler(*args, **kwargs)
+          handler = Handler.new(self, [*args, kwargs])
 
           ::Module.new do
             define_method(handle_method) do |init = Undefined, &block|
               handler.(init, &block)
             end
-          end
-        end
-
-        def handler(*args, **kwargs)
-          if kwargs.empty?
-            Handler.new(self, args)
-          else
-            Handler.new(self, [*args, kwargs])
           end
         end
 
