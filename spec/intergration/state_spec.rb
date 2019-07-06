@@ -23,4 +23,25 @@ RSpec.describe 'handling state' do
     expect(state).to be(0)
     expect(result).to be(:done)
   end
+
+  context 'missing state' do
+    example 'with fallback' do
+      expect(counter { :fallback }).to be(:fallback)
+    end
+
+    example 'without fallback' do
+      expect { counter }.to raise_error(
+        Dry::Effects::Errors::MissingState,
+        /\+counter\+ is not set/
+      )
+    end
+  end
+
+  context 'default value' do
+    include Dry::Effects.State(:counter, default: :fallback)
+
+    example 'with no handler it returns default value' do
+      expect(counter).to be(:fallback)
+    end
+  end
 end
