@@ -9,11 +9,11 @@ module Dry
     module Providers
       class Lock < Provider[:lock]
         class Handle
+          include ::Dry::Equalizer(:key)
+
           extend Initializer
 
           param :key
-
-          include ::Dry::Equalizer(:key)
         end
 
         class Backend
@@ -51,9 +51,9 @@ module Dry
 
         Locate = Effect.new(type: :lock, name: :locate)
 
-        option :parent, default: -> { ::Dry::Effects.yield(Locate) { nil } }
-
         option :backend, default: -> { parent&.backend || Backend.new }
+
+        attr_reader :parent
 
         def lock(key)
           locked = backend.lock(key)
@@ -73,7 +73,10 @@ module Dry
           self
         end
 
-        def call(_, _)
+        def call(_, _ = Undefined)
+          unless defined?(@parent)
+            @parent = ::Dry::Effects.yield(Locate) { nil }
+          end
           super
         ensure
           owned.each { |handle| unlock(handle) }

@@ -37,25 +37,15 @@ module Dry
 
       extend Initializer
 
-      param :provider_type, default: -> { Undefined }
+      param :provider
 
-      param :provider_args, default: -> { EMPTY_ARRAY }
-
-      def call(initial = Undefined, &block)
-        if Undefined.equal?(initial)
-          provider = provider_type.new(*provider_args)
-        elsif provider_args.empty?
-          provider = provider_type.new(initial, EMPTY_HASH)
-        else
-          provider = provider_type.new(initial, *provider_args)
-        end
-
+      def call(init = Undefined, &block)
         stack = Handler.stack
 
         if stack.empty?
-          stack.push(provider) { Handler.spawn_fiber(stack, &block) }
+          stack.push(provider.dup, init) { Handler.spawn_fiber(stack, &block) }
         else
-          stack.push(provider, &block)
+          stack.push(provider.dup, init, &block)
         end
       end
     end

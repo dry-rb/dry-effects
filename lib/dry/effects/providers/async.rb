@@ -8,7 +8,7 @@ module Dry
       class Async < Provider[:async]
         option :tasks, default: -> { ::Hash.new }
 
-        include Dry::Equalizer(:identifier)
+        include Dry::Equalizer(:tasks)
 
         attr_reader :stack
 
@@ -20,7 +20,7 @@ module Dry
           Handler.spawn_fiber(stack, &@tasks.delete(task))
         end
 
-        def call(stack, _)
+        def call(stack, _ = Undefined)
           @stack = stack
           super
           nil

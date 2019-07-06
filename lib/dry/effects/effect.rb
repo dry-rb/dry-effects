@@ -8,15 +8,13 @@ module Dry
     class Effect
       extend Initializer
 
+      include ::Dry::Equalizer(:type, :name, :payload)
+
       option :type
 
       option :name, default: -> { type }
 
-      option :identifier, default: -> { Undefined }
-
       option :payload, default: -> { EMPTY_ARRAY }
-
-      include ::Dry::Equalizer(:type, :name, :identifier, :payload)
 
       def payload(*payload)
         if payload.empty?
@@ -25,10 +23,7 @@ module Dry
           with(payload: payload)
         end
       end
-
-      def with_identifier(identifier)
-        with(identifier: identifier)
-      end
+      alias_method :call, :payload
     end
   end
 end

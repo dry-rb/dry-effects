@@ -44,8 +44,8 @@ RSpec.describe 'handle interruption' do
     context 'same identifiers' do
       include Dry::Effects.Interrupt(:halt)
       include Dry::Effects.Interrupt(:raise)
-      include Dry::Effects::Handler.Interrupt(:halt)
-      include Dry::Effects::Handler.Interrupt(:raise)
+      include Dry::Effects::Handler.Interrupt(:halt, as: :handle_halt)
+      include Dry::Effects::Handler.Interrupt(:raise, as: :handle_raise)
 
       example 'handling within inner block' do
         outer = handle_halt do

@@ -6,22 +6,22 @@ module Dry
   module Effects
     module Effects
       class Defer < ::Module
-        def initialize(identifier = Undefined)
-          defer = Effect.new(type: :defer, name: :defer, identifier: identifier)
-          later = Effect.new(type: :defer, name: :later, identifier: identifier)
-          wait = Effect.new(type: :defer, name: :wait, identifier: identifier)
+        Defer = Effect.new(type: :defer, name: :defer)
+        Later = Effect.new(type: :defer, name: :later)
+        Wait = Effect.new(type: :defer, name: :wait)
 
+        def initialize
           module_eval do
             define_method(:defer) do |&block|
-              ::Dry::Effects.yield(defer.payload(block))
+              ::Dry::Effects.yield(Defer.(block))
             end
 
             define_method(:wait) do |promises|
-              ::Dry::Effects.yield(wait.payload(promises))
+              ::Dry::Effects.yield(Wait.(promises))
             end
 
             define_method(:later) do |&block|
-              ::Dry::Effects.yield(later.payload(block))
+              ::Dry::Effects.yield(Later.(block))
             end
           end
         end

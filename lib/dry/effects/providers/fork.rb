@@ -12,7 +12,7 @@ module Dry
           -> &cont { Handler.spawn_fiber(stack.dup, &cont) }
         end
 
-        def call(stack, _)
+        def call(stack, _ = Undefined)
           @stack = stack
           yield
         end

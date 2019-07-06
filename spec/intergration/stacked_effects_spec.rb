@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'stacked effects' do
   context 'different effect types' do
     include Dry::Effects.Random
@@ -49,9 +51,9 @@ RSpec.describe 'stacked effects' do
       end
 
       example do
-        accumulated_state = handle_counter(0) do
+        accumulated_state = handle_state(0) do
           self.counter += 1
-          handle_counter(10) do
+          handle_state(10) do
             self.counter += 30
             :result
           ensure
@@ -70,8 +72,8 @@ RSpec.describe 'stacked effects' do
     before do
       extend Dry::Effects.Amb(:feature)
       extend Dry::Effects.Interrupt(:stop)
-      extend Dry::Effects::Handler.Amb(:feature)
-      extend Dry::Effects::Handler.Interrupt(:stop)
+      extend Dry::Effects::Handler.Amb(:feature, as: :handle_feature)
+      extend Dry::Effects::Handler.Interrupt(:stop, as: :handle_stop)
     end
 
     example 'amb,interrupt' do
@@ -85,7 +87,7 @@ RSpec.describe 'stacked effects' do
     context 'more nesting' do
       before do
         extend Dry::Effects.Amb(:feature2)
-        extend Dry::Effects::Handler.Amb(:feature2)
+        extend Dry::Effects::Handler.Amb(:feature2, as: :handle_feature2)
       end
 
       example 'interrupt,amb' do
@@ -171,13 +173,13 @@ RSpec.describe 'stacked effects' do
     end
 
     example 'async : state' do
-      result = handle_async { handle_counter(100) { program } }
+      result = handle_async { handle_state(100) { program } }
       expect(outputs).to eql([110, 120, 130])
       expect(result).to be_nil
     end
 
     example 'state : async' do
-      result = handle_counter(100) { handle_async { program } }
+      result = handle_state(100) { handle_async { program } }
       expect(outputs).to eql([110, 120, 130])
       expect(result).to eql([130, nil])
     end

@@ -6,29 +6,32 @@ module Dry
   module Effects
     module Providers
       class State < Provider[:state]
-        def self.mixin(identifier, **kwargs)
-          super(identifier: identifier, **kwargs)
-        end
+        include Dry::Equalizer(:scope, :state)
 
-        include Dry::Equalizer(:identifier, :state)
+        attr_reader :state
 
-        param :state
+        param :scope
 
         def read
-          @state
+          state
         end
 
         def write(value)
           @state = value
         end
 
-        def call(*)
+        def call(_stack, state = @state.dup)
+          @state = state
           r = super
           [@state, r]
         end
 
         def represent
-          "#{super}(#{@state})"
+          "#{super}(#{state})"
+        end
+
+        def provide?(effect)
+          super && scope.equal?(effect.scope)
         end
       end
     end

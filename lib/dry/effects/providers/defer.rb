@@ -9,6 +9,8 @@ module Dry
       class Defer < Provider[:defer]
         option :executor, default: -> { :io }
 
+        include Dry::Equalizer(:executor)
+
         attr_reader :later_calls
 
         attr_reader :stack
@@ -36,7 +38,7 @@ module Dry
           end
         end
 
-        def call(stack, _)
+        def call(stack, _ = Undefined)
           @stack = stack
           @later_calls = []
           super

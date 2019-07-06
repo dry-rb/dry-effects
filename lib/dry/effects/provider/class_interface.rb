@@ -32,7 +32,8 @@ module Dry
         def mixin(*args, **kwargs)
           handle_method = handle_method(**kwargs)
 
-          handler = handler(*args, **kwargs)
+          provider = new(*args, **kwargs).freeze
+          handler = Handler.new(provider)
 
           ::Module.new do
             define_method(handle_method) do |init = Undefined, &block|
@@ -41,22 +42,8 @@ module Dry
           end
         end
 
-        def handler(*args, **kwargs)
-          if kwargs.empty?
-            Handler.new(self, args)
-          else
-            Handler.new(self, [*args, kwargs])
-          end
-        end
-
-        def handle_method(identifier: Undefined, as: Undefined, **)
-          Undefined.default(as) do
-            if Undefined.equal?(identifier)
-              :"handle_#{type}"
-            else
-              :"handle_#{identifier}"
-            end
-          end
+        def handle_method(as: Undefined, **)
+          Undefined.default(as) { :"handle_#{type}" }
         end
       end
     end

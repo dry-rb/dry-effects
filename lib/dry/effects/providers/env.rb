@@ -6,11 +6,13 @@ module Dry
   module Effects
     module Providers
       class Env < Provider[:env]
-        param :values, default: -> { EMPTY_HASH }
+        include Dry::Equalizer(:values)
+
+        attr_reader :values
 
         option :overridable, default: -> { false }
 
-        def env(key)
+        def read(key)
           values.fetch(key) do
             if key.is_a?(::String)
               ::ENV.fetch(key)
@@ -20,8 +22,13 @@ module Dry
           end
         end
 
+        def call(_stack, values = Undefined)
+          @values = Undefined.default(values, EMPTY_HASH)
+          super
+        end
+
         def provide?(effect)
-          super && key?(effect.payload[0])
+          super && effect.name.equal?(:read) && key?(effect.payload[0])
         end
 
         def key?(key)

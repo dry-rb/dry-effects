@@ -2,7 +2,7 @@
 
 RSpec.describe 'resolving dependencies' do
   include Dry::Effects.Resolve(:foo, :bar)
-  include Dry::Effects::Handler.Resolve(:foo, :bar)
+  include Dry::Effects::Handler.Resolve
 
   example 'passing dependencies' do
     result = provide(foo: 10, bar: 30) do
@@ -25,7 +25,7 @@ RSpec.describe 'resolving dependencies' do
   context 'overriding' do
     it 'uses externally provided dependencies' do
       result = provide(foo: 10) do
-        extend Dry::Effects::Handler.Resolve(:foo, :bar, overridable: true)
+        extend Dry::Effects::Handler.Resolve({}, overridable: true)
 
         provide(foo: 20) do
           foo

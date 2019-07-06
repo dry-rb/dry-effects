@@ -6,31 +6,30 @@ module Dry
   module Effects
     module Providers
       class Amb < Provider[:amb]
-        include Dry::Equalizer(:identifier)
+        include Dry::Equalizer(:id, :value)
 
-        def self.mixin(identifier, **kwargs)
-          super(identifier: identifier, **kwargs)
-        end
+        attr_reader :value
 
-        option :identifier
-
-        def initialize(*)
-          super
-          @value = false
-        end
+        param :id
 
         def get
-          @value
+          value
         end
 
-        def call(_, _)
-          first = yield
-          @value = true
-          [first, yield]
+        def call(_, value = Undefined)
+          @value = Undefined.default(value, false)
+
+          if @value.equal?(false)
+            first = yield
+            @value = true
+            [first, yield]
+          else
+            [first, yield]
+          end
         end
 
         def provide?(effect)
-          super && identifier.equal?(effect.identifier)
+          super && id.equal?(effect.id)
         end
       end
     end

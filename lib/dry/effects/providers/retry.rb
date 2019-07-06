@@ -7,29 +7,28 @@ module Dry
   module Effects
     module Providers
       class Retry < Provider[:retry]
-        def self.mixin(identifier, **kwargs)
-          super(identifier: identifier, **kwargs)
-        end
+        include Dry::Equalizer(:scope, :limit, :attempts)
 
-        param :limit
+        param :scope
 
-        option :identifier
+        attr_reader :attempts
 
-        option :repeat_signal, default: lambda {
-          :"effect_retry_repeat_#{identifier}"
-        }
+        attr_reader :limit
 
-        option :attempts, default: -> { 0 }
+        def call(_, limit = Undefined)
+          unless Undefined.equal?(limit)
+            @limit = limit
+            @attempts = 0
+          end
 
-        def call(_, _)
           loop do
             return attempt { yield }
-          rescue Halt[repeat_signal]
+          rescue halt
           end
         end
 
         def repeat
-          Instructions.Raise(Halt[repeat_signal].new)
+          Instructions.Raise(halt.new)
         end
 
         def attempt
@@ -42,7 +41,15 @@ module Dry
         end
 
         def attempts_exhausted?
-          @attempts.equal?(limit)
+          attempts.equal?(limit)
+        end
+
+        def halt
+          Halt[scope]
+        end
+
+        def provide?(effect)
+          super && scope.equal?(effect.scope)
         end
       end
     end

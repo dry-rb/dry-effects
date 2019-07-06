@@ -23,16 +23,17 @@ module Dry
         Instructions::Raise.new(e)
       end
 
-      def push(provider)
-        idx = size
-        providers.unshift(provider)
-        provider.(self, idx) { yield }
-      ensure
-        providers.shift
+      def push(provider, arg)
+        provider.(self, arg) do
+          providers.unshift(provider)
+          yield
+        ensure
+          providers.shift
+        end
       end
 
       def with_stack(&block)
-        providers.map.with_index { |p, i| -> &b { p.(self, i, &b) } }.reduce(:>>).(&block)
+        providers.map { |p| -> &b { p.(self, &b) } }.reduce(:>>).(&block)
       end
 
       def provider(effect)

@@ -6,10 +6,16 @@ module Dry
   module Effects
     module Effects
       class Retry < ::Module
+        class RetryEffect < Effect
+          include ::Dry::Equalizer(:type, :name, :payload, :scope)
+
+          option :scope
+        end
+
         def initialize
           module_eval do
-            define_method(:repeat) do |identifier|
-              effect = Effect.new(type: :retry, name: :repeat, identifier: identifier)
+            define_method(:repeat) do |scope|
+              effect = RetryEffect.new(type: :retry, name: :repeat, scope: scope)
               ::Dry::Effects.yield(effect)
             end
           end

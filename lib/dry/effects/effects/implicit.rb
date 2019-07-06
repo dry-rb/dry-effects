@@ -6,12 +6,16 @@ module Dry
   module Effects
     module Effects
       class Implicit < ::Module
-        def initialize(method)
-          lookup = Effect.new(type: :implicit, identifier: method)
+        class ImplicitEffect < Effect
+          option :dependency
+        end
+
+        def initialize(dependency)
+          lookup = ImplicitEffect.new(type: :implicit, dependency: dependency)
 
           module_eval do
-            define_method(method) do |*args|
-              ::Dry::Effects.yield(lookup.payload(args[0])).(*args)
+            define_method(dependency) do |*args|
+              ::Dry::Effects.yield(lookup.(args[0])).(*args)
             end
           end
         end

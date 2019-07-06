@@ -56,7 +56,7 @@ RSpec.describe 'locking' do
 
     handle_lock do
       lock(:foo) do
-        locked_inner = handle_lock do
+        handle_lock do
           lock(:foo) do
             locked << locked?(:foo)
           end

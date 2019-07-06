@@ -6,11 +6,12 @@ module Dry
   module Effects
     module Effects
       class Resolve < ::Module
+        Resolve = Effect.new(type: :resolve)
+
         def initialize(*keys)
           module_eval do
             keys.each do |key|
-              effect = Effect.new(type: :resolve, identifier: key, payload: [key])
-              define_method(key) { |&block| ::Dry::Effects.yield(effect, &block) }
+              define_method(key) { |&block| ::Dry::Effects.yield(Resolve.(key), &block) }
             end
           end
         end

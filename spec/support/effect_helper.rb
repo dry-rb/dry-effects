@@ -1,14 +1,8 @@
 # frozen_string_literal: true
 
 module EffectHelper
-  def effect(type, name, identifier, *payload)
-    Dry::Effects::Effect.new(
-      type: type, name: name, identifier: identifier, payload: payload
-    )
-  end
-
-  def make_handler(type, identifier = Dry::Effects::Undefined)
-    provider = Dry::Effects.providers[type]
-    Dry::Effects::Handler.new(provider, [identifier: identifier])
+  def make_handler(type, *args, **kwargs)
+    provider = Dry::Effects.providers[type].new(*args, **kwargs)
+    Dry::Effects::Handler.new(provider)
   end
 end
