@@ -7,9 +7,9 @@ module Dry
   module Effects
     module Providers
       class Defer < Provider[:defer]
-        option :executor, default: -> { :io }
-
         include Dry::Equalizer(:executor)
+
+        option :executor, default: -> { :io }
 
         attr_reader :later_calls
 
@@ -38,10 +38,14 @@ module Dry
           end
         end
 
-        def call(stack)
+        def call(stack, executor: Undefined)
+          unless Undefined.equal?(executor)
+            @executor = executor
+          end
+
           @stack = stack
           @later_calls = []
-          super
+          super(stack)
         ensure
           later_calls.each(&:execute)
         end
