@@ -7,12 +7,20 @@ module Dry
   module Effects
     module Providers
       class Retry < Provider[:retry]
+        include Dry::Equalizer(:scope, :limit, :attempts)
+
         param :scope
 
-        param :limit
+        attr_reader :attempts
 
-        def call(_, _)
-          @attempts = 0
+        attr_reader :limit
+
+        def call(_, limit = Undefined)
+          unless Undefined.equal?(limit)
+            @limit = limit
+            @attempts = 0
+          end
+
           loop do
             return attempt { yield }
           rescue halt
@@ -33,7 +41,7 @@ module Dry
         end
 
         def attempts_exhausted?
-          @attempts.equal?(limit)
+          attempts.equal?(limit)
         end
 
         def halt

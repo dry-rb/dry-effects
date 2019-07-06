@@ -9,7 +9,7 @@ module Dry
       extend Initializer
       extend ClassInterface
 
-      def call(_stack, _index)
+      def call(_stack, _ = Undefined)
         yield
       end
 

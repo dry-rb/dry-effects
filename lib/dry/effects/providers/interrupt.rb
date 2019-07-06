@@ -14,7 +14,7 @@ module Dry
           Instructions.Raise(halt.new(payload))
         end
 
-        def call(_, _)
+        def call(_, _ = Undefined)
           yield
         rescue halt => e
           e.payload[0]

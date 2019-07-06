@@ -10,21 +10,15 @@ module Dry
           Undefined.default(as, :provide)
         end
 
-        include Dry::Equalizer(:container)
+        include Dry::Equalizer(:container, :parent, :overridable)
 
         Locate = Effect.new(type: :resolve, name: :locate)
 
-        param :container
+        param :container, default: -> { EMPTY_HASH }
 
         option :overridable, default: -> { false }
 
-        option :parent, default: -> {
-          if overridable
-            ::Dry::Effects.yield(Locate) { nil }
-          else
-            nil
-          end
-        }
+        attr_reader :parent
 
         def resolve(key)
           if parent && parent.container.key?(key)
@@ -36,6 +30,19 @@ module Dry
 
         def locate
           self
+        end
+
+        def call(_stack, container = EMPTY_HASH)
+          unless container.empty?
+            @container = @container.merge(container)
+          end
+
+          if overridable
+            @parent = ::Dry::Effects.yield(Locate) { nil }
+          else
+            @parent = nil
+          end
+          super
         end
 
         def provide?(effect)

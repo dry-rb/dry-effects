@@ -6,27 +6,28 @@ module Dry
   module Effects
     module Providers
       class State < Provider[:state]
-        include Dry::Equalizer(:state)
+        include Dry::Equalizer(:scope, :state)
+
+        attr_reader :state
 
         param :scope
 
-        param :state
-
         def read
-          @state
+          state
         end
 
         def write(value)
           @state = value
         end
 
-        def call(*)
+        def call(_stack, state = @state.dup)
+          @state = state
           r = super
           [@state, r]
         end
 
         def represent
-          "#{super}(#{@state})"
+          "#{super}(#{state})"
         end
 
         def provide?(effect)

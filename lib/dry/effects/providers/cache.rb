@@ -6,11 +6,11 @@ module Dry
   module Effects
     module Providers
       class Cache < Provider[:cache]
+        include Dry::Equalizer(:scope, :cache)
+
         param :scope
 
-        option :cache, default: -> { ::Hash.new }
-
-        include Dry::Equalizer(:scope, :cache)
+        attr_reader :cache
 
         def fetch_or_store(key, block)
           if cache.key?(key)
@@ -18,6 +18,11 @@ module Dry
           else
             cache[key] = block.call
           end
+        end
+
+        def call(_, cache = Undefined)
+          @cache = Undefined.default(cache) { ::Hash.new }
+          super
         end
 
         def provide?(effect)

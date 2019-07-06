@@ -6,7 +6,9 @@ module Dry
   module Effects
     module Providers
       class Env < Provider[:env]
-        param :values, default: -> { EMPTY_HASH }
+        include Dry::Equalizer(:values)
+
+        attr_reader :values
 
         option :overridable, default: -> { false }
 
@@ -18,6 +20,11 @@ module Dry
               raise ::KeyError.new(key)
             end
           end
+        end
+
+        def call(_stack, values = Undefined)
+          @values = Undefined.default(values, EMPTY_HASH)
+          super
         end
 
         def provide?(effect)

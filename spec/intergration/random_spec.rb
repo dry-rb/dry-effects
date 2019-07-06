@@ -9,8 +9,8 @@ RSpec.describe 'handling random' do
 
   context 'with custom provider' do
     let(:provider) do
-      Class.new(Dry::Effects::Provider[:random]) do
-        param :seed
+      Class.new(Dry::Effects::Provider[:random]) {
+        attr_reader :seed
 
         def rand(modulo)
           n = seed % modulo
@@ -22,19 +22,24 @@ RSpec.describe 'handling random' do
           result
         end
 
+        def call(_, seed = @seed)
+          @seed = seed
+          super
+        end
+
         private
 
         def shift
           @seed = seed % 1000 + seed / 1000
         end
-      end
+      }.new.freeze
     end
 
     context 'seed = 10' do
       let(:seed) { 121 }
 
       example 'getting random values' do
-        result = handler.([seed]) do
+        result = handler.(seed) do
           [rand(5), rand(9)]
         end
 

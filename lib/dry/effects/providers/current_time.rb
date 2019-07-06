@@ -6,10 +6,15 @@ module Dry
   module Effects
     module Providers
       class CurrentTime < Provider[:current_time]
-        param :time, default: -> { Undefined }
+        attr_reader :time
+
+        def call(_stack, time = Undefined)
+          @time = time
+          super
+        end
 
         def current_time
-          Undefined.default(time) { Time.now }
+          Undefined.default(time) { ::Time.now }
         end
       end
     end

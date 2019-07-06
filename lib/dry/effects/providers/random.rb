@@ -6,8 +6,6 @@ module Dry
   module Effects
     module Providers
       class Random < Provider[:random]
-        param :seed, default: -> { Undefined }
-
         public :rand
       end
     end

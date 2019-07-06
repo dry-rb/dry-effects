@@ -7,6 +7,8 @@ module Dry
     module Effects
       class Retry < ::Module
         class RetryEffect < Effect
+          include ::Dry::Equalizer(:type, :name, :payload, :scope)
+
           option :scope
         end
 

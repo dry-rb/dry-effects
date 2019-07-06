@@ -6,18 +6,26 @@ module Dry
   module Effects
     module Providers
       class Implicit < Provider[:implicit]
-        include Dry::Equalizer(:name, :dictionary)
+        include Dry::Equalizer(:name, :static, :dictionary)
 
         param :dependency
 
         param :static, default: -> { EMPTY_HASH }
 
-        param :dynamic, default: -> { EMPTY_HASH }
-
-        option :dictionary, default: -> { static.empty? ? dynamic : static.merge(dynamic) }
+        attr_reader :dictionary
 
         def implicit(arg)
           dictionary.fetch(arg.class)
+        end
+
+        def call(_stack, dynamic = Undefined)
+          if Undefined.equal?(dynamic) || dynamic.empty?
+            @dictionary = static
+          else
+            @dictionary = static.merge(dynamic)
+          end
+
+          super
         end
 
         def provide?(effect)

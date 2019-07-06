@@ -8,19 +8,24 @@ module Dry
       class Amb < Provider[:amb]
         include Dry::Equalizer(:id, :value)
 
-        param :id
-
         attr_reader :value
+
+        param :id
 
         def get
           value
         end
 
-        def call(_, _)
-          @value = false
-          first = yield
-          @value = true
-          [first, yield]
+        def call(_, value = Undefined)
+          @value = Undefined.default(value, false)
+
+          if @value.equal?(false)
+            first = yield
+            @value = true
+            [first, yield]
+          else
+            [first, yield]
+          end
         end
 
         def provide?(effect)
