@@ -13,13 +13,13 @@ RSpec.describe 'forking' do
         self.counter += 1
         fork do
           self.counter += 10
-          :done
+          [:done, self.counter]
         end
       ensure
         self.counter += 1
       end
     end
 
-    expect(result).to eql([2, :done])
+    expect(result).to eql([2, [:done, 11]])
   end
 end
