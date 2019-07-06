@@ -32,10 +32,6 @@ module Dry
         end
       end
 
-      def with_stack(&block)
-        providers.map { |p| -> &b { p.(self, &b) } }.reduce(:>>).(&block)
-      end
-
       def provider(effect)
         find { |p| p.provide?(effect) }
       end

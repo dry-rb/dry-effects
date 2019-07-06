@@ -62,7 +62,7 @@ RSpec.describe Dry::Effects::Stack do
 
     it 'creates a copy of a stack' do
       chars_provider.write(200)
-      copy.with_stack { expect(copy.(read_chars)).to eql(100) }
+      expect(copy.(read_chars)).to eql(100)
     end
   end
 end
