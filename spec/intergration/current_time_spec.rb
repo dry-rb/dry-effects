@@ -3,36 +3,53 @@
 require 'dry/effects/handler'
 
 RSpec.describe 'handling current time' do
-  include Dry::Effects::Handler.CurrentTime
   include Dry::Effects.CurrentTime
 
-  context 'with default provider' do
-    context 'with not fixed time' do
-      example 'getting current timme' do
-        before, after = handle_current_time do
-          before = current_time
-          sleep 0.01
-          after = current_time
+  context 'with fixed time' do
+    include Dry::Effects::Handler.CurrentTime
 
-          [before, after]
-        end
+    example 'getting current timme' do
+      before, after = handle_current_time do
+        before = current_time
+        sleep 0.01
+        after = current_time
 
-        expect(before).to be < after
+        [before, after]
       end
+
+      expect(before).to be(after)
     end
+  end
 
-    context 'with fixed time' do
-      example 'getting fixed time' do
-        before, after = handle_current_time(Time.now) do
-          before = current_time
-          sleep 0.01
-          after = current_time
+  context 'with provided time' do
+    include Dry::Effects::Handler.CurrentTime
 
-          [before, after]
-        end
+    example 'getting fixed time' do
+      before, after = handle_current_time(Time.now) do
+        before = current_time
+        sleep 0.01
+        after = current_time
 
-        expect(before).to be(after)
+        [before, after]
       end
+
+      expect(before).to be(after)
+    end
+  end
+
+  context 'with changing time' do
+    include Dry::Effects::Handler.CurrentTime(fixed: false)
+
+    example 'getting current timme' do
+      before, after = handle_current_time do
+        before = current_time
+        sleep 0.01
+        after = current_time
+
+        [before, after]
+      end
+
+      expect(before).to be < after
     end
   end
 end
