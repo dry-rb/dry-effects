@@ -12,7 +12,7 @@ module Dry
           option :scope
         end
 
-        def initialize(scope, default: Undefined)
+        def initialize(scope, default: Undefined, writer: true)
           read = StateEffect.new(type: :state, name: :read, scope: scope)
           write = StateEffect.new(type: :state, name: :write, scope: scope)
 
@@ -29,8 +29,10 @@ module Dry
               end
             end
 
-            define_method(:"#{scope}=") do |value|
-              ::Dry::Effects.yield(write.(value))
+            if writer
+              define_method(:"#{scope}=") do |value|
+                ::Dry::Effects.yield(write.(value))
+              end
             end
           end
         end

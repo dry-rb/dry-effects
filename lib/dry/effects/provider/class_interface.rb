@@ -25,8 +25,18 @@ module Dry
 
         include Core::ClassAttributes
 
+        attr_reader :effects
+
         def [](type)
-          @effects[type]
+          if self < Provider
+            Provider.effects.fetch(type) do
+              Provider.effects[type] = Class.new(self).tap do |subclass|
+                subclass.type type
+              end
+            end
+          else
+            @effects[type]
+          end
         end
 
         def mixin(*args, **kwargs)
