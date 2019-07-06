@@ -18,14 +18,14 @@ module Dry
           dictionary.fetch(arg.class)
         end
 
-        def call(_stack, dynamic = Undefined)
-          if Undefined.equal?(dynamic) || dynamic.empty?
+        def call(stack, dynamic = EMPTY_HASH)
+          if dynamic.empty?
             @dictionary = static
           else
             @dictionary = static.merge(dynamic)
           end
 
-          super
+          super(stack)
         end
 
         def provide?(effect)

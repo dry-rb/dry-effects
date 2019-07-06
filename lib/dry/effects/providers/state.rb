@@ -20,9 +20,9 @@ module Dry
           @state = value
         end
 
-        def call(_stack, state = @state.dup)
+        def call(stack, state)
           @state = state
-          r = super
+          r = super(stack)
           [@state, r]
         end
 

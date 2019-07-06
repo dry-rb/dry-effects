@@ -16,16 +16,11 @@ module Dry
           value
         end
 
-        def call(_, value = Undefined)
-          @value = Undefined.default(value, false)
-
-          if @value.equal?(false)
-            first = yield
-            @value = true
-            [first, yield]
-          else
-            [first, yield]
-          end
+        def call(_)
+          @value = false
+          first = yield
+          @value = true
+          [first, yield]
         end
 
         def provide?(effect)

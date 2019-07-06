@@ -15,11 +15,9 @@ module Dry
 
         attr_reader :limit
 
-        def call(_, limit = Undefined)
-          unless Undefined.equal?(limit)
-            @limit = limit
-            @attempts = 0
-          end
+        def call(_, limit)
+          @limit = limit
+          @attempts = 0
 
           loop do
             return attempt { yield }

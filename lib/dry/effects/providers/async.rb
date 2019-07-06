@@ -20,7 +20,7 @@ module Dry
           Handler.spawn_fiber(stack, &@tasks.delete(task))
         end
 
-        def call(stack, _ = Undefined)
+        def call(stack)
           @stack = stack
           super
           nil

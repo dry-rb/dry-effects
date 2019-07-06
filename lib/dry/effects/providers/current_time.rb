@@ -8,9 +8,9 @@ module Dry
       class CurrentTime < Provider[:current_time]
         attr_reader :time
 
-        def call(_stack, time = Undefined)
+        def call(stack, time = Undefined)
           @time = time
-          super
+          super(stack)
         end
 
         def current_time

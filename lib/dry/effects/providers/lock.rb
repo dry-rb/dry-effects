@@ -73,10 +73,8 @@ module Dry
           self
         end
 
-        def call(_, _ = Undefined)
-          unless defined?(@parent)
-            @parent = ::Dry::Effects.yield(Locate) { nil }
-          end
+        def call(_)
+          @parent = ::Dry::Effects.yield(Locate) { nil }
           super
         ensure
           owned.each { |handle| unlock(handle) }

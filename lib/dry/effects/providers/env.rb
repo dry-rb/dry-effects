@@ -22,9 +22,9 @@ module Dry
           end
         end
 
-        def call(_stack, values = Undefined)
-          @values = Undefined.default(values, EMPTY_HASH)
-          super
+        def call(stack, values = EMPTY_HASH)
+          @values = values
+          super(stack)
         end
 
         def provide?(effect)

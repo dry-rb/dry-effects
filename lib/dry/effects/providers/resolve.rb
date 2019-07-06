@@ -32,7 +32,7 @@ module Dry
           self
         end
 
-        def call(_stack, container = EMPTY_HASH)
+        def call(stack, container = EMPTY_HASH)
           unless container.empty?
             @container = @container.merge(container)
           end
@@ -42,7 +42,8 @@ module Dry
           else
             @parent = nil
           end
-          super
+
+          super(stack)
         end
 
         def provide?(effect)

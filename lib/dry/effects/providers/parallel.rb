@@ -24,7 +24,7 @@ module Dry
           xs.map(&:value!)
         end
 
-        def call(stack, _ = Undefined)
+        def call(stack)
           @stack = stack
           super
         end

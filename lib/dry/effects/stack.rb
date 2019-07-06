@@ -23,8 +23,8 @@ module Dry
         Instructions::Raise.new(e)
       end
 
-      def push(provider, arg)
-        provider.(self, arg) do
+      def push(provider, args)
+        provider.(self, *args) do
           providers.unshift(provider)
           yield
         ensure

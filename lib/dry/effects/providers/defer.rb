@@ -38,7 +38,7 @@ module Dry
           end
         end
 
-        def call(stack, _ = Undefined)
+        def call(stack)
           @stack = stack
           @later_calls = []
           super

@@ -39,13 +39,13 @@ module Dry
 
       param :provider
 
-      def call(init = Undefined, &block)
+      def call(args = EMPTY_ARRAY, &block)
         stack = Handler.stack
 
         if stack.empty?
-          stack.push(provider.dup, init) { Handler.spawn_fiber(stack, &block) }
+          stack.push(provider.dup, args) { Handler.spawn_fiber(stack, &block) }
         else
-          stack.push(provider.dup, init, &block)
+          stack.push(provider.dup, args, &block)
         end
       end
     end

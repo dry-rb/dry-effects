@@ -21,9 +21,9 @@ module Dry
           end
         end
 
-        def call(_, cache = Undefined)
-          @cache = Undefined.default(cache) { ::Hash.new }
-          super
+        def call(stack, cache = EMPTY_HASH.dup)
+          @cache = cache
+          super(stack)
         end
 
         def provide?(effect)
