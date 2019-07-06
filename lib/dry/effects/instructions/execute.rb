@@ -5,20 +5,20 @@ require 'dry/effects/instruction'
 module Dry
   module Effects
     module Instructions
-      class Raise < Instruction
-        attr_reader :error
+      class Execute < Instruction
+        attr_reader :block
 
-        def initialize(error)
-          @error = error
+        def initialize(block)
+          @block = block
         end
 
         def call
-          raise error
+          block.call
         end
       end
 
-      def self.Raise(error)
-        Raise.new(error)
+      def self.Execute(&block)
+        Execute.new(block)
       end
     end
   end

@@ -184,4 +184,33 @@ RSpec.describe 'stacked effects' do
       expect(result).to eql([130, nil])
     end
   end
+
+  context 'cache + state' do
+    include Dry::Effects::Handler.State(:counter)
+    include Dry::Effects::Handler.Cache(:counter_values)
+    include Dry::Effects.State(:counter)
+    include Dry::Effects.Cache(:counter_values)
+
+    example 'cache : state' do
+      calls = 0
+
+      result = handle_cache do
+        Array.new(2) do |i|
+          handle_state(0) do
+            Array.new(3) do
+              counter_values(i) do
+                calls += 1
+                counter
+              end
+            end
+
+            self.counter += 1
+          end
+        end
+      end
+
+      expect(calls).to eql(2)
+      expect(result).to eql([[1, 1], [1, 1]])
+    end
+  end
 end

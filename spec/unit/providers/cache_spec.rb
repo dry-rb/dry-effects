@@ -9,7 +9,9 @@ RSpec.describe Dry::Effects::Providers::Cache do
 
   describe '#fetch_or_store' do
     it 'returns caches result' do
-      expect(cache.fetch_or_store([1, 2, 3], -> { :foo })).to be(:foo)
+      missing = cache.fetch_or_store([1, 2, 3], -> { :foo })
+
+      expect(missing.call).to be(:foo)
       expect(cache.fetch_or_store([1, 2, 3], -> { :bar })).to be(:foo)
     end
   end

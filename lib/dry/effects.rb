@@ -22,7 +22,7 @@ module Dry
         result = ::Fiber.yield(effect)
 
         if result.is_a?(Instruction)
-          process_instruction(result)
+          result.()
         else
           result
         end
@@ -31,15 +31,6 @@ module Dry
           yield
         else
           raise Errors::UnhandledEffect, effect
-        end
-      end
-
-      def process_instruction(instruction)
-        case instruction
-        when Instructions::Raise
-          raise instruction.error
-        else
-          raise ArgumentError, "Unknown instruction: #{instruction.inspect}"
         end
       end
     end

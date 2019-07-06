@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/effects/provider'
+require 'dry/effects/instructions/execute'
 
 module Dry
   module Effects
@@ -16,7 +17,7 @@ module Dry
           if cache.key?(key)
             cache[key]
           else
-            cache[key] = block.call
+            Instructions.Execute { cache[key] = block.call }
           end
         end
 
