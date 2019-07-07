@@ -9,7 +9,7 @@ RSpec.describe Dry::Effects::Providers::Defer do
 
   describe '#dup' do
     it "prevents subsequent #later calls because it's not safe" do
-      expect { defer.dup.later(double(:effect)).() }.to raise_error(
+      expect { defer.dup.later(double(:effect), double(:executor)).() }.to raise_error(
         Dry::Effects::Errors::EffectRejected,
         /\.later calls are not allowed/
       )

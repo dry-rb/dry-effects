@@ -90,4 +90,38 @@ RSpec.describe 'defer effects' do
       end
     end
   end
+
+  describe 'passing executor via context' do
+    let(:executor) { CaptureExecutor.new }
+
+    include Dry::Effects::Handler.Defer(executor: :immediate)
+
+    context 'with later' do
+      it 'uses passed executor' do
+        called = false
+
+        handle_defer do
+          later(executor: executor) { called = true }
+        end
+
+        expect(called).to be(false)
+        executor.run_all
+        expect(called).to be(true)
+      end
+    end
+
+    context 'with defer' do
+      it 'uses passed executor' do
+        called = false
+
+        handle_defer do
+          defer(executor: executor) { called = true }
+        end
+
+        expect(called).to be(false)
+        executor.run_all
+        expect(called).to be(true)
+      end
+    end
+  end
 end

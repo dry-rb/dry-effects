@@ -15,22 +15,24 @@ module Dry
 
         attr_reader :stack
 
-        def defer(block)
+        def defer(block, executor)
           stack = self.stack.dup
-          ::Concurrent::Promise.execute(executor: executor) do
+          at = Undefined.default(executor, self.executor)
+          ::Concurrent::Promise.execute(executor: at) do
             Handler.spawn_fiber(stack, &block)
           end
         end
 
-        def later(block)
+        def later(block, executor)
           if @later_calls.frozen?
             Instructions.Raise(Errors::EffectRejected.new(<<~MSG))
               .later calls are not allowed, they would processed
               by another stack. Add another defer handler to the current stack
             MSG
           else
+            at = Undefined.default(executor, self.executor)
             stack = self.stack.dup
-            @later_calls << ::Concurrent::Promise.new(executor: executor) do
+            @later_calls << ::Concurrent::Promise.new(executor: at) do
               Handler.spawn_fiber(stack, &block)
             end
             nil
