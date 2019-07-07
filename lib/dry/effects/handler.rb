@@ -5,6 +5,7 @@ require 'dry/effects/initializer'
 require 'dry/effects/effect'
 require 'dry/effects/errors'
 require 'dry/effects/stack'
+require 'dry/effects/instructions/raise'
 
 module Dry
   module Effects
@@ -28,7 +29,11 @@ module Dry
           loop do
             break result unless fiber.alive?
 
-            provided = stack.(result) { ::Dry::Effects.yield(result) }
+            provided = stack.(result) do
+              ::Dry::Effects.yield(result) do |_, error|
+                Instructions.Raise(error)
+              end
+            end
 
             result = fiber.resume(provided)
           end
