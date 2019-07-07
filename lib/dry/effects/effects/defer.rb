@@ -12,16 +12,16 @@ module Dry
 
         def initialize
           module_eval do
-            define_method(:defer) do |&block|
-              ::Dry::Effects.yield(Defer.(block))
+            define_method(:defer) do |executor: Undefined, &block|
+              ::Dry::Effects.yield(Defer.(block, executor))
             end
 
             define_method(:wait) do |promises|
               ::Dry::Effects.yield(Wait.(promises))
             end
 
-            define_method(:later) do |&block|
-              ::Dry::Effects.yield(Later.(block))
+            define_method(:later) do |executor: Undefined, &block|
+              ::Dry::Effects.yield(Later.(block, executor))
             end
           end
         end
