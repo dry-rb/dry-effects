@@ -39,3 +39,4 @@ end
 
 require 'dry/effects/handler'
 require 'dry/effects/all'
+require 'dry/effects/extensions'

@@ -25,9 +25,7 @@ RSpec.describe 'resolving dependencies' do
   context 'overriding' do
     it 'uses externally provided dependencies' do
       result = provide(foo: 10) do
-        extend Dry::Effects::Handler.Resolve({}, overridable: true)
-
-        provide(foo: 20) do
+        provide({ foo: 20 }, overridable: true) do
           foo
         end
       end

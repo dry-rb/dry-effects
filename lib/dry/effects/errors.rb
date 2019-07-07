@@ -35,6 +35,14 @@ module Dry
       class EffectRejected < RuntimeError
         include Error
       end
+
+      class ResolutionError < RuntimeError
+        include Error
+
+        def initialize(key)
+          super("Key +#{key.inspect}+ cannot be resolved")
+        end
+      end
     end
   end
 end

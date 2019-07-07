@@ -7,6 +7,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gemspec
 
 group :test do
+  gem 'dry-auto_inject', require: false
   gem 'simplecov', require: false, platform: :mri
 end
 
