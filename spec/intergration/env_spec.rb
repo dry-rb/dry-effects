@@ -51,4 +51,13 @@ RSpec.describe 'env' do
       end
     end
   end
+
+  context 'static env' do
+    include Dry::Effects::Handler.Env(env: { foo: :bar })
+    include Dry::Effects.Env(:foo)
+
+    it 'uses static values' do
+      expect(handle_env { foo }).to be(:bar)
+    end
+  end
 end

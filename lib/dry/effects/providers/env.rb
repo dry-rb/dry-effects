@@ -6,9 +6,11 @@ module Dry
   module Effects
     module Providers
       class Env < Provider[:env]
-        include Dry::Equalizer(:values)
+        include Dry::Equalizer(:values, :env, :overridable)
 
         attr_reader :values
+
+        option :env, default: -> { EMPTY_HASH }
 
         option :overridable, default: -> { false }
 
@@ -23,7 +25,11 @@ module Dry
         end
 
         def call(stack, values = EMPTY_HASH)
-          @values = values
+          if values.empty?
+            @values = env
+          else
+            @values = env.merge(values)
+          end
           super(stack)
         end
 
