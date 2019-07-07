@@ -23,11 +23,18 @@ module Dry
         end
 
         def later(block)
-          stack = self.stack.dup
-          @later_calls << ::Concurrent::Promise.new(executor: executor) do
-            Handler.spawn_fiber(stack, &block)
+          if @later_calls.frozen?
+            Instructions.Raise(Errors::EffectRejected.new(<<~MSG))
+              .later calls are not allowed, they would processed
+              by another stack. Add another defer handler to the current stack
+            MSG
+          else
+            stack = self.stack.dup
+            @later_calls << ::Concurrent::Promise.new(executor: executor) do
+              Handler.spawn_fiber(stack, &block)
+            end
+            nil
           end
-          nil
         end
 
         def wait(promises)
@@ -48,6 +55,14 @@ module Dry
           super(stack)
         ensure
           later_calls.each(&:execute)
+        end
+
+        def dup
+          if defined? @later_calls
+            super.tap { |p| p.instance_exec { @later_calls = EMPTY_ARRAY } }
+          else
+            super
+          end
         end
       end
     end

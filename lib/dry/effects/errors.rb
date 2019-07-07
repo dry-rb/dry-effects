@@ -31,6 +31,10 @@ module Dry
           super(effect, message)
         end
       end
+
+      class EffectRejected < RuntimeError
+        include Error
+      end
     end
   end
 end
