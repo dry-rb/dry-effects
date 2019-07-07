@@ -44,4 +44,17 @@ RSpec.describe 'handling state' do
       expect(counter).to be(:fallback)
     end
   end
+
+  context 'aliases' do
+    include Dry::Effects.State(:counter, as: :cnt)
+
+    it 'uses provided alias' do
+      result = handle_state(0) do
+        self.cnt += 1
+        :done
+      end
+
+      expect(result).to eql([1, :done])
+    end
+  end
 end
