@@ -3,7 +3,6 @@
 
 require 'bundler/setup'
 require 'dry/effects'
-require 'dry/effects/all'
 
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
@@ -11,51 +10,6 @@ require 'dry/effects/all'
 # (If you use this, don't forget to add pry to your Gemfile!)
 # require "pry"
 # Pry.start
-
-require 'dry/effects'
-require 'dry/monads'
-require 'dry/monads/maybe'
-require 'dry/monads/undefined'
-require 'dry/struct'
-require 'pry-byebug'
-
-
-class Render
-  include Dry::Effects::Handler.Implicit(:show, lookup_map: {
-    Dry::Monads::Maybe::Some => -> v, _default { v.value! },
-    Dry::Monads::Maybe::None => -> _, default { default }
-  })
-
-  def call
-    handle_show { yield }
-  end
-end
-
-class GreetUser
-  include Dry::Monads[:maybe]
-  include Dry::Effects.Implicit(:show)
-
-  def call(user)
-    user_name = user.fmap(&:name)
-    <<~HTML
-        <div>Hello #{show(user_name, 'stranger')}</div>
-      </html>
-    HTML
-  end
-end
-
-render = Render.new
-template = GreetUser.new
-
-greet = -> user { render.() { template.(user) } }
-
-User = Dry::Struct(name: 'string')
-extend Dry::Monads[:maybe]
-
-puts greet.(Some(User.(name: 'John Doe')))
-# => "Hello John Doe"
-puts greet.(None())
-# => "Hello stranger"
 
 require 'irb'
 binding.irb
