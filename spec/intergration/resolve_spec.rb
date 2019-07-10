@@ -37,4 +37,13 @@ RSpec.describe 'resolving dependencies' do
   it 'uses fallback' do
     expect(foo { :fallback }).to be(:fallback)
   end
+
+  describe 'aliases' do
+    include Dry::Effects.Resolve(baz: :foo)
+
+    it 'uses aliases' do
+      provided = provide(foo: 10) { baz }
+      expect(provided).to be(10)
+    end
+  end
 end

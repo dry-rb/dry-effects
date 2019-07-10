@@ -13,10 +13,10 @@ module Dry
           Resolve.(key)
         end
 
-        def initialize(*keys)
+        def initialize(*keys, **aliases)
           module_eval do
-            keys.each do |key|
-              define_method(key) { |&block| ::Dry::Effects.yield(Resolve.(key), &block) }
+            (keys.zip(keys) + aliases.to_a).each do |name, key|
+              define_method(name) { |&block| ::Dry::Effects.yield(Resolve.(key), &block) }
             end
           end
         end
