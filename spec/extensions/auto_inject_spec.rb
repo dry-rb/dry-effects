@@ -95,4 +95,27 @@ RSpec.describe 'dry-auto_inject extnesion' do
       expect(provided).to be(overridden_repo)
     end
   end
+
+  context 'static resolution with constructor defined' do
+    let(:operation) do
+      import = self.import
+
+      Class.new {
+        include import['repos.user_repo']
+
+        def initialize(*)
+          super
+        end
+      }.new
+    end
+
+    before do
+      extend Dry::Effects::Handler.Resolve(container)
+    end
+
+    it 'still works' do
+      provided = provide(overriding_container) { operation.user_repo }
+      expect(provided).to be(overridden_repo)
+    end
+  end
 end

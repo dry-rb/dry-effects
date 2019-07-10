@@ -16,8 +16,8 @@ module Dry
           # nothing to do
         end
 
-        def define_initialize(klass)
-          klass.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
+        def define_initialize(_)
+          instance_mod.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
             def initialize(*)
               @__dependencies__ = ::Concurrent::Map.new
               super
