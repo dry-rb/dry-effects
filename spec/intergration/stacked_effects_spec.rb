@@ -213,4 +213,21 @@ RSpec.describe 'stacked effects' do
       expect(result).to eql([[1, 1], [1, 1]])
     end
   end
+
+  context 'state + reader' do
+    include Dry::Effects::Handler.State(:value, as: :handle_state)
+    include Dry::Effects::Handler.Reader(:value, as: :handle_reader)
+    include Dry::Effects.State(:value)
+
+    it 'works according to stack rules' do
+      handled = handle_state(0) do
+        handle_reader(5) do
+          self.value = value + 10
+          value
+        end
+      end
+
+      expect(handled).to eql([15, 5])
+    end
+  end
 end
