@@ -43,6 +43,10 @@ RSpec.describe 'handling state' do
     example 'with no handler it returns default value' do
       expect(counter).to be(:fallback)
     end
+
+    example 'with value' do
+      expect(handle_state(0) { counter }).to eql([0, 0])
+    end
   end
 
   context 'aliases' do

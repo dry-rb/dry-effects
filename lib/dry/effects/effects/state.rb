@@ -20,12 +20,14 @@ module Dry
             define_method(as) do |&block|
               if block
                 ::Dry::Effects.yield(read, &block)
-              elsif Undefined.equal?(default)
-                ::Dry::Effects.yield(read) do |eff, _|
-                  raise Errors::MissingState, eff
-                end
               else
-                default
+                ::Dry::Effects.yield(read) do |eff, _|
+                  if Undefined.equal?(default)
+                    raise Errors::MissingState, eff
+                  else
+                    default
+                  end
+                end
               end
             end
 
