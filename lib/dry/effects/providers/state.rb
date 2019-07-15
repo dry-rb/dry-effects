@@ -11,8 +11,8 @@ module Dry
         end
 
         def call(stack, state)
-          r = super(stack, state)
-          [@state, r]
+          r = super
+          [self.state, r]
         end
 
         def provide?(effect)

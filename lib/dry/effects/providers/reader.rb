@@ -12,6 +12,12 @@ module Dry
 
         param :scope
 
+        def initialize(*)
+          super
+
+          @state = Undefined
+        end
+
         def read
           state
         end
@@ -22,7 +28,11 @@ module Dry
         end
 
         def represent
-          "#{super}(#{state})"
+          if Undefined.equal?(state)
+            "#{type}<#{scope}, no value>"
+          else
+            "#{type}<#{scope}>"
+          end
         end
 
         def provide?(effect)
