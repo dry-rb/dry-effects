@@ -8,9 +8,17 @@ module Dry
       class CurrentTime < ::Module
         CurrentTime = Effect.new(type: :current_time)
 
-        def initialize
+        def initialize(round: Undefined)
+          get = CurrentTime.payload(round_to: round)
+
           module_eval do
-            define_method(:current_time) { ::Dry::Effects.yield(CurrentTime) }
+            define_method(:current_time) do |round: Undefined|
+              if Undefined.equal?(round)
+                ::Dry::Effects.yield(get)
+              else
+                ::Dry::Effects.yield(get.payload(round_to: round))
+              end
+            end
           end
         end
       end
