@@ -6,9 +6,11 @@ module Dry
   module Effects
     module Providers
       class CurrentTime < Provider[:current_time]
-        include Dry::Equalizer(:fixed)
+        include Dry::Equalizer(:fixed, :round)
 
         option :fixed, default: -> { true }
+
+        option :round, default: -> { Undefined }
 
         alias_method :fixed?, :fixed
 
@@ -23,11 +25,14 @@ module Dry
           super(stack)
         end
 
-        def current_time
-          if fixed?
-            time
+        def current_time(round_to: Undefined)
+          t = fixed? ? time : Undefined.default(time) { ::Time.now }
+          round = Undefined.default(round_to) { self.round }
+
+          if Undefined.equal?(round)
+            t
           else
-            Undefined.default(time) { ::Time.now }
+            t.round(round)
           end
         end
       end
