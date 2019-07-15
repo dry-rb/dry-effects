@@ -11,7 +11,7 @@ module Dry
           Undefined.default(as, :provide)
         end
 
-        include Dry::Equalizer(:static, :parent, :dynamic, :overridable)
+        include Dry::Equalizer(:static, :parent, :dynamic)
 
         Locate = Effect.new(type: :resolve, name: :locate)
 
