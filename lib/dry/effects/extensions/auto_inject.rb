@@ -17,12 +17,7 @@ module Dry
         end
 
         def define_initialize(_)
-          instance_mod.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
-            def initialize(*)
-              @__dependencies__ = ::Concurrent::Map.new
-              super
-            end
-          RUBY
+          # nothing to do
         end
       end
 
@@ -31,6 +26,7 @@ module Dry
 
         def define_readers(dynamic = false)
           map = dependency_map.to_h
+          __dependencies__ = ::Concurrent::Map.new
           instance_mod.class_exec do
             map.each do |name, identifier|
               resolve = ::Dry::Effects::Constructors::Resolve(identifier)
@@ -39,7 +35,7 @@ module Dry
                 define_method(name) { ::Dry::Effects.yield(resolve) }
               else
                 define_method(name) do
-                  @__dependencies__.fetch_or_store(name) do
+                  __dependencies__.fetch_or_store(name) do
                     ::Dry::Effects.yield(resolve)
                   end
                 end
