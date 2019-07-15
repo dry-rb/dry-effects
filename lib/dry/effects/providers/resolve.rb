@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/effects/provider'
+require 'dry/effects/instructions/raise'
 
 module Dry
   module Effects
@@ -10,21 +11,25 @@ module Dry
           Undefined.default(as, :provide)
         end
 
-        include Dry::Equalizer(:container, :parent, :overridable)
+        include Dry::Equalizer(:static, :parent, :dynamic)
 
         Locate = Effect.new(type: :resolve, name: :locate)
 
-        param :container, default: -> { EMPTY_HASH }
-
-        option :overridable, default: -> { false }
+        param :static, default: -> { EMPTY_HASH }
 
         attr_reader :parent
 
+        attr_reader :dynamic
+
         def resolve(key)
-          if parent && parent.container.key?(key)
+          if parent&.key?(key)
             parent.resolve(key)
+          elsif dynamic.key?(key)
+            dynamic[key]
+          elsif static.key?(key)
+            static[key]
           else
-            container.fetch(key)
+            Instructions.Raise(Errors::ResolutionError.new(key))
           end
         end
 
@@ -32,12 +37,10 @@ module Dry
           self
         end
 
-        def call(stack, container = EMPTY_HASH)
-          unless container.empty?
-            @container = @container.merge(container)
-          end
+        def call(stack, dynamic = EMPTY_HASH, options = EMPTY_HASH)
+          @dynamic = dynamic
 
-          if overridable
+          if options.fetch(:overridable, false)
             @parent = ::Dry::Effects.yield(Locate) { nil }
           else
             @parent = nil
@@ -59,7 +62,7 @@ module Dry
         end
 
         def key?(key)
-          container.key?(key) || parent && parent.key?(key)
+          static.key?(key) || dynamic.key?(key) || parent&.key?(key)
         end
       end
     end

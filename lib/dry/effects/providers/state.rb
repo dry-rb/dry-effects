@@ -16,7 +16,7 @@ module Dry
         end
 
         def provide?(effect)
-          super && scope.equal?(effect.scope)
+          effect.type.equal?(:state) && scope.equal?(effect.scope)
         end
       end
     end

@@ -26,7 +26,7 @@ module Dry
         end
 
         def provide?(effect)
-          effect.type.equal?(:state) && scope.equal?(effect.scope)
+          effect.type.equal?(:state) && effect.name.equal?(:read) && scope.equal?(effect.scope)
         end
       end
     end

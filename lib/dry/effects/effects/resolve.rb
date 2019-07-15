@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/effects/effect'
+require 'dry/effects/constructors'
 
 module Dry
   module Effects
@@ -8,10 +9,14 @@ module Dry
       class Resolve < ::Module
         Resolve = Effect.new(type: :resolve)
 
-        def initialize(*keys)
+        def Constructors.Resolve(key)
+          Resolve.(key)
+        end
+
+        def initialize(*keys, **aliases)
           module_eval do
-            keys.each do |key|
-              define_method(key) { |&block| ::Dry::Effects.yield(Resolve.(key), &block) }
+            (keys.zip(keys) + aliases.to_a).each do |name, key|
+              define_method(name) { |&block| ::Dry::Effects.yield(Resolve.(key), &block) }
             end
           end
         end
