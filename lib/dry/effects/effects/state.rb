@@ -17,16 +17,22 @@ module Dry
           write = StateEffect.new(type: :state, name: :write, scope: scope)
 
           module_eval do
-            define_method(as) do |&block|
-              if block
-                ::Dry::Effects.yield(read, &block)
-              else
-                ::Dry::Effects.yield(read) do |eff, _|
-                  if Undefined.equal?(default)
-                    raise Errors::MissingState, eff
-                  else
-                    default
-                  end
+            if Undefined.equal?(default)
+              define_method(as) do |&block|
+                if block
+                  Undefined.default(::Dry::Effects.yield(read) { Undefined }, &block)
+                else
+                  value = ::Dry::Effects.yield(read) { raise Errors::MissingState, read }
+
+                  Undefined.default(value) { raise Errors::UndefinedState, read }
+                end
+              end
+            else
+              define_method(as) do |&block|
+                if block
+                  Undefined.default(::Dry::Effects.yield(read) { Undefined }, &block)
+                else
+                  Undefined.default(::Dry::Effects.yield(read) { Undefined }, default)
                 end
               end
             end

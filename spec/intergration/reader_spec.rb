@@ -31,6 +31,20 @@ RSpec.describe 'handling state' do
 
       expect(result).to eql([user_provided, :done])
     end
+
+    context 'when state is not set' do
+      it 'raises an error is no default value provided' do
+        handle_state do
+          expect { user }.to raise_error(Dry::Effects::Errors::UndefinedState)
+        end
+      end
+
+      it 'returns default value if one is given and state handler has no initial value' do
+        result = handle_state { user { :fallback } }
+
+        expect(result).to eql([Dry::Effects::Undefined, :fallback])
+      end
+    end
   end
 
   context 'renaming' do

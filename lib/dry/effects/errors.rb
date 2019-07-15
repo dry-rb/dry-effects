@@ -32,6 +32,18 @@ module Dry
         end
       end
 
+      class UndefinedState < RuntimeError
+        include Error
+
+        def initialize(effect)
+          message = "+#{effect.scope}+ is not defined, you need to assign it first "\
+                    'by using a writer, passing initial value to the handler, or '\
+                    'providing a fallback value'
+
+          super(message)
+        end
+      end
+
       class EffectRejected < RuntimeError
         include Error
       end

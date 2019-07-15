@@ -61,4 +61,31 @@ RSpec.describe 'handling state' do
       expect(result).to eql([1, :done])
     end
   end
+
+  context 'not defined state' do
+    include Dry::Effects.State(:counter)
+
+    it 'can be called without providing state' do
+      result = handle_state do
+        self.counter = 10
+        :done
+      end
+
+      expect(result).to eql([10, :done])
+    end
+
+    it 'raises an error when undefined state is accessed' do
+      handle_state do
+        expect {
+          counter
+        }.to raise_error(Dry::Effects::Errors::UndefinedState, /\+counter\+/)
+      end
+    end
+
+    it 'returns default value if it is provided' do
+      result = handle_state { counter { :fallback } }
+
+      expect(result).to eql([Dry::Effects::Undefined, :fallback])
+    end
+  end
 end

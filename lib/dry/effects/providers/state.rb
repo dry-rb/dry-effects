@@ -10,7 +10,7 @@ module Dry
           @state = value
         end
 
-        def call(stack, state)
+        def call(stack, state = Undefined)
           r = super
           [self.state, r]
         end
