@@ -19,7 +19,6 @@ env:
 matrix:
   allow_failures:
     - rvm: truffleruby
-    - rvm: jruby-9.2.7.0
 notifications:
   email: false
   webhooks:
