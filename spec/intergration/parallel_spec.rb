@@ -14,7 +14,7 @@ RSpec.describe 'using parallel effects' do
 
   example 'running effectful code in parallel' do
     result = with_fixed_time(time) do
-      handle_parallel do
+      with_parallel do
         join(Array.new(3) { |i| par { ["Thread##{i}", current_time] } })
       end
     end
@@ -24,7 +24,7 @@ RSpec.describe 'using parallel effects' do
 
   example 'running effectful code in parallel' do
     result = with_counter(0) do
-      handle_parallel do
+      with_parallel do
         threads = Array.new(2) do
           par do
             sleep(rand(0) % 0.01)

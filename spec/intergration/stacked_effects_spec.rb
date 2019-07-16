@@ -51,9 +51,9 @@ RSpec.describe 'stacked effects' do
       end
 
       example do
-        accumulated_state = handle_state(0) do
+        accumulated_state = with_state(0) do
           self.counter += 1
-          handle_state(10) do
+          with_state(10) do
             self.counter += 30
             :result
           ensure
@@ -109,8 +109,8 @@ RSpec.describe 'stacked effects' do
     example 'defer : parallel' do
       tasks = [0, 1, 2]
       observed_order = []
-      result = handle_defer do
-        handle_parallel do
+      result = with_defer do
+        with_parallel do
           pars = tasks.map do |i|
             defer do
               par do
@@ -132,8 +132,8 @@ RSpec.describe 'stacked effects' do
     example 'parallel : defer' do
       tasks = [0, 1, 2]
       observed_order = []
-      result = handle_parallel do
-        handle_defer do
+      result = with_parallel do
+        with_defer do
           pars = tasks.map do |i|
             defer do
               par do
@@ -173,13 +173,13 @@ RSpec.describe 'stacked effects' do
     end
 
     example 'async : state' do
-      result = handle_async { handle_state(100) { program } }
+      result = with_async { with_state(100) { program } }
       expect(outputs).to eql([110, 120, 130])
       expect(result).to be_nil
     end
 
     example 'state : async' do
-      result = handle_state(100) { handle_async { program } }
+      result = with_state(100) { with_async { program } }
       expect(outputs).to eql([110, 120, 130])
       expect(result).to eql([130, nil])
     end
@@ -194,9 +194,9 @@ RSpec.describe 'stacked effects' do
     example 'cache : state' do
       calls = 0
 
-      result = handle_cache do
+      result = with_cache do
         Array.new(2) do |i|
-          handle_state(0) do
+          with_state(0) do
             Array.new(3) do
               counter_values(i) do
                 calls += 1

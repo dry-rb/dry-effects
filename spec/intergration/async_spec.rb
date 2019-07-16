@@ -12,7 +12,7 @@ RSpec.describe 'scheduling effect' do
     results = []
     snapshots = []
 
-    handle_async do
+    with_async do
       tasks = Array.new(3) do |i|
         async do
           result = 0

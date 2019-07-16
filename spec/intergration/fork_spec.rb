@@ -8,8 +8,8 @@ RSpec.describe 'forking' do
   include Dry::Effects::Handler.Fork
 
   it 'duplicates a handler with the current stack' do
-    result = handle_fork do
-      handle_state(0) do
+    result = with_fork do
+      with_state(0) do
         self.counter += 1
         fork do
           self.counter += 10

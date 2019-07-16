@@ -53,7 +53,7 @@ module Dry
         end
 
         def handle_method(as: Undefined, **)
-          Undefined.default(as) { :"handle_#{type}" }
+          Undefined.default(as) { :"with_#{type}" }
         end
       end
     end
