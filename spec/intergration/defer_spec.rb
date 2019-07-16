@@ -43,7 +43,7 @@ RSpec.describe 'defer effects' do
       results = []
 
       with_defer do
-        with_state(10) do
+        with_counter(10) do
           later { results << (self.counter += 11) }
           later { results << (self.counter += 12) }
         end
@@ -64,7 +64,7 @@ RSpec.describe 'defer effects' do
         results = []
 
         with_defer(executor: :immediate) do
-          with_state(10) do
+          with_counter(10) do
             later { results << (self.counter += 11) }
             later { results << (self.counter += 12) }
           end
@@ -80,7 +80,7 @@ RSpec.describe 'defer effects' do
         results = []
 
         with_defer(executor: null_executor) do
-          with_state(10) do
+          with_counter(10) do
             later { results << (self.counter += 11) }
             later { results << (self.counter += 12) }
           end

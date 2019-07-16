@@ -20,7 +20,7 @@ class Wrapper
   end
 
   def call
-    with_state(0) { @operation.call }
+    with_counter(0) { @operation.call }
   end
 end
 

@@ -9,7 +9,7 @@ RSpec.describe 'forking' do
 
   it 'duplicates a handler with the current stack' do
     result = with_fork do
-      with_state(0) do
+      with_counter(0) do
         self.counter += 1
         fork do
           self.counter += 10
