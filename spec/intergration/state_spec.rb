@@ -88,4 +88,35 @@ RSpec.describe 'handling state' do
       expect(result).to eql([Dry::Effects::Undefined, :fallback])
     end
   end
+
+  context 'type' do
+    include Dry::Effects::Handler.State(:counter, type: Integer)
+
+    it 'accepts integer values' do
+      result = with_counter(0) { self.counter += 10 }
+      expect(result).to eql([10, 10])
+    end
+
+    it 'rejects invalid values in handler' do
+      expect { with_counter('') {} }.to raise_error(
+        Dry::Effects::Errors::InvalidValue,
+        /invalid/
+      )
+    end
+
+    it 'rejects invalid values on assignment' do
+      expect { with_counter(0) { self.counter = '' } }.to raise_error(
+        Dry::Effects::Errors::InvalidValue,
+        /invalid/
+      )
+    end
+
+    context '===' do
+      include Dry::Effects::Handler.State(:counter, type: -> x { x.is_a?(Float) })
+
+      it 'uses case equality' do
+        expect { with_counter(0) {} }.to raise_error(Dry::Effects::Errors::InvalidValue)
+      end
+    end
+  end
 end

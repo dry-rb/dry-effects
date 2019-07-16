@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
 require 'dry/effects/providers/reader'
+require 'dry/effects/instructions/raise'
 
 module Dry
   module Effects
     module Providers
       class State < Reader[:state]
         def write(value)
-          @state = value
+          if state_type === value
+            @state = value
+          else
+            Instructions.Raise(Errors::InvalidValue.new(state, value))
+          end
         end
 
         def call(stack, state = Undefined)
