@@ -14,6 +14,7 @@ RSpec.describe 'defer effects' do
       result = handle_defer do
         deferred = Array.new(3) do |i|
           defer do
+            sleep 0.01
             observed << :"step_#{i}"
             i
           end
