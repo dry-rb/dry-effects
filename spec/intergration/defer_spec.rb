@@ -11,7 +11,7 @@ RSpec.describe 'defer effects' do
       observed = []
       values = nil
 
-      result = handle_defer do
+      result = with_defer do
         deferred = Array.new(3) do |i|
           defer do
             sleep 0.01
@@ -42,8 +42,8 @@ RSpec.describe 'defer effects' do
     it 'sends blocks to executor on finish' do
       results = []
 
-      handle_defer do
-        handle_state(10) do
+      with_defer do
+        with_counter(10) do
           later { results << (self.counter += 11) }
           later { results << (self.counter += 12) }
         end
@@ -63,8 +63,8 @@ RSpec.describe 'defer effects' do
       it 'accepts executor in handler' do
         results = []
 
-        handle_defer(executor: :immediate) do
-          handle_state(10) do
+        with_defer(executor: :immediate) do
+          with_counter(10) do
             later { results << (self.counter += 11) }
             later { results << (self.counter += 12) }
           end
@@ -79,8 +79,8 @@ RSpec.describe 'defer effects' do
       it 'produces no output' do
         results = []
 
-        handle_defer(executor: null_executor) do
-          handle_state(10) do
+        with_defer(executor: null_executor) do
+          with_counter(10) do
             later { results << (self.counter += 11) }
             later { results << (self.counter += 12) }
           end
@@ -101,7 +101,7 @@ RSpec.describe 'defer effects' do
       it 'uses passed executor' do
         called = false
 
-        handle_defer do
+        with_defer do
           later(executor: executor) { called = true }
         end
 
@@ -115,7 +115,7 @@ RSpec.describe 'defer effects' do
       it 'uses passed executor' do
         called = false
 
-        handle_defer do
+        with_defer do
           defer(executor: executor) { called = true }
         end
 

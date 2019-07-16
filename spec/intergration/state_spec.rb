@@ -5,7 +5,7 @@ RSpec.describe 'handling state' do
   include Dry::Effects.State(:counter)
 
   example 'manipulating state' do
-    state, result = handle_state(0) do
+    state, result = with_counter(0) do
       self.counter += 1
       self.counter += 1
       :done
@@ -16,7 +16,7 @@ RSpec.describe 'handling state' do
   end
 
   example 'effectless' do
-    state, result = handle_state(0) do
+    state, result = with_counter(0) do
       :done
     end
 
@@ -45,7 +45,7 @@ RSpec.describe 'handling state' do
     end
 
     example 'with value' do
-      expect(handle_state(0) { counter }).to eql([0, 0])
+      expect(with_counter(0) { counter }).to eql([0, 0])
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe 'handling state' do
     include Dry::Effects.State(:counter, as: :cnt)
 
     it 'uses provided alias' do
-      result = handle_state(0) do
+      result = with_counter(0) do
         self.cnt += 1
         :done
       end
@@ -66,7 +66,7 @@ RSpec.describe 'handling state' do
     include Dry::Effects.State(:counter)
 
     it 'can be called without providing state' do
-      result = handle_state do
+      result = with_counter do
         self.counter = 10
         :done
       end
@@ -75,7 +75,7 @@ RSpec.describe 'handling state' do
     end
 
     it 'raises an error when undefined state is accessed' do
-      handle_state do
+      with_counter do
         expect {
           counter
         }.to raise_error(Dry::Effects::Errors::UndefinedState, /\+counter\+/)
@@ -83,7 +83,7 @@ RSpec.describe 'handling state' do
     end
 
     it 'returns default value if it is provided' do
-      result = handle_state { counter { :fallback } }
+      result = with_counter { counter { :fallback } }
 
       expect(result).to eql([Dry::Effects::Undefined, :fallback])
     end

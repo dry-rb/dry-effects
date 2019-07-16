@@ -5,7 +5,7 @@ RSpec.describe 'env' do
   include Dry::Effects.Env
 
   it 'provides environment values' do
-    value = handle_env(foo: 'injected') { env(:foo) }
+    value = with_env(foo: 'injected') { env(:foo) }
 
     expect(value).to eql('injected')
   end
@@ -18,7 +18,7 @@ RSpec.describe 'env' do
     end
 
     it 'uses values from ENV as a fallback' do
-      value = handle_env { env('FOO') }
+      value = with_env { env('FOO') }
 
       expect(value).to eql('BAR')
     end
@@ -29,7 +29,7 @@ RSpec.describe 'env' do
       include Dry::Effects.Env(:foo, :bar)
 
       example 'obtaining environment using methods' do
-        handled = handle_env(foo: 'value_foo', bar: 'value_bar') do
+        handled = with_env(foo: 'value_foo', bar: 'value_bar') do
           [foo, bar]
         end
 
@@ -42,7 +42,7 @@ RSpec.describe 'env' do
         include Dry::Effects.Env(:foo, bar: :baz)
 
         example 'using renamed reader methods' do
-          handled = handle_env(foo: 'value_foo', baz: 'value_bar') do
+          handled = with_env(foo: 'value_foo', baz: 'value_bar') do
             [foo, bar]
           end
 
@@ -57,7 +57,7 @@ RSpec.describe 'env' do
     include Dry::Effects.Env(:foo)
 
     it 'uses static values' do
-      expect(handle_env { foo }).to be(:bar)
+      expect(with_env { foo }).to be(:bar)
     end
   end
 end

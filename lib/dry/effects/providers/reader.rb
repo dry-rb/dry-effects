@@ -6,6 +6,10 @@ module Dry
   module Effects
     module Providers
       class Reader < Provider[:reader]
+        def self.handle_method(scope, as: Undefined, **)
+          Undefined.default(as) { :"with_#{scope}" }
+        end
+
         include Dry::Equalizer(:scope, :state)
 
         attr_reader :state

@@ -40,7 +40,7 @@ module Dry
         end
 
         def mixin(*args, **kwargs)
-          handle_method = handle_method(**kwargs)
+          handle_method = handle_method(*args, **kwargs)
 
           provider = new(*args, **kwargs).freeze
           handler = Handler.new(provider)
@@ -52,8 +52,8 @@ module Dry
           end
         end
 
-        def handle_method(as: Undefined, **)
-          Undefined.default(as) { :"handle_#{type}" }
+        def handle_method(*, as: Undefined, **)
+          Undefined.default(as) { :"with_#{type}" }
         end
       end
     end

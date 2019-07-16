@@ -9,7 +9,7 @@ RSpec.describe 'handling current time' do
     include Dry::Effects::Handler.CurrentTime
 
     example 'getting current timme' do
-      before, after = handle_current_time do
+      before, after = with_current_time do
         before = current_time
         sleep 0.01
         after = current_time
@@ -25,7 +25,7 @@ RSpec.describe 'handling current time' do
     include Dry::Effects::Handler.CurrentTime
 
     example 'getting fixed time' do
-      before, after = handle_current_time(Time.now) do
+      before, after = with_current_time(Time.now) do
         before = current_time
         sleep 0.01
         after = current_time
@@ -41,7 +41,7 @@ RSpec.describe 'handling current time' do
     include Dry::Effects::Handler.CurrentTime(fixed: false)
 
     example 'getting current timme' do
-      before, after = handle_current_time do
+      before, after = with_current_time do
         before = current_time
         sleep 0.01
         after = current_time
@@ -60,7 +60,7 @@ RSpec.describe 'handling current time' do
 
       it 'rounds current time' do
         now = Time.now
-        time = handle_current_time(now) { current_time }
+        time = with_current_time(now) { current_time }
 
         expect(time).to eql(now.round(1))
       end
@@ -71,7 +71,7 @@ RSpec.describe 'handling current time' do
 
       it 'rounds current time' do
         now = Time.now
-        time = handle_current_time(now) { current_time(round: 1) }
+        time = with_current_time(now) { current_time(round: 1) }
 
         expect(time).to eql(now.round(1))
       end
@@ -82,7 +82,7 @@ RSpec.describe 'handling current time' do
 
       it 'rounds current time' do
         now = Time.now
-        time = handle_current_time(now) { current_time }
+        time = with_current_time(now) { current_time }
 
         expect(time).to eql(now.round(1))
       end
@@ -93,7 +93,7 @@ RSpec.describe 'handling current time' do
 
       it 'rounds current time' do
         now = Time.now
-        time = handle_current_time { current_time }
+        time = with_current_time { current_time }
 
         expect(time).to eql(now.round(1))
       end

@@ -5,7 +5,7 @@ RSpec.describe 'locking' do
   include Dry::Effects::Handler.Lock
 
   it 'sets locks' do
-    locked = handle_lock do
+    locked = with_lock do
       lock(:foo)
       unlock(lock(:bar))
 
@@ -16,11 +16,11 @@ RSpec.describe 'locking' do
   end
 
   it 'releases locks on exit' do
-    locked = handle_lock do
+    locked = with_lock do
       lock(:foo)
       bar = lock(:bar)
 
-      handle_lock do
+      with_lock do
         lock(:baz) if locked?(:foo)
         unlock(bar)
       end
@@ -32,7 +32,7 @@ RSpec.describe 'locking' do
   end
 
   example 'using blocks' do
-    locked = handle_lock do
+    locked = with_lock do
       [lock(:foo) { locked?(:foo) }, locked?(:foo)]
     end
 
@@ -40,7 +40,7 @@ RSpec.describe 'locking' do
   end
 
   example 'repeated locks' do
-    locked = handle_lock do
+    locked = with_lock do
       lock(:foo) do |locked_outer|
         lock(:foo) do |locked_inner|
           [locked_outer, locked_inner, locked?(:foo)]
@@ -54,9 +54,9 @@ RSpec.describe 'locking' do
   example 'nested handlers with repeated locks' do
     locked = []
 
-    handle_lock do
+    with_lock do
       lock(:foo) do
-        handle_lock do
+        with_lock do
           lock(:foo) do
             locked << locked?(:foo)
           end
