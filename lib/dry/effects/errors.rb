@@ -55,6 +55,14 @@ module Dry
           super("Key +#{key.inspect}+ cannot be resolved")
         end
       end
+
+      class InvalidValue < ArgumentError
+        include Error
+
+        def initialize(value, scope)
+          super("#{value.inspect} is invalid and cannot be assigned to #{scope}")
+        end
+      end
     end
   end
 end
