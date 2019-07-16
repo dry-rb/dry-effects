@@ -35,12 +35,13 @@ module Dry
         end
 
         def call(stack, state)
-          unless state_type === state
+          case state
+          when state_type
+            @state = state
+            super(stack)
+          else
             raise Errors::InvalidValue.new(state, scope)
           end
-
-          @state = state
-          super(stack)
         end
 
         def represent

@@ -8,7 +8,8 @@ module Dry
     module Providers
       class State < Reader[:state]
         def write(value)
-          if state_type === value
+          case value
+          when state_type
             @state = value
           else
             Instructions.Raise(Errors::InvalidValue.new(state, value))
