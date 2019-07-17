@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'concurrent/array'
+
 RSpec.describe 'defer effects' do
   include Dry::Effects::Handler.Defer
   include Dry::Effects.Defer
@@ -8,7 +10,7 @@ RSpec.describe 'defer effects' do
 
   describe 'defer' do
     it 'postpones blocks and schedules caller' do
-      observed = []
+      observed = Concurrent::Array.new
       values = nil
 
       result = with_defer do
@@ -40,7 +42,7 @@ RSpec.describe 'defer effects' do
     include Dry::Effects::Handler.Defer(executor: :immediate)
 
     it 'sends blocks to executor on finish' do
-      results = []
+      results = Concurrent::Array.new
 
       with_defer do
         with_counter(10) do
@@ -61,7 +63,7 @@ RSpec.describe 'defer effects' do
 
     context 'with in-place executor' do
       it 'accepts executor in handler' do
-        results = []
+        results = Concurrent::Array.new
 
         with_defer(executor: :immediate) do
           with_counter(10) do
@@ -77,7 +79,7 @@ RSpec.describe 'defer effects' do
 
     context 'without execution' do
       it 'produces no output' do
-        results = []
+        results = Concurrent::Array.new
 
         with_defer(executor: null_executor) do
           with_counter(10) do
