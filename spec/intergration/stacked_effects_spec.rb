@@ -230,4 +230,32 @@ RSpec.describe 'stacked effects' do
       expect(handled).to eql([15, 5])
     end
   end
+
+  context 'env + env' do
+    include Dry::Effects::Handler.Env
+    include Dry::Effects.Env(:foo)
+    include Dry::Effects.Env(:bar)
+
+    it 'reads env from matching provider' do
+      handled = with_env(foo: 5) do
+        with_env({ bar: 6 }, overridable: true) do
+          foo + bar
+        end
+      end
+
+      expect(handled).to eql(11)
+    end
+  end
+
+  context 'state + env' do
+    include Dry::Effects::Handler.Reader(:foo)
+    include Dry::Effects::Handler.Env
+    include Dry::Effects.Env(:bar)
+    include Dry::Effects.State(:foo)
+
+    example 'nesting env within state' do
+      result = with_foo(10) { with_env(bar: 5) { foo + bar } }
+      expect(result).to be(15)
+    end
+  end
 end

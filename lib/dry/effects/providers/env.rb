@@ -19,18 +19,16 @@ module Dry
           parent.fetch(key) { fetch(key) }
         end
 
-        protected \
         def fetch(key)
           values.fetch(key) do
             if key.is_a?(::String) && ::ENV.key?(key)
               ::ENV[key]
-            elsif block_given?
-              yield
             else
-              Instructions.Raise(::KeyError.new(key))
+              yield
             end
           end
         end
+        protected :fetch
 
         def locate
           self
