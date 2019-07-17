@@ -56,9 +56,9 @@ module Dry
 
         def cache_key(instance, args, method: Undefined)
           if Undefined.equal?(method)
-            [instance.class, args]
+            [instance, args]
           else
-            [instance.class, method, args]
+            [instance, method, args]
           end
         end
       end

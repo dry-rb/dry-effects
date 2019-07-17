@@ -77,42 +77,33 @@ RSpec.describe 'handling cache' do
 
       let(:cache_module) { Dry::Effects.Cache(cached: %i(expensive slow)) }
 
-      let(:operation_a) do
+      let(:operation_class) do
         ex = self
-        Class.new {
+
+        Class.new do
           prepend ex.cache_module
+
+          def initialize(name)
+            @name = name
+          end
 
           define_method(:expensive) do |val|
             ex.called += 1
 
-            :"#{val}_a"
+            :"#{val}_#{@name}"
           end
 
           define_method(:slow) do |val|
             ex.called += 1
 
-            :"slow_#{val}_a"
+            :"slow_#{val}_#{@name}"
           end
-        }.new
+        end
       end
 
-      let(:operation_b) do
-        ex = self
-        Class.new {
-          prepend ex.cache_module
+      let(:operation_a) { operation_class.new(:a) }
 
-          define_method(:expensive) do |val|
-            ex.called += 1
-            :"#{val}_b"
-          end
-
-          define_method(:slow) do |val|
-            ex.called += 1
-
-            :"slow_#{val}_b"
-          end
-        }.new
-      end
+      let(:operation_b) { operation_class.new(:b) }
 
       it 'uses per-class and per-method cache by default' do
         self.called = 0
@@ -166,33 +157,27 @@ RSpec.describe 'handling cache' do
 
     let(:cache_module) { Dry::Effects.Cache(:cached) }
 
-    let(:operation_a) do
+    let(:operation_class) do
       ex = self
-      Class.new {
+      Class.new do
         include ex.cache_module
+
+        def initialize(name)
+          @name = name
+        end
 
         define_method(:expensive) do |val|
           cache(val) do
             ex.called += 1
-            :"#{val}_a"
+            :"#{val}_#{@name}"
           end
         end
-      }.new
+      end
     end
 
-    let(:operation_b) do
-      ex = self
-      Class.new {
-        include ex.cache_module
+    let(:operation_a) { operation_class.new(:a) }
 
-        define_method(:expensive) do |val|
-          cache(val) do
-            ex.called += 1
-            :"#{val}_b"
-          end
-        end
-      }.new
-    end
+    let(:operation_b) { operation_class.new(:b) }
 
     example 'cache is not shared by default' do
       self.called = 0
