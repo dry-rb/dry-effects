@@ -71,5 +71,142 @@ RSpec.describe 'handling cache' do
         expect(@called).to be(2)
       end
     end
+
+    context 'clashing' do
+      attr_accessor :called
+
+      let(:cache_module) { Dry::Effects.Cache(:cached, as: :expensive) }
+
+      let(:operation_a) do
+        ex = self
+        Class.new {
+          prepend ex.cache_module
+
+          define_method(:expensive) do |val|
+            ex.called += 1
+
+            :"#{val}_a"
+          end
+        }.new
+      end
+
+      let(:operation_b) do
+        ex = self
+        Class.new {
+          prepend ex.cache_module
+
+          define_method(:expensive) do |val|
+            ex.called += 1
+            :"#{val}_b"
+          end
+        }.new
+      end
+
+      it 'uses cache-per-class by default' do
+        self.called = 0
+
+        result = with_cache do
+          [
+            operation_a.expensive(:foo),
+            operation_b.expensive(:foo),
+            operation_a.expensive(:foo),
+            operation_b.expensive(:foo)
+          ]
+        end
+
+        expect(result).to eql(%i[foo_a foo_b foo_a foo_b])
+        expect(called).to be(2)
+      end
+
+      context 'sharing' do
+        let(:cache_module) { Dry::Effects.Cache(:cached, as: :expensive, shared: true) }
+
+        it 'can be shared' do
+          self.called = 0
+
+          result = with_cache do
+            [
+              operation_a.expensive(:foo),
+              operation_b.expensive(:foo),
+              operation_a.expensive(:foo),
+              operation_b.expensive(:foo)
+            ]
+          end
+
+          expect(result).to eql(%i[foo_a foo_a foo_a foo_a])
+          expect(called).to be(1)
+        end
+      end
+    end
+  end
+
+  context 'clasing' do
+    attr_accessor :called
+
+    let(:cache_module) { Dry::Effects.Cache(:cached) }
+
+    let(:operation_a) do
+      ex = self
+      Class.new {
+        include ex.cache_module
+
+        define_method(:expensive) do |val|
+          cache(val) do
+            ex.called += 1
+            :"#{val}_a"
+          end
+        end
+      }.new
+    end
+
+    let(:operation_b) do
+      ex = self
+      Class.new {
+        include ex.cache_module
+
+        define_method(:expensive) do |val|
+          cache(val) do
+            ex.called += 1
+            :"#{val}_b"
+          end
+        end
+      }.new
+    end
+
+    example 'cache is not shared by default' do
+      self.called = 0
+
+      result = with_cache do
+        [
+          operation_a.expensive(:foo),
+          operation_b.expensive(:foo),
+          operation_a.expensive(:foo),
+          operation_b.expensive(:foo)
+        ]
+      end
+
+      expect(result).to eql(%i[foo_a foo_b foo_a foo_b])
+      expect(called).to be(2)
+    end
+
+    context 'sharing' do
+      let(:cache_module) { Dry::Effects.Cache(:cached, shared: true) }
+
+      it 'can be shared' do
+        self.called = 0
+
+        result = with_cache do
+          [
+            operation_a.expensive(:foo),
+            operation_b.expensive(:foo),
+            operation_a.expensive(:foo),
+            operation_b.expensive(:foo)
+          ]
+        end
+
+        expect(result).to eql(%i[foo_a foo_a foo_a foo_a])
+        expect(called).to be(1)
+      end
+    end
   end
 end
