@@ -22,9 +22,9 @@ module Dry
                 if block
                   Undefined.default(::Dry::Effects.yield(read) { Undefined }, &block)
                 else
-                  value = ::Dry::Effects.yield(read) { raise Errors::MissingState, read }
+                  value = ::Dry::Effects.yield(read) { raise Errors::MissingStateError, read }
 
-                  Undefined.default(value) { raise Errors::UndefinedState, read }
+                  Undefined.default(value) { raise Errors::UndefinedStateError, read }
                 end
               end
             else

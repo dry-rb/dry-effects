@@ -31,7 +31,7 @@ RSpec.describe 'handling state' do
 
     example 'without fallback' do
       expect { counter }.to raise_error(
-        Dry::Effects::Errors::MissingState,
+        Dry::Effects::Errors::MissingStateError,
         /\+counter\+ is not set/
       )
     end
@@ -78,7 +78,7 @@ RSpec.describe 'handling state' do
       with_counter do
         expect {
           counter
-        }.to raise_error(Dry::Effects::Errors::UndefinedState, /\+counter\+/)
+        }.to raise_error(Dry::Effects::Errors::UndefinedStateError, /\+counter\+/)
       end
     end
 
@@ -99,14 +99,14 @@ RSpec.describe 'handling state' do
 
     it 'rejects invalid values in handler' do
       expect { with_counter('') {} }.to raise_error(
-        Dry::Effects::Errors::InvalidValue,
+        Dry::Effects::Errors::InvalidValueError,
         /invalid/
       )
     end
 
     it 'rejects invalid values on assignment' do
       expect { with_counter(0) { self.counter = '' } }.to raise_error(
-        Dry::Effects::Errors::InvalidValue,
+        Dry::Effects::Errors::InvalidValueError,
         /invalid/
       )
     end
@@ -115,7 +115,9 @@ RSpec.describe 'handling state' do
       include Dry::Effects::Handler.State(:counter, type: -> x { x.is_a?(Float) })
 
       it 'uses case equality' do
-        expect { with_counter(0) {} }.to raise_error(Dry::Effects::Errors::InvalidValue)
+        expect { with_counter(0) {} }.to raise_error(
+          Dry::Effects::Errors::InvalidValueError
+        )
       end
     end
   end

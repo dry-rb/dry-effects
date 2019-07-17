@@ -40,7 +40,7 @@ module Dry
             @state = state
             super(stack)
           else
-            raise Errors::InvalidValue.new(state, scope)
+            raise Errors::InvalidValueError.new(state, scope)
           end
         end
 

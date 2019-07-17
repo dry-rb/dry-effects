@@ -35,7 +35,7 @@ RSpec.describe 'handling state' do
     context 'when state is not set' do
       it 'raises an error is no default value provided' do
         with_user do
-          expect { user }.to raise_error(Dry::Effects::Errors::UndefinedState)
+          expect { user }.to raise_error(Dry::Effects::Errors::UndefinedStateError)
         end
       end
 
@@ -74,7 +74,7 @@ RSpec.describe 'handling state' do
 
     it 'rejects invalid values in handler' do
       expect { with_user([]) {} }.to raise_error(
-        Dry::Effects::Errors::InvalidValue,
+        Dry::Effects::Errors::InvalidValueError,
         /invalid/
       )
     end
@@ -84,7 +84,7 @@ RSpec.describe 'handling state' do
 
       it 'uses case equality' do
         user = Struct.new(:name)
-        expect { with_user(0) {} }.to raise_error(Dry::Effects::Errors::InvalidValue)
+        expect { with_user(0) {} }.to raise_error(Dry::Effects::Errors::InvalidValueError)
         result = with_user(user.new(name: 'John')) { :done }
         expect(result).to be(:done)
       end

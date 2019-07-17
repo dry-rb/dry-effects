@@ -10,7 +10,7 @@ RSpec.describe Dry::Effects do
 
     example 'raising an effect results in an error' do
       expect { rand(10) }.to raise_error(
-        Dry::Effects::Errors::UnhandledEffect,
+        Dry::Effects::Errors::UnhandledEffectError,
         /not handled/
       )
     end

@@ -25,7 +25,7 @@ module Dry
 
         def later(block, executor)
           if @later_calls.frozen?
-            Instructions.Raise(Errors::EffectRejected.new(<<~MSG))
+            Instructions.Raise(Errors::EffectRejectedError.new(<<~MSG))
               .later calls are not allowed, they would processed
               by another stack. Add another defer handler to the current stack
             MSG

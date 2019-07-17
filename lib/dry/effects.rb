@@ -30,7 +30,7 @@ module Dry
         if block_given?
           yield(effect, e)
         else
-          raise Errors::UnhandledEffect, effect
+          raise Errors::UnhandledEffectError, effect
         end
       end
     end

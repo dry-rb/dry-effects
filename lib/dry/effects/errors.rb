@@ -6,7 +6,7 @@ module Dry
       module Error
       end
 
-      class UnhandledEffect < RuntimeError
+      class UnhandledEffectError < RuntimeError
         include Error
 
         attr_reader :effect
@@ -23,7 +23,7 @@ module Dry
         end
       end
 
-      class MissingState < UnhandledEffect
+      class MissingStateError < UnhandledEffectError
         def initialize(effect)
           message = "Value of +#{effect.scope}+ is not set, "\
                     'you need to provide value with an effect handler'
@@ -32,7 +32,7 @@ module Dry
         end
       end
 
-      class UndefinedState < RuntimeError
+      class UndefinedStateError < RuntimeError
         include Error
 
         def initialize(effect)
@@ -44,7 +44,7 @@ module Dry
         end
       end
 
-      class EffectRejected < RuntimeError
+      class EffectRejectedError < RuntimeError
         include Error
       end
 
@@ -56,7 +56,7 @@ module Dry
         end
       end
 
-      class InvalidValue < ArgumentError
+      class InvalidValueError < ArgumentError
         include Error
 
         def initialize(value, scope)

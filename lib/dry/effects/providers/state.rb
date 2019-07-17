@@ -12,7 +12,7 @@ module Dry
           when state_type
             @state = value
           else
-            Instructions.Raise(Errors::InvalidValue.new(state, value))
+            Instructions.Raise(Errors::InvalidValueError.new(state, value))
           end
         end
 
