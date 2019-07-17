@@ -9,7 +9,11 @@ module Dry
         Fork = Effect.new(type: :fork)
 
         def initialize
-          define_method(:fork) { |&block| ::Dry::Effects.yield(Fork).(&block) }
+          module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
+            def fork
+              yield(::Dry::Effects.yield(Fork))
+            end
+          RUBY
         end
       end
     end

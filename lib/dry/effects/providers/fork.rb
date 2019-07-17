@@ -9,6 +9,7 @@ module Dry
         attr_reader :stack
 
         def fork
+          stack = self.stack.dup
           -> &cont { Handler.spawn_fiber(stack.dup, &cont) }
         end
 
