@@ -198,7 +198,7 @@ RSpec.describe 'stacked effects' do
         Array.new(2) do |i|
           with_counter(0) do
             Array.new(3) do
-              counter_values(i) do
+              cache(i) do
                 calls += 1
                 counter
               end

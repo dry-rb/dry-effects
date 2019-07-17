@@ -10,7 +10,7 @@ module Dry
           option :scope
         end
 
-        def initialize(scope)
+        def initialize(scope, as: :cache)
           fetch_or_store = CacheEffect.new(
             type: :cache,
             name: :fetch_or_store,
@@ -18,8 +18,12 @@ module Dry
           )
 
           module_eval do
-            define_method(scope) do |key, &block|
-              ::Dry::Effects.yield(fetch_or_store.(key, block))
+            define_method(as) do |*args, &block|
+              if block
+                ::Dry::Effects.yield(fetch_or_store.(args, block))
+              else
+                ::Dry::Effects.yield(fetch_or_store.(args, -> { super(*args) }))
+              end
             end
           end
         end
