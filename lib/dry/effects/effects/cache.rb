@@ -10,31 +10,55 @@ module Dry
           option :scope
         end
 
-        def initialize(scope, as: :cache, shared: false)
+        def initialize(scope, shared: false)
+          if scope.is_a?(::Hash)
+            scope, as = scope.to_a[0]
+          else
+            as = :cache
+          end
+
           fetch_or_store = CacheEffect.new(
             type: :cache,
             name: :fetch_or_store,
             scope: scope
           )
 
+          if shared
+            key = method(:shared_cache_key)
+          else
+            key = method(:cache_key)
+          end
+
+          methods = Array(as)
+
           module_eval do
-            if shared
-              define_method(as) do |*args, &block|
+            methods.each do |meth|
+              define_method(meth) do |*args, &block|
                 if block
-                  ::Dry::Effects.yield(fetch_or_store.(args, block))
+                  eff = fetch_or_store.(key.(self, args), block)
                 else
-                  ::Dry::Effects.yield(fetch_or_store.(args, -> { super(*args) }))
+                  eff = fetch_or_store.(key.(self, args, method: meth), -> { super(*args) })
                 end
-              end
-            else
-              define_method(as) do |*args, &block|
-                if block
-                  ::Dry::Effects.yield(fetch_or_store.([self.class, *args], block))
-                else
-                  ::Dry::Effects.yield(fetch_or_store.([self.class, *args], -> { super(*args) }))
-                end
+
+                ::Dry::Effects.yield(eff)
               end
             end
+          end
+        end
+
+        def shared_cache_key(_, args, method: Undefined)
+          if Undefined.equal?(method)
+            args
+          else
+            [method, args]
+          end
+        end
+
+        def cache_key(instance, args, method: Undefined)
+          if Undefined.equal?(method)
+            [instance.class, args]
+          else
+            [instance.class, method, args]
           end
         end
       end

@@ -19,7 +19,7 @@ RSpec.describe 'handling cache' do
   end
 
   context 'alias' do
-    include Dry::Effects.Cache(:cached, as: :memoized)
+    include Dry::Effects.Cache(cached: :memoized)
 
     it 'uses given alias' do
       result = with_cache do
@@ -42,7 +42,7 @@ RSpec.describe 'handling cache' do
         :foo
       end
 
-      prepend Dry::Effects.Cache(:cached, as: :expensive)
+      prepend Dry::Effects.Cache(cached: :expensive)
 
       it 'caches result after first super call' do
         result = with_cache do
@@ -60,7 +60,7 @@ RSpec.describe 'handling cache' do
         :"#{val}_#{@called}"
       end
 
-      prepend Dry::Effects.Cache(:cached, as: :expensive)
+      prepend Dry::Effects.Cache(cached: :expensive)
 
       it 'uses arguments for cache' do
         result = with_cache do
@@ -75,7 +75,7 @@ RSpec.describe 'handling cache' do
     context 'clashing' do
       attr_accessor :called
 
-      let(:cache_module) { Dry::Effects.Cache(:cached, as: :expensive) }
+      let(:cache_module) { Dry::Effects.Cache(cached: %i(expensive slow)) }
 
       let(:operation_a) do
         ex = self
@@ -86,6 +86,12 @@ RSpec.describe 'handling cache' do
             ex.called += 1
 
             :"#{val}_a"
+          end
+
+          define_method(:slow) do |val|
+            ex.called += 1
+
+            :"slow_#{val}_a"
           end
         }.new
       end
@@ -99,10 +105,16 @@ RSpec.describe 'handling cache' do
             ex.called += 1
             :"#{val}_b"
           end
+
+          define_method(:slow) do |val|
+            ex.called += 1
+
+            :"slow_#{val}_b"
+          end
         }.new
       end
 
-      it 'uses cache-per-class by default' do
+      it 'uses per-class and per-method cache by default' do
         self.called = 0
 
         result = with_cache do
@@ -110,16 +122,25 @@ RSpec.describe 'handling cache' do
             operation_a.expensive(:foo),
             operation_b.expensive(:foo),
             operation_a.expensive(:foo),
-            operation_b.expensive(:foo)
+            operation_b.expensive(:foo),
+            operation_a.slow(:foo),
+            operation_b.slow(:foo),
+            operation_a.slow(:foo),
+            operation_b.slow(:foo)
           ]
         end
 
-        expect(result).to eql(%i[foo_a foo_b foo_a foo_b])
-        expect(called).to be(2)
+        expect(result).to eql(%i[
+          foo_a foo_b
+          foo_a foo_b
+          slow_foo_a slow_foo_b
+          slow_foo_a slow_foo_b
+        ])
+        expect(called).to be(4)
       end
 
       context 'sharing' do
-        let(:cache_module) { Dry::Effects.Cache(:cached, as: :expensive, shared: true) }
+        let(:cache_module) { Dry::Effects.Cache({ cached: :expensive }, shared: true) }
 
         it 'can be shared' do
           self.called = 0
