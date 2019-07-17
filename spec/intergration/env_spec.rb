@@ -53,11 +53,44 @@ RSpec.describe 'env' do
   end
 
   context 'static env' do
-    include Dry::Effects::Handler.Env(env: { foo: :bar })
+    include Dry::Effects::Handler.Env(foo: :bar)
     include Dry::Effects.Env(:foo)
 
     it 'uses static values' do
       expect(with_env { foo }).to be(:bar)
+    end
+  end
+
+  context 'overridding' do
+    context 'user-provided values' do
+      include Dry::Effects::Handler.Env
+      include Dry::Effects.Env(:foo)
+
+      it 'can be overridden by providing a handle option' do
+        handled = with_env(foo: 'external') do
+          with_env({ foo: 'internal' }, overridable: true) do
+            foo
+          end
+        end
+
+        expect(handled).to eql('external')
+      end
+    end
+
+    context 'ENV' do
+      include Dry::Effects.Env(env: 'RACK_ENV')
+
+      before { ENV['RACK_ENV'] = 'test' }
+
+      it 'can be overridden' do
+        handled = with_env('RACK_ENV' => 'production') do
+          with_env({}, overridable: true) do
+            env
+          end
+        end
+
+        expect(handled).to eql('production')
+      end
     end
   end
 end

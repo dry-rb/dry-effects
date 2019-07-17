@@ -1,44 +1,63 @@
 # frozen_string_literal: true
 
 require 'dry/effects/provider'
+require 'dry/effects/instructions/raise'
 
 module Dry
   module Effects
     module Providers
       class Env < Provider[:env]
-        include Dry::Equalizer(:values, :env, :overridable)
+        include Dry::Equalizer(:values, :dynamic)
 
-        attr_reader :values
+        Locate = Effect.new(type: :env, name: :locate)
 
-        option :env, default: -> { EMPTY_HASH }
+        param :values, default: -> { EMPTY_HASH }
 
-        option :overridable, default: -> { false }
+        attr_reader :parent
 
         def read(key)
+          parent.fetch(key) { fetch(key) }
+        end
+
+        def fetch(key)
           values.fetch(key) do
-            if key.is_a?(::String)
-              ::ENV.fetch(key)
+            if key.is_a?(::String) && ::ENV.key?(key)
+              ::ENV[key]
             else
-              raise ::KeyError.new(key)
+              yield
             end
           end
         end
+        protected :fetch
 
-        def call(stack, values = EMPTY_HASH)
-          if values.empty?
-            @values = env
-          else
-            @values = env.merge(values)
+        def locate
+          self
+        end
+
+        def call(stack, values = EMPTY_HASH, options = EMPTY_HASH)
+          unless values.empty?
+            @values = @values.merge(values)
           end
+
+          if options.fetch(:overridable, false)
+            @parent = ::Dry::Effects.yield(Locate) { EMPTY_HASH }
+          else
+            @parent = EMPTY_HASH
+          end
+
           super(stack)
         end
 
         def provide?(effect)
-          super && effect.name.equal?(:read) && key?(effect.payload[0])
+          if super
+            !effect.name.equal?(:read) || key?(effect.payload[0])
+          else
+            false
+          end
         end
 
         def key?(key)
-          values.key?(key) || key.is_a?(::String) && ::ENV.key?(key)
+          values.key?(key) || key.is_a?(::String) && ::ENV.key?(key) || parent.key?(key)
         end
       end
     end

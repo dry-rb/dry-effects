@@ -50,12 +50,8 @@ module Dry
         end
 
         def provide?(effect)
-          if effect.type.equal?(:resolve)
-            if effect.name.equal?(:resolve)
-              key?(effect.payload[0])
-            else
-              true
-            end
+          if super
+            !effect.name.equal?(:resolve) || key?(effect.payload[0])
           else
             false
           end
