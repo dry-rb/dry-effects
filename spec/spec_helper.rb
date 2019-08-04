@@ -26,6 +26,9 @@ SPEC_ROOT = Pathname(__FILE__).dirname
 Dir[SPEC_ROOT.join('support/**/*.rb')].each(&method(:require))
 
 require 'dry/effects'
+require 'warning'
+
+Warning.ignore(/dry-system/)
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
