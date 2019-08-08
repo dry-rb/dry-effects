@@ -49,6 +49,10 @@ module Dry
         def provide?(effect)
           super && scope.equal?(effect.scope)
         end
+
+        def represent
+          "retry[#{scope} #{attempts}/#{limit}]"
+        end
       end
     end
   end

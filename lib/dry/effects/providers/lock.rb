@@ -83,6 +83,14 @@ module Dry
         def owned
           @owned ||= []
         end
+
+        def represent
+          if owned.empty?
+            super
+          else
+            "lock[owned=#{owned.size}]"
+          end
+        end
       end
     end
   end

@@ -35,6 +35,14 @@ module Dry
             t.round(round)
           end
         end
+
+        def represent
+          if fixed?
+            "current_time[fixed=#{time.iso8601(6)}]"
+          else
+            'current_time[fixed=false]'
+          end
+        end
       end
     end
   end

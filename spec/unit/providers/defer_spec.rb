@@ -15,4 +15,23 @@ RSpec.describe Dry::Effects::Providers::Defer do
       )
     end
   end
+
+  describe '#represent' do
+    it "shows default executor if it's a symbol" do
+      expect(defer.represent).to eql('defer[io]')
+    end
+
+    context 'custom executor' do
+      subject(:defer) { described_class.new(executor: double(:executor)) }
+
+      it "doesn't show executor" do
+        expect(defer.represent).to eql('defer')
+      end
+    end
+
+    it 'shows number of later callables' do
+      defer.later(-> {}, :immediate)
+      expect(defer.represent).to eql('defer[io call_later=1]')
+    end
+  end
 end

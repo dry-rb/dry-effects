@@ -29,6 +29,14 @@ module Dry
         def provide?(effect)
           super && scope.eql?(effect.scope)
         end
+
+        def represent
+          if cache.empty?
+            "cache[#{scope} empty]"
+          else
+            "cache[#{scope} size=#{cache.size}]"
+          end
+        end
       end
     end
   end

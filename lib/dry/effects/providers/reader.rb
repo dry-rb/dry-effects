@@ -46,9 +46,9 @@ module Dry
 
         def represent
           if Undefined.equal?(state)
-            "#{type}<#{scope}, no value>"
+            "#{type}[#{scope} unset]"
           else
-            "#{type}<#{scope}>"
+            "#{type}[#{scope} set]"
           end
         end
 
