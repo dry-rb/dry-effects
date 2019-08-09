@@ -28,14 +28,14 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
 
   describe '#represent' do
     context 'frozen' do
-      let(:time) { Time.new(2019, 8, 9, 18, 50, 10.123456, 0) }
+      let(:time) { Time.new(2019, 8, 9, 18, 50, 10.000002, 0) }
 
       before do
         current_time.(double(:stack), time) {}
       end
 
       it 'shows current time' do
-        expect(current_time.represent).to eql("current_time[fixed=2019-08-09T18:50:10.123455+00:00]")
+        expect(current_time.represent).to eql("current_time[fixed=2019-08-09T18:50:10.000002+00:00]")
       end
     end
 
