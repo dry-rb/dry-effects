@@ -70,4 +70,17 @@ RSpec.describe 'locking' do
 
     expect(locked).to eql([true, true, false])
   end
+
+  context 'injectable backend' do
+    let(:backend) { double(:backend) }
+
+    let(:handle) { double(:handle) }
+
+    it 'sets and unsets locks' do
+      expect(backend).to receive(:lock).with(:foo).and_return(handle)
+      expect(backend).to receive(:unlock).with(handle)
+
+      with_lock(backend) { lock(:foo) }
+    end
+  end
 end
