@@ -66,6 +66,18 @@ module Dry
             super
           end
         end
+
+        def represent
+          info = []
+          info << executor.to_s if executor.is_a?(::Symbol)
+          info << "call_later=#{later_calls.size}" if later_calls.any?
+
+          if info.empty?
+            'defer'
+          else
+            "defer[#{info.join(' ')}]"
+          end
+        end
       end
     end
   end

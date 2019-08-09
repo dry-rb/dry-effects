@@ -15,4 +15,12 @@ RSpec.describe Dry::Effects::Providers::Cache do
       expect(cache.fetch_or_store([1, 2, 3], -> { :bar })).to be(:foo)
     end
   end
+
+  describe '#represent' do
+    it 'shows the number of elements' do
+      expect(cache.represent).to eql('cache[test empty]')
+      cache.cache[1] = 1
+      expect(cache.represent).to eql('cache[test size=1]')
+    end
+  end
 end

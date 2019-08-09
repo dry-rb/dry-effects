@@ -26,6 +26,10 @@ module Dry
         def provide?(effect)
           super && id.equal?(effect.id)
         end
+
+        def represent
+          "amb[#{id}=#{@value}]"
+        end
       end
     end
   end

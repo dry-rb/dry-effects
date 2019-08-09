@@ -24,6 +24,10 @@ module Dry
           Halt[scope]
         end
 
+        def represent
+          "interrupt[#{scope}]"
+        end
+
         def provide?(effect)
           super && scope.equal?(effect.scope)
         end
