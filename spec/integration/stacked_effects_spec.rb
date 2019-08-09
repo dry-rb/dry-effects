@@ -108,13 +108,13 @@ RSpec.describe 'stacked effects' do
 
     example 'defer + parallel' do
       tasks = [0, 1, 2]
-      observed_order = []
+      observed_order = Concurrent::Array.new
       result = with_defer do
         with_parallel do
           pars = tasks.map do |i|
             defer do
               par do
-                sleep((tasks.size - i) / 20.0)
+                sleep((tasks.size - i) / 10.0)
                 observed_order << i
                 i
               end
