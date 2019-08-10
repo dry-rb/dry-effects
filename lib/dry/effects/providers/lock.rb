@@ -14,6 +14,8 @@ module Dry
           extend Initializer
 
           param :key
+
+          param :meta
         end
 
         class Backend
@@ -23,12 +25,12 @@ module Dry
 
           param :mutex, default: -> { ::Mutex.new }
 
-          def lock(key)
+          def lock(key, meta)
             mutex.synchronize do
               if locked?(key)
                 nil
               else
-                locks[key] = Handle.new(key)
+                locks[key] = Handle.new(key, meta)
               end
             end
           end
@@ -47,14 +49,18 @@ module Dry
               end
             end
           end
+
+          def meta(key)
+            Undefined.default(locks.fetch(key).meta, nil)
+          end
         end
 
         Locate = Effect.new(type: :lock, name: :locate)
 
         option :backend, default: -> { Backend.new }
 
-        def lock(key)
-          locked = backend.lock(key)
+        def lock(key, meta = Undefined)
+          locked = backend.lock(key, meta)
           owned << locked if locked
           locked
         end
@@ -65,6 +71,10 @@ module Dry
 
         def unlock(handle)
           backend.unlock(handle)
+        end
+
+        def meta(key)
+          backend.meta(key)
         end
 
         def locate
