@@ -51,7 +51,8 @@ module Dry
           end
 
           def meta(key)
-            Undefined.default(locks.fetch(key).meta, nil)
+            meta = Undefined.map(locks.fetch(key, Undefined), &:meta)
+            Undefined.default(meta, nil)
           end
         end
 

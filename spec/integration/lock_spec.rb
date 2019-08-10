@@ -100,5 +100,11 @@ RSpec.describe 'locking' do
         expect(lock_meta(:foo)).to be_nil
       end
     end
+
+    it 'returns nil when no lock exists' do
+       with_lock do
+        expect(lock_meta(:foo)).to be_nil
+      end
+    end
   end
 end
