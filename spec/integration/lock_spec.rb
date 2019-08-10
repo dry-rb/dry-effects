@@ -77,10 +77,28 @@ RSpec.describe 'locking' do
     let(:handle) { double(:handle) }
 
     it 'sets and unsets locks' do
-      expect(backend).to receive(:lock).with(:foo).and_return(handle)
+      expect(backend).to receive(:lock).with(:foo, Dry::Effects::Undefined).and_return(handle)
       expect(backend).to receive(:unlock).with(handle)
 
       with_lock(backend) { lock(:foo) }
+    end
+  end
+
+  context 'meta' do
+    it 'allows to add metadata about locks and retrieve it thereafter' do
+      with_lock do
+        lock(:foo, meta: 'Foo lock acquired')
+
+        expect(lock_meta(:foo)).to eql('Foo lock acquired')
+      end
+    end
+
+    it 'returns nil when no meta given' do
+      with_lock do
+        lock(:foo)
+
+        expect(lock_meta(:foo)).to be_nil
+      end
     end
   end
 end

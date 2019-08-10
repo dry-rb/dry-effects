@@ -7,21 +7,22 @@ module Dry
     module Effects
       class Lock < ::Module
         Lock = Effect.new(type: :lock, name: :lock)
+        Meta = Effect.new(type: :lock, name: :meta)
         Unlock = Effect.new(type: :lock, name: :unlock)
         Locked = Effect.new(type: :lock, name: :locked?)
 
         def initialize
           module_eval do
-            define_method(:lock) do |key, &block|
+            define_method(:lock) do |key, meta: Undefined, &block|
               if block
                 begin
-                  handle = ::Dry::Effects.yield(Lock.(key))
+                  handle = ::Dry::Effects.yield(Lock.(key, meta))
                   block.(!handle.nil?)
                 ensure
                   ::Dry::Effects.yield(Unlock.(handle)) if handle
                 end
               else
-                ::Dry::Effects.yield(Lock.(key))
+                ::Dry::Effects.yield(Lock.(key, meta))
               end
             end
 
@@ -31,6 +32,10 @@ module Dry
 
             define_method(:locked?) do |key|
               ::Dry::Effects.yield(Locked.(key))
+            end
+
+            define_method(:lock_meta) do |key|
+              ::Dry::Effects.yield(Meta.(key))
             end
           end
         end
