@@ -21,6 +21,11 @@ module Dry
 
         attr_reader :dynamic
 
+        def initialize(*)
+          super
+          @dynamic = EMPTY_HASH
+        end
+
         def resolve(key)
           if parent&.key?(key)
             parent.resolve(key)
@@ -47,6 +52,8 @@ module Dry
           end
 
           super(stack)
+        ensure
+          @dynamic = EMPTY_HASH
         end
 
         def provide?(effect)
@@ -59,6 +66,21 @@ module Dry
 
         def key?(key)
           static.key?(key) || dynamic.key?(key) || parent&.key?(key)
+        end
+
+        def represent
+          containers = [represent_container(static), represent_container(dynamic)].compact.join('+')
+          "resolve[#{containers.empty? ? 'empty' : containers}]"
+        end
+
+        def represent_container(container)
+          if container.is_a?(::Hash)
+            container.empty? ? nil : 'hash'
+          elsif container.is_a?(::Class)
+            container.name || container.to_s
+          else
+            container.to_s
+          end
         end
       end
     end
