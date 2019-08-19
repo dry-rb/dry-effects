@@ -25,7 +25,9 @@ module Dry
           super(stack)
         end
 
-        def current_time(round_to: Undefined)
+        def current_time(round_to: Undefined, refresh: false)
+          @time = ::Time.now if refresh && fixed?
+
           t = fixed? ? time : Undefined.default(time) { ::Time.now }
           round = Undefined.default(round_to) { self.round }
 

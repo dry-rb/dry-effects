@@ -9,15 +9,19 @@ module Dry
         CurrentTime = Effect.new(type: :current_time)
 
         def initialize(round: Undefined)
-          get = CurrentTime.payload(round_to: round)
+          outer_round = round
 
           module_eval do
-            define_method(:current_time) do |round: Undefined|
-              if Undefined.equal?(round)
-                ::Dry::Effects.yield(get)
+            define_method(:current_time) do |round: Undefined, refresh: false|
+              round_to = Undefined.coalesce(outer_round, round)
+
+              if Undefined.equal?(round_to) && refresh.equal?(false)
+                effect = CurrentTime
               else
-                ::Dry::Effects.yield(get.payload(round_to: round))
+                effect = CurrentTime.payload(round_to: round_to, refresh: refresh)
               end
+
+              ::Dry::Effects.yield(effect)
             end
           end
         end
