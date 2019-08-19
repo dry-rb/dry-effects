@@ -13,7 +13,7 @@ module Dry
 
           module_eval do
             define_method(:current_time) do |round: Undefined, refresh: false|
-              round_to = Undefined.coalesce(outer_round, round)
+              round_to = Undefined.coalesce(round, outer_round)
 
               if Undefined.equal?(round_to) && refresh.equal?(false)
                 effect = CurrentTime

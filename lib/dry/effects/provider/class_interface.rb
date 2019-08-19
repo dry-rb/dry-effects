@@ -46,8 +46,8 @@ module Dry
           handler = Handler.new(provider)
 
           ::Module.new do
-            define_method(handle_method) do |*args, &block|
-              handler.(args, &block)
+            define_method(handle_method) do |*xs, &block|
+              handler.(xs, &block)
             end
           end
         end

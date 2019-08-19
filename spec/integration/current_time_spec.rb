@@ -87,6 +87,17 @@ RSpec.describe 'handling current time' do
 
         expect(time).to eql(now.round(1))
       end
+
+      context 'overriding' do
+        include Dry::Effects.CurrentTime(round: 3)
+
+        it 'overrides default option' do
+          now = Time.now
+          time = with_current_time(now) { current_time(round: 1) }
+
+          expect(time).to eql(now.round(1))
+        end
+      end
     end
 
     context 'with handler option' do
