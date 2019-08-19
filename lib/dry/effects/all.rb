@@ -38,7 +38,7 @@ module Dry
           Providers.const_get(Inflector.camelize(key))
         end
 
-        Handler.singleton_class.define_method(class_name) do |*args|
+        Handler.singleton_class.send(:define_method, class_name) do |*args|
           ::Dry::Effects.providers[key].mixin(*args)
         end
       end

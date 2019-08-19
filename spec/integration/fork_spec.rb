@@ -10,15 +10,17 @@ RSpec.describe 'forking' do
   it 'duplicates a handler with the current stack' do
     result = with_fork do
       with_counter(0) do
-        self.counter += 1
-        fork do |with_stack|
-          with_stack.() do
-            self.counter += 10
-            [:done, self.counter]
+        begin
+          self.counter += 1
+          fork do |with_stack|
+            with_stack.() do
+              self.counter += 10
+              [:done, self.counter]
+            end
           end
+        ensure
+          self.counter += 1
         end
-      ensure
-        self.counter += 1
       end
     end
 
