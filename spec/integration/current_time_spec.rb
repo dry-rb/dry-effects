@@ -19,6 +19,18 @@ RSpec.describe 'handling current time' do
 
       expect(before).to be(after)
     end
+
+    example 'refreshing current time' do
+      before, after = with_current_time do
+        before = current_time
+        sleep 0.01
+        after = current_time(refresh: true)
+
+        [before, after]
+      end
+
+      expect(before).to be < after
+    end
   end
 
   context 'with provided time' do
