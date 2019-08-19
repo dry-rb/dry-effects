@@ -89,9 +89,11 @@ module Dry
           end
 
           with_backend(backend_replace) do
-            super(stack)
-          ensure
-            owned.each { |handle| unlock(handle) }
+            begin
+              super(stack)
+            ensure
+              owned.each { |handle| unlock(handle) }
+            end
           end
         end
 

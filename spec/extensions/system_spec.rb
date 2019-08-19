@@ -18,15 +18,17 @@ RSpec.describe 'dry-system extnesion' do
   end
 
   around do |ex|
-    Test = Module.new
-    load_path = $LOAD_PATH.dup
-    features = $LOADED_FEATURES.dup
-    require_relative 'system/system/app'
-    ex.run
-  ensure
-    $LOAD_PATH.replace(load_path)
-    $LOADED_FEATURES.replace(features)
-    Object.send(:remove_const, :Test)
+    begin
+      Test = Module.new
+      load_path = $LOAD_PATH.dup
+      features = $LOADED_FEATURES.dup
+      require_relative 'system/system/app'
+      ex.run
+    ensure
+      $LOAD_PATH.replace(load_path)
+      $LOADED_FEATURES.replace(features)
+      Object.send(:remove_const, :Test)
+    end
   end
 
   it 'loads all depenencies without handler and order issues' do

@@ -20,8 +20,10 @@ module Dry
           @attempts = 0
 
           loop do
-            return attempt { yield }
-          rescue halt
+            begin
+              return attempt { yield }
+            rescue halt
+            end
           end
         end
 

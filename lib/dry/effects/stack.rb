@@ -25,10 +25,12 @@ module Dry
 
       def push(provider, args)
         provider.(self, *args) do
-          providers.unshift(provider)
-          yield
-        ensure
-          providers.shift
+          begin
+            providers.unshift(provider)
+            yield
+          ensure
+            providers.shift
+          end
         end
       end
 

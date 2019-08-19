@@ -52,15 +52,19 @@ RSpec.describe 'stacked effects' do
 
       example do
         accumulated_state = with_counter(0) do
-          self.counter += 1
-          with_counter(10) do
-            self.counter += 30
-            :result
+          begin
+            self.counter += 1
+            with_counter(10) do
+              begin
+                self.counter += 30
+                :result
+              ensure
+                self.counter += 50
+              end
+            end
           ensure
-            self.counter += 50
+            self.counter += 4
           end
-        ensure
-          self.counter += 4
         end
 
         expect(accumulated_state).to eql([5, [90, :result]])
