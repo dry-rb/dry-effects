@@ -156,4 +156,18 @@ RSpec.describe 'handling current time' do
       end
     end
   end
+
+  context 'overriding with parent handler' do
+    include Dry::Effects::Handler.CurrentTime
+
+    it "delegates calls to parent if it's explicitly enabled" do
+      fixed = Time.now
+
+      with_current_time(proc { fixed }) do
+        with_current_time(overridable: true) do
+          expect(current_time).to be(fixed)
+        end
+      end
+    end
+  end
 end
