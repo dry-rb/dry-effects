@@ -8,12 +8,10 @@ module Dry
       class CurrentTime < ::Module
         CurrentTime = Effect.new(type: :current_time)
 
-        def initialize(round: Undefined)
-          outer_round = round
-
+        def initialize(options = EMPTY_HASH)
           module_eval do
             define_method(:current_time) do |round: Undefined, refresh: false|
-              round_to = Undefined.coalesce(round, outer_round)
+              round_to = Undefined.coalesce(round, options.fetch(:round, Undefined))
 
               if Undefined.equal?(round_to) && refresh.equal?(false)
                 effect = CurrentTime

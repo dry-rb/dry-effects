@@ -8,7 +8,7 @@ RSpec.describe 'handling current time' do
   context 'with fixed time' do
     include Dry::Effects::Handler.CurrentTime
 
-    example 'getting current timme' do
+    example 'getting current time' do
       before, after = with_current_time do
         before = current_time
         sleep 0.01
