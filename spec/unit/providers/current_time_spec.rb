@@ -5,9 +5,9 @@ require 'dry/effects/providers/current_time'
 RSpec.describe Dry::Effects::Providers::CurrentTime do
   subject(:current_time) { described_class.new }
 
-  let(:frozen) { Dry::Effects::Undefined }
+  let(:generator) { Dry::Effects::Undefined }
 
-  around { |ex| current_time.(double(:stack), frozen, &ex) }
+  around { |ex| current_time.(double(:stack), generator, &ex) }
 
   describe '#current_time' do
     it 'returns current time' do
@@ -17,6 +17,8 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
 
     context 'frozen time' do
       let(:frozen) { Time.now }
+
+      let(:generator) { proc { frozen } }
 
       it 'returns the same time' do
         expect(current_time.current_time).to be(frozen)
@@ -31,7 +33,7 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
       let(:time) { Time.new(2019, 8, 9, 18, 50, 10.000002, 0) }
 
       before do
-        current_time.(double(:stack), time) {}
+        current_time.(double(:stack), proc { time }) {}
       end
 
       it 'shows current time' do

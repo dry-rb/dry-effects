@@ -13,7 +13,7 @@ RSpec.describe 'using parallel effects' do
   let(:time) { Time.now }
 
   example 'running effectful code in parallel' do
-    result = with_fixed_time(time) do
+    result = with_fixed_time(proc { time }) do
       with_parallel do
         join(Array.new(3) { |i| par { ["Thread##{i}", current_time] } })
       end
