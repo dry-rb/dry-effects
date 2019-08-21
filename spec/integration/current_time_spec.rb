@@ -140,8 +140,8 @@ RSpec.describe 'handling current time' do
 
     it 'can use a custom time generator' do
       with_current_time(generator) do
-        expect(current_time - current_time).to be(-1.0)
-        expect(current_time - current_time).to be(-1.0)
+        expect(current_time - current_time).to eql(-1.0)
+        expect(current_time - current_time).to eql(-1.0)
       end
     end
   end
@@ -151,8 +151,8 @@ RSpec.describe 'handling current time' do
 
     it 'produces time at even intervals' do
       with_current_time(step: 0.1) do
-        expect(current_time - current_time).to be(-0.1)
-        expect(current_time - current_time).to be(-0.1)
+        expect(current_time - current_time).to eql(-0.1)
+        expect(current_time - current_time).to eql(-0.1)
       end
     end
   end
