@@ -18,8 +18,8 @@ module Dry
           RunningTime = -> ** { ::Time.now }
           RunningTimeGenerator = -> { RunningTime }
 
-          IncrementingTimeGenerator = lambda do |step|
-            start = ::Time.now
+          IncrementingTimeGenerator = lambda do |initial, step|
+            start = Undefined.default(initial) { ::Time.now }
             current = nil
 
             lambda do |**|

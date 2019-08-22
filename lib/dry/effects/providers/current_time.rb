@@ -20,12 +20,12 @@ module Dry
 
         attr_reader :generator
 
-        def call(stack, generator = Undefined, step: Undefined, overridable: false)
-          @generator = build_generator(generator, step, overridable)
+        def call(stack, generator = Undefined, **options)
+          @generator = build_generator(generator, **options)
           super(stack)
         end
 
-        def build_generator(generator, step, overridable)
+        def build_generator(generator, step: Undefined, initial: Undefined, overridable: false)
           if overridable
             parent = ::Dry::Effects.yield(Locate) { nil }
           else
@@ -37,7 +37,7 @@ module Dry
           elsif !Undefined.equal?(generator)
             generator
           elsif !Undefined.equal?(step)
-            IncrementingTimeGenerator.(step)
+            IncrementingTimeGenerator.(initial, step)
           elsif fixed?
             FixedTimeGenerator.()
           else
