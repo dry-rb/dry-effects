@@ -30,7 +30,6 @@ require 'warning'
 
 Warning.ignore(/dry-system/)
 Warning.ignore(/dry-configurable/)
-Warning.ignore(/local variable - round/)
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
