@@ -81,11 +81,13 @@ RSpec.describe 'stacked effects' do
     end
 
     example 'amb,interrupt' do
-      expect(handle_feature { handle_stop { stop(feature?) } }).to eql([false, true])
+      expect(handle_feature { handle_stop { stop(feature?) } }).to eql(
+        [[true, false], [true, true]]
+      )
     end
 
     example 'interrupt,amb' do
-      expect(handle_stop { handle_feature { stop(feature?) } }).to eql(false)
+      expect(handle_stop { handle_feature { stop(feature?) } }).to eql([true, false])
     end
 
     context 'more nesting' do

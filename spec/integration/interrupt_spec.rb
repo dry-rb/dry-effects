@@ -7,29 +7,23 @@ RSpec.describe 'handle interruption' do
   include Dry::Effects::Handler.State(:counter_b, as: :inner)
 
   it 'aborts execution with payload' do
-    reached = false
     result = outer(10) do
       catch_halt do
         inner(20) { halt :done }
-        reached = true
       end
     end
 
-    expect(result).to eql([10, :done])
-    expect(reached).to be(false)
+    expect(result).to eql([10, [true, :done]])
   end
 
   it 'aborts execution without payload' do
-    reached = false
     result = outer(10) do
       catch_halt do
         inner(20) { halt }
-        reached = true
       end
     end
 
-    expect(result).to eql([10, nil])
-    expect(reached).to be(false)
+    expect(result).to eql([10, [true, nil]])
   end
 
   it 'returns result if no interruption was triggerred' do
@@ -37,7 +31,7 @@ RSpec.describe 'handle interruption' do
       catch_halt { :success }
     end
 
-    expect(result).to eql([10, :success])
+    expect(result).to eql([10, [false, :success]])
   end
 
   context 'stacked' do
@@ -48,8 +42,8 @@ RSpec.describe 'handle interruption' do
       include Dry::Effects::Handler.Interrupt(:raise, as: :handle_raise)
 
       example 'handling within inner block' do
-        outer = handle_halt do
-          inner = handle_raise do
+        _, outer = handle_halt do
+          _, inner = handle_raise do
             raise 20
             10
           end
@@ -61,8 +55,8 @@ RSpec.describe 'handle interruption' do
       end
 
       example 'handling within outer block' do
-        outer = handle_halt do
-          inner = handle_raise do
+        _, outer = handle_halt do
+          _, inner = handle_raise do
             halt 20
             10
           end
