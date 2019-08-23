@@ -15,9 +15,9 @@ module Dry
         end
 
         def call(_stack)
-          yield
+          [false, yield]
         rescue halt => e
-          e.payload[0]
+          [true, e.payload[0]]
         end
 
         def halt
