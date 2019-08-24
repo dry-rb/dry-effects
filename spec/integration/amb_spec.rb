@@ -15,4 +15,28 @@ RSpec.describe 'ambivalent effect' do
 
     expect(result).to eql(%i[no_feature feature])
   end
+
+  context 'choosing the branch' do
+    it 'can use one branch or another by passing an argument to the handler' do
+      result = alternative(false) do
+        if feature?
+          fail
+        else
+          :no_feature
+        end
+      end
+
+      expect(result).to be(:no_feature)
+
+      result = alternative(true) do
+        if feature?
+          :feature
+        else
+          fail
+        end
+      end
+
+      expect(result).to be(:feature)
+    end
+  end
 end
