@@ -16,7 +16,6 @@ RSpec.describe 'defer effects' do
       result = with_defer do
         deferred = Array.new(3) do |i|
           defer do
-            sleep 0.01
             observed << :"step_#{i}"
             i
           end
@@ -31,8 +30,7 @@ RSpec.describe 'defer effects' do
 
       expect(result).to be(:done)
       expect(values).to eql([0, 1, 2])
-      expect(observed.take(1)).to eql([:start])
-      expect(observed.drop(1).sort).to eql([:step_0, :step_1, :step_2])
+      expect(observed.sort).to eql([:start, :step_0, :step_1, :step_2])
     end
   end
 
