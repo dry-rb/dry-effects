@@ -1,58 +1,23 @@
-# frozen_string_literal: true
-
-require 'fiber'
-require 'dry/effects/initializer'
-require 'dry/effects/effect'
-require 'dry/effects/errors'
-require 'dry/effects/stack'
-require 'dry/effects/instructions/raise'
-
 module Dry
   module Effects
     class Handler
-      class << self
-        def stack
-          ::Thread.current[:dry_effects_stack] ||= Stack.new
-        end
+      attr_reader :provider
 
-        def stack=(stack)
-          ::Thread.current[:dry_effects_stack] = stack
-        end
+      attr_reader :frame
 
-        def spawn_fiber(stack)
-          fiber = ::Fiber.new do
-            self.stack = stack
-            yield
-          end
-          result = fiber.resume
-
-          loop do
-            break result unless fiber.alive?
-
-            provided = stack.(result) do
-              ::Dry::Effects.yield(result) do |_, error|
-                Instructions.Raise(error)
-              end
-            end
-
-            result = fiber.resume(provided)
-          end
-        end
+      def initialize(type, *args)
+        @provider = ::Dry::Effects.providers[type].new(*args)
+        @frame = Frame.new(provider)
       end
 
-      extend Initializer
-
-      param :provider
-
-      def call(args = EMPTY_ARRAY, &block)
-        stack = Handler.stack
-
-        if stack.empty?
-          stack.push(provider.dup, args) { Handler.spawn_fiber(stack, &block) }
-        else
-          stack.push(provider.dup, args, &block)
-        end
+      def call(*args, &block)
+        frame.(args, &block)
       end
+
+      def to_s
+        "#<Dry::Effects::Handler #{provider.represent}>"
+      end
+      alias_method :inspect, :to_s
     end
   end
 end

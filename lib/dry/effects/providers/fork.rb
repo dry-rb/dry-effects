@@ -10,7 +10,7 @@ module Dry
 
         def fork
           stack = self.stack.dup
-          -> &cont { Handler.spawn_fiber(stack.dup, &cont) }
+          -> &cont { Frame.spawn_fiber(stack.dup, &cont) }
         end
 
         def call(stack)

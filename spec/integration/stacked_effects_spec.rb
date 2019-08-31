@@ -5,9 +5,9 @@ RSpec.describe 'stacked effects' do
     include Dry::Effects.Random
     include Dry::Effects.CurrentTime
 
-    let(:rand_handler) { make_handler(:random) }
+    let(:rand_handler) { Dry::Effects[:random] }
 
-    let(:time_handler) { make_handler(:current_time) }
+    let(:time_handler) { Dry::Effects[:current_time] }
 
     example 'nesting handlers' do
       past = Time.now
@@ -27,9 +27,9 @@ RSpec.describe 'stacked effects' do
         extend Dry::Effects.State(:counter_a), Dry::Effects.State(:counter_b)
       end
 
-      let(:state_a) { make_handler(:state, :counter_a) }
+      let(:state_a) { Dry::Effects[:state, :counter_a] }
 
-      let(:state_b) { make_handler(:state, :counter_b) }
+      let(:state_b) { Dry::Effects[:state, :counter_b] }
 
       example 'works nicely' do
         accumulated_state = state_a.(0) do

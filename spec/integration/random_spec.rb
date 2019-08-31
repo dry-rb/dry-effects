@@ -3,7 +3,7 @@
 require 'dry/effects/provider'
 
 RSpec.describe 'handling random' do
-  let(:handler) { Dry::Effects::Handler.new(provider) }
+  let(:handler) { Dry::Effects::Frame.new(provider) }
 
   include Dry::Effects.Random
 
@@ -49,7 +49,7 @@ RSpec.describe 'handling random' do
   end
 
   context 'with default provider' do
-    let(:handler) { make_handler(:random) }
+    let(:handler) { Dry::Effects[:random] }
 
     example 'producing random values' do
       result = handler.() do
