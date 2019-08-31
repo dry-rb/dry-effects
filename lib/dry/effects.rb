@@ -34,7 +34,7 @@ module Dry
         end
       end
 
-      def [](*args, &block)
+      def [](*args)
         Handler.new(*args)
       end
     end
