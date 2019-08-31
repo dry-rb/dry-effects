@@ -33,10 +33,13 @@ module Dry
           raise Errors::UnhandledEffectError, effect
         end
       end
+
+      def [](*args)
+        Handler.new(*args)
+      end
     end
   end
 end
 
-require 'dry/effects/handler'
 require 'dry/effects/all'
 require 'dry/effects/extensions'

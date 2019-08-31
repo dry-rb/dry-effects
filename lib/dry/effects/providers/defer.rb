@@ -19,7 +19,7 @@ module Dry
           stack = self.stack.dup
           at = Undefined.default(executor, self.executor)
           ::Concurrent::Promise.execute(executor: at) do
-            Handler.spawn_fiber(stack, &block)
+            Frame.spawn_fiber(stack, &block)
           end
         end
 
@@ -33,7 +33,7 @@ module Dry
             at = Undefined.default(executor, self.executor)
             stack = self.stack.dup
             @later_calls << ::Concurrent::Promise.new(executor: at) do
-              Handler.spawn_fiber(stack, &block)
+              Frame.spawn_fiber(stack, &block)
             end
             nil
           end

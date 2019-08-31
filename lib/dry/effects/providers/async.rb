@@ -17,7 +17,7 @@ module Dry
         end
 
         def await(task)
-          Handler.spawn_fiber(stack, &@tasks.delete(task))
+          Frame.spawn_fiber(stack, &@tasks.delete(task))
         end
 
         def call(stack)

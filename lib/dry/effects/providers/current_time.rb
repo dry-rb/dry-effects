@@ -63,7 +63,11 @@ module Dry
 
         def represent
           if fixed?
-            "current_time[fixed=#{generator.().iso8601(6)}]"
+            if generator.nil?
+              'current_time[fixed=true]'
+            else
+              "current_time[fixed=#{generator.().iso8601(6)}]"
+            end
           else
             'current_time[fixed=false]'
           end

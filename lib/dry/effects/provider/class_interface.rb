@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/core/class_attributes'
+require 'dry/effects/frame'
 
 module Dry
   module Effects
@@ -30,7 +31,7 @@ module Dry
         def [](type)
           if self < Provider
             Provider.effects.fetch(type) do
-              Provider.effects[type] = Class.new(self).tap do |subclass|
+              Provider.effects[type] = ::Class.new(self).tap do |subclass|
                 subclass.type type
               end
             end
@@ -43,11 +44,11 @@ module Dry
           handle_method = handle_method(*args, **kwargs)
 
           provider = new(*args, **kwargs).freeze
-          handler = Handler.new(provider)
+          frame = Frame.new(provider)
 
           ::Module.new do
             define_method(handle_method) do |*xs, &block|
-              handler.(xs, &block)
+              frame.(xs, &block)
             end
           end
         end
