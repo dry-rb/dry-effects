@@ -181,4 +181,20 @@ RSpec.describe 'handling current time' do
       end
     end
   end
+
+  describe 'constructors' do
+    include Dry::Effects::Constructors
+
+    example 'building current time effects' do
+      expect(CurrentTime()).to eql(Dry::Effects::Effects::CurrentTime::CurrentTime)
+
+      expect(CurrentTime(round_to: 3)).to eql(
+        Dry::Effects::Effects::CurrentTime::CurrentTime.payload(round_to: 3)
+      )
+
+      expect(CurrentTime(refresh: true)).to eql(
+        Dry::Effects::Effects::CurrentTime::CurrentTime.payload(refresh: true)
+      )
+    end
+  end
 end

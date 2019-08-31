@@ -27,7 +27,7 @@ module Dry
           end
         end
 
-        def repeat
+        def retry
           Instructions.Raise(halt.new)
         end
 
