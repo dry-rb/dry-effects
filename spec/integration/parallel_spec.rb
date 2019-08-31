@@ -27,7 +27,6 @@ RSpec.describe 'using parallel effects' do
       with_parallel do
         threads = Array.new(2) do
           par do
-            sleep(rand(0) % 0.01)
             self.counter += 1
           end
         end

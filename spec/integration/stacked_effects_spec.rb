@@ -120,7 +120,6 @@ RSpec.describe 'stacked effects' do
           pars = tasks.map do |i|
             defer do
               par do
-                sleep((tasks.size - i) / 10.0)
                 observed_order << i
                 i
               end
@@ -132,7 +131,7 @@ RSpec.describe 'stacked effects' do
       end
 
       expect(result).to eql([0, 1, 2])
-      expect(observed_order).to eql([2, 1, 0])
+      expect(observed_order.sort).to eql([0, 1, 2])
     end
 
     example 'parallel + defer' do
@@ -143,7 +142,6 @@ RSpec.describe 'stacked effects' do
           pars = tasks.map do |i|
             defer do
               par do
-                sleep((tasks.size - i) / 20.0)
                 observed_order << i
                 i
               end
@@ -155,7 +153,7 @@ RSpec.describe 'stacked effects' do
       end
 
       expect(result).to eql([0, 1, 2])
-      expect(observed_order).to eql([2, 1, 0])
+      expect(observed_order.sort).to eql([0, 1, 2])
     end
   end
 
