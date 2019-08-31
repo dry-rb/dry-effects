@@ -48,5 +48,13 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
         expect(current_time.represent).to eql("current_time[fixed=false]")
       end
     end
+
+    context 'not in the stack' do
+      subject(:not_in_stack) { described_class.new }
+
+      it 'works' do
+        expect(not_in_stack.represent).to eql('current_time[fixed=true]')
+      end
+    end
   end
 end
