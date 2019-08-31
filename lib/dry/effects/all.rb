@@ -10,6 +10,7 @@ module Dry
       cache current_time random resolve defer
       state interrupt amb retry fork parallel
       async implicit env lock reader timestamp
+      timeout
     ]
 
     effect_modules = ::Concurrent::Map.new
