@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+require 'dry/effects/provider'
+
+module Dry
+  module Effects
+    module Providers
+      class Timeout < Provider[:timeout]
+        def self.handle_method(scope, as: Undefined, **)
+          Undefined.default(as) { :with_timeout }
+        end
+
+        param :scope
+
+        def timeout
+          left = @time_out_at - read_clock
+
+          if left <= 0
+            0.0
+          else
+            left
+          end
+        end
+
+        def call(stack, timeout)
+          @time_out_at = read_clock + timeout
+
+          super(stack)
+        end
+
+        def provide?(effect)
+          effect.type.equal?(:timeout) && scope.equal?(effect.scope)
+        end
+
+        def read_clock
+          ::Process.clock_gettime(::Process::CLOCK_MONOTONIC)
+        end
+      end
+    end
+  end
+end
