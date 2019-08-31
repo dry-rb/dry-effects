@@ -9,7 +9,7 @@ RSpec.describe Dry::Effects::Providers::Reader do
     subject(:represented) { reader.represent }
 
     context 'not in stack' do
-      it { is_expected.to eql('reader[counter unset]') }
+      it { is_expected.to eql('reader[counter not set]') }
     end
 
     context 'with value' do

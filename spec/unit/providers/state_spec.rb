@@ -9,13 +9,13 @@ RSpec.describe Dry::Effects::Providers::State do
     subject(:represented) { state.represent }
 
     context 'not in stack' do
-      it { is_expected.to eql('state[counter unset]') }
+      it { is_expected.to eql('state[counter not set]') }
     end
 
     context 'without value' do
       around { |ex| state.(double(:stack), Dry::Effects::Undefined, &ex) }
 
-      it { is_expected.to eql('state[counter unset]') }
+      it { is_expected.to eql('state[counter not set]') }
     end
 
     context 'with value' do
