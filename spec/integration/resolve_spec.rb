@@ -46,4 +46,12 @@ RSpec.describe 'resolving dependencies' do
       expect(provided).to be(10)
     end
   end
+
+  describe 'constructors' do
+    include Dry::Effects::Constructors
+
+    example 'building resolve effects' do
+      expect(Resolve(:foo)).to eql(Dry::Effects::Effects::Resolve::Resolve.(:foo))
+    end
+  end
 end

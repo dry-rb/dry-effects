@@ -9,9 +9,7 @@ module Dry
       class Resolve < ::Module
         Resolve = Effect.new(type: :resolve)
 
-        def Constructors.Resolve(key)
-          Resolve.(key)
-        end
+        Constructors.register(:Resolve) { |key| Resolve.(key) }
 
         def initialize(*keys, **aliases)
           module_eval do

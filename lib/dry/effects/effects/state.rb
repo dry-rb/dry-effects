@@ -6,15 +6,23 @@ module Dry
   module Effects
     module Effects
       class State < ::Module
-        class StateEffect < Effect
+        class State < Effect
           include ::Dry::Equalizer(:type, :name, :payload, :scope)
 
           option :scope
         end
 
+        Constructors.register(:Read) do |scope|
+          State.new(type: :state, name: :read, scope: scope)
+        end
+
+        Constructors.register(:Write) do |scope, value|
+          State.new(type: :state, name: :write, scope: scope, payload: [value])
+        end
+
         def initialize(scope, default: Undefined, writer: true, as: scope)
-          read = StateEffect.new(type: :state, name: :read, scope: scope)
-          write = StateEffect.new(type: :state, name: :write, scope: scope)
+          read = State.new(type: :state, name: :read, scope: scope)
+          write = State.new(type: :state, name: :write, scope: scope)
 
           module_eval do
             if Undefined.equal?(default)

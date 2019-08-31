@@ -15,7 +15,7 @@ RSpec.describe Dry::Effects::Providers::Retry do
       self.retry.(double(:stack), 10) do
         retries += 1
         strings << self.retry.represent
-        self.retry.repeat.() if retries <= 2
+        self.retry.retry.() if retries <= 2
       end
 
       expect(strings).to eql([

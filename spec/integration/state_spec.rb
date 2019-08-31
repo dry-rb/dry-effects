@@ -121,4 +121,31 @@ RSpec.describe 'handling state' do
       end
     end
   end
+
+  describe 'constructors' do
+    include Dry::Effects::Constructors
+
+    example 'read effects' do
+      value = double(:value)
+      expect(Read(:foo)).to eql(
+        Dry::Effects::Effects::State::State.new(
+          type: :state,
+          name: :read,
+          scope: :foo
+        )
+      )
+    end
+
+    example 'write effects' do
+      value = double(:value)
+      expect(Write(:foo, value)).to eql(
+        Dry::Effects::Effects::State::State.new(
+          type: :state,
+          name: :write,
+          scope: :foo,
+          payload: [value]
+        )
+      )
+    end
+  end
 end

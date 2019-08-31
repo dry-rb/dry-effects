@@ -68,4 +68,16 @@ RSpec.describe 'retrying' do
     expect(result).to be(:done)
     expect(counter).to be(5)
   end
+
+  describe 'constructors' do
+    include Dry::Effects::Constructors
+
+    example 'building retry effects' do
+      expect(Retry(:foo)).to eql(
+        Dry::Effects::Effects::Retry::Retry.new(
+          type: :retry, scope: :foo
+        )
+      )
+    end
+  end
 end
