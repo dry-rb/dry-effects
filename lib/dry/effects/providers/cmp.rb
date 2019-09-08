@@ -5,7 +5,7 @@ require 'dry/effects/provider'
 module Dry
   module Effects
     module Providers
-      class Amb < Provider[:amb]
+      class Cmp < Provider[:cmp]
         include Dry::Equalizer(:id, :value)
 
         attr_reader :value
@@ -33,7 +33,7 @@ module Dry
         end
 
         def represent
-          "amb[#{id}=#{@value}]"
+          "cmp[#{id}=#{@value}]"
         end
       end
     end

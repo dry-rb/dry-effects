@@ -9,7 +9,7 @@ module Dry
   module Effects
     default = %i[
       cache current_time random resolve defer
-      state interrupt amb retry fork parallel
+      state interrupt cmp retry fork parallel
       async implicit env lock reader timestamp
       timeout
     ]
