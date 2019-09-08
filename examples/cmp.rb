@@ -2,7 +2,7 @@
 
 class Operation
   include Dry::Effects.State(:counter)
-  include Dry::Effects.Amb(:feature_enabled)
+  include Dry::Effects.Cmp(:feature_enabled)
 
   def call
     if feature_enabled?
@@ -17,10 +17,10 @@ end
 
 module Handler
   include Dry::Effects::Handler.State(:counter, as: :with_counter)
-  include Dry::Effects::Handler.Amb(:feature_enabled, as: :test_feature)
+  include Dry::Effects::Handler.Cmp(:feature_enabled, as: :test_feature)
 end
 
-class AmbState
+class CmpState
   include Handler
 
   def initialize
@@ -32,7 +32,7 @@ class AmbState
   end
 end
 
-class StateAmb
+class StateCmp
   include Handler
 
   def initialize
@@ -44,8 +44,8 @@ class StateAmb
   end
 end
 
-amb_then_state = AmbState.new
-state_then_amb = StateAmb.new
+cmp_then_state = CmpState.new
+state_then_cmp = State.Cmp.new
 
-amb_then_state.() # => [[1, :without_feature], [10, :with_feature]]
-state_then_amb.() # => [11, [:without_feature, :with_feature]]
+cmp_then_state.() # => [[1, :without_feature], [10, :with_feature]]
+state_then_cmp.() # => [11, [:without_feature, :with_feature]]

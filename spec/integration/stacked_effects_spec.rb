@@ -74,29 +74,29 @@ RSpec.describe 'stacked effects' do
 
   context 'mixing two stack-affecting effects' do
     before do
-      extend Dry::Effects.Amb(:feature)
+      extend Dry::Effects.Cmp(:feature)
       extend Dry::Effects.Interrupt(:stop)
-      extend Dry::Effects::Handler.Amb(:feature, as: :handle_feature)
+      extend Dry::Effects::Handler.Cmp(:feature, as: :handle_feature)
       extend Dry::Effects::Handler.Interrupt(:stop, as: :handle_stop)
     end
 
-    example 'amb,interrupt' do
+    example 'cmp,interrupt' do
       expect(handle_feature { handle_stop { stop(feature?) } }).to eql(
         [[true, false], [true, true]]
       )
     end
 
-    example 'interrupt,amb' do
+    example 'interrupt,cmp' do
       expect(handle_stop { handle_feature { stop(feature?) } }).to eql([true, false])
     end
 
     context 'more nesting' do
       before do
-        extend Dry::Effects.Amb(:feature2)
-        extend Dry::Effects::Handler.Amb(:feature2, as: :handle_feature2)
+        extend Dry::Effects.Cmp(:feature2)
+        extend Dry::Effects::Handler.Cmp(:feature2, as: :handle_feature2)
       end
 
-      example 'interrupt,amb' do
+      example 'interrupt,cmp' do
         expect(handle_feature { handle_feature2 { [feature?, feature2?] } }).to eql([
           [[false, false], [false, true]], [[true, false], [true, true]]
         ])

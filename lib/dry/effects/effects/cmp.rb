@@ -5,13 +5,13 @@ require 'dry/effects/effect'
 module Dry
   module Effects
     module Effects
-      class Amb < ::Module
-        class AmbEffect < Effect
+      class Cmp < ::Module
+        class CmpEffect < Effect
           option :id
         end
 
         def initialize(id)
-          get = AmbEffect.new(type: :amb, name: :get, id: id)
+          get = CmpEffect.new(type: :cmp, name: :get, id: id)
 
           module_eval do
             define_method(:"#{id}?") { ::Dry::Effects.yield(get) }

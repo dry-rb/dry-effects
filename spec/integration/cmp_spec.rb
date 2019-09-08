@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe 'ambivalent effect' do
-  include Dry::Effects.Amb(:feature)
-  include Dry::Effects::Handler.Amb(:feature, as: :alternative)
+RSpec.describe 'comparative effect' do
+  include Dry::Effects.Cmp(:feature)
+  include Dry::Effects::Handler.Cmp(:feature, as: :alternative)
 
   it 'runs code with both options' do
     result = alternative do
