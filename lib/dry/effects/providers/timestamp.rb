@@ -16,11 +16,38 @@ module Dry
 
         attr_reader :generator
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, generator = Undefined, **options)
           @generator = build_generator(generator, **options)
           super(stack)
         end
 
+        def timestamp(round_to: Undefined, **options)
+          time = generator.(**options)
+
+          round = Undefined.coalesce(round_to, self.round)
+
+          if Undefined.equal?(round)
+            time
+          else
+            time.round(round)
+          end
+        end
+
+        # Locate handler in the stack
+        #
+        # @return [Provider]
+        # @api private
+        def locate
+          self
+        end
+
+        private
+
+        # @return [Proc] time generator
+        # @api private
         def build_generator(generator, step: Undefined, initial: Undefined, overridable: false)
           if overridable
             parent = ::Dry::Effects.yield(Locate) { nil }
@@ -37,22 +64,6 @@ module Dry
           else
             RunningTimeGenerator.()
           end
-        end
-
-        def timestamp(round_to: Undefined, **options)
-          time = generator.(**options)
-
-          round = Undefined.coalesce(round_to, self.round)
-
-          if Undefined.equal?(round)
-            time
-          else
-            time.round(round)
-          end
-        end
-
-        def locate
-          self
         end
       end
     end

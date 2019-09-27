@@ -18,6 +18,9 @@ module Dry
           dictionary.fetch(arg.class)
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, dynamic = EMPTY_HASH)
           if dynamic.empty?
             @dictionary = static
@@ -28,6 +31,9 @@ module Dry
           super(stack)
         end
 
+        # @param [Effect] effect
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           super &&
             dependency.equal?(effect.dependency) &&

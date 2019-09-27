@@ -38,10 +38,17 @@ module Dry
           end
         end
 
+        # Locate handler in the stack
+        #
+        # @return [Provider]
+        # @api private
         def locate
           self
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, dynamic = EMPTY_HASH, options = EMPTY_HASH)
           @dynamic = dynamic
 
@@ -56,6 +63,9 @@ module Dry
           @dynamic = EMPTY_HASH
         end
 
+        # @param [Effect] effect
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           if super
             !effect.name.equal?(:resolve) || key?(effect.payload[0])
@@ -64,15 +74,22 @@ module Dry
           end
         end
 
+        # @param [Symbol,String] key Dependency key
+        # @return [Boolean]
+        # @api public
         def key?(key)
           static.key?(key) || dynamic.key?(key) || parent&.key?(key)
         end
 
+        # @return [String]
+        # @api public
         def represent
           containers = [represent_container(static), represent_container(dynamic)].compact.join('+')
           "resolve[#{containers.empty? ? 'empty' : containers}]"
         end
 
+        # @return [String]
+        # @api private
         def represent_container(container)
           if container.is_a?(::Hash)
             container.empty? ? nil : 'hash'

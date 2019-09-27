@@ -20,11 +20,52 @@ module Dry
 
         attr_reader :generator
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, generator = Undefined, **options)
           @generator = build_generator(generator, **options)
           super(stack)
         end
 
+        def current_time(round_to: Undefined, **options)
+          time = generator.(**options)
+
+          round = Undefined.coalesce(round_to, self.round)
+
+          if Undefined.equal?(round)
+            time
+          else
+            time.round(round)
+          end
+        end
+
+        # Locate handler in the stack
+        #
+        # @return [Provider]
+        # @api private
+        def locate
+          self
+        end
+
+        # @return [String]
+        # @api public
+        def represent
+          if fixed?
+            if generator.nil?
+              'current_time[fixed=true]'
+            else
+              "current_time[fixed=#{generator.().iso8601(6)}]"
+            end
+          else
+            'current_time[fixed=false]'
+          end
+        end
+
+        private
+
+        # @return [Proc] time generator
+        # @api private
         def build_generator(generator, step: Undefined, initial: Undefined, overridable: false)
           if overridable
             parent = ::Dry::Effects.yield(Locate) { nil }
@@ -42,34 +83,6 @@ module Dry
             FixedTimeGenerator.()
           else
             RunningTimeGenerator.()
-          end
-        end
-
-        def current_time(round_to: Undefined, **options)
-          time = generator.(**options)
-
-          round = Undefined.coalesce(round_to, self.round)
-
-          if Undefined.equal?(round)
-            time
-          else
-            time.round(round)
-          end
-        end
-
-        def locate
-          self
-        end
-
-        def represent
-          if fixed?
-            if generator.nil?
-              'current_time[fixed=true]'
-            else
-              "current_time[fixed=#{generator.().iso8601(6)}]"
-            end
-          else
-            'current_time[fixed=false]'
           end
         end
       end

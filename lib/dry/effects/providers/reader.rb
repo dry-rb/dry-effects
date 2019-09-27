@@ -34,6 +34,9 @@ module Dry
           state
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, state)
           case state
           when state_type
@@ -44,6 +47,8 @@ module Dry
           end
         end
 
+        # @return [String]
+        # @api public
         def represent
           if Undefined.equal?(state)
             "#{type}[#{scope} not set]"
@@ -52,6 +57,8 @@ module Dry
           end
         end
 
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           effect.type.equal?(:state) && effect.name.equal?(:read) && scope.equal?(effect.scope)
         end

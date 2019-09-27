@@ -16,6 +16,10 @@ module Dry
           value
         end
 
+        # Yield the block with the handler installed
+        #
+        # @return [Array(Any, Any)]
+        # @api private
         def call(stack, value = Undefined)
           if Undefined.equal?(value)
             @value = false
@@ -28,10 +32,15 @@ module Dry
           end
         end
 
+        # @param [Effect] effect
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           super && id.equal?(effect.id)
         end
 
+        # @return [String]
+        # @api public
         def represent
           "cmp[#{id}=#{@value}]"
         end

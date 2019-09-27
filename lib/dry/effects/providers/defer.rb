@@ -26,7 +26,7 @@ module Dry
         def later(block, executor)
           if @later_calls.frozen?
             Instructions.Raise(Errors::EffectRejectedError.new(<<~MSG))
-              .later calls are not allowed, they would processed
+              .later calls are not allowed, they would be processed
               by another stack. Add another defer handler to the current stack
             MSG
           else
@@ -47,6 +47,9 @@ module Dry
           end
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, executor: Undefined)
           unless Undefined.equal?(executor)
             @executor = executor
@@ -67,6 +70,8 @@ module Dry
           end
         end
 
+        # @return [String]
+        # @api public
         def represent
           info = []
           info << executor.to_s if executor.is_a?(::Symbol)

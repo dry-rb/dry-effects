@@ -78,10 +78,17 @@ module Dry
           backend.meta(key)
         end
 
+        # Locate handler in the stack
+        #
+        # @return [Provider]
+        # @api private
         def locate
           self
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, backend = Undefined)
           backend_replace = Undefined.default(backend) do
             parent = ::Dry::Effects.yield(Locate) { Undefined }

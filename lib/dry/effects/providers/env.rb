@@ -30,10 +30,17 @@ module Dry
         end
         protected :fetch
 
+        # Locate handler in the stack
+        #
+        # @return [Provider]
+        # @api private
         def locate
           self
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, values = EMPTY_HASH, options = EMPTY_HASH)
           unless values.empty?
             @values = @values.merge(values)
@@ -48,6 +55,9 @@ module Dry
           super(stack)
         end
 
+        # @param [Effect] effect
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           if super
             !effect.name.equal?(:read) || key?(effect.payload[0])

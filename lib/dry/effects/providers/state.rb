@@ -16,11 +16,17 @@ module Dry
           end
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, state = Undefined)
           r = super
           [self.state, r]
         end
 
+        # @param [Effect] effect
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           effect.type.equal?(:state) && scope.equal?(effect.scope)
         end

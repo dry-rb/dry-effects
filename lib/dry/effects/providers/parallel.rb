@@ -24,6 +24,9 @@ module Dry
           xs.map(&:value!)
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack)
           @stack = stack
           super

@@ -15,6 +15,9 @@ module Dry
 
         attr_reader :limit
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(_, limit)
           @limit = limit
           @attempts = 0
@@ -52,6 +55,8 @@ module Dry
           super && scope.equal?(effect.scope)
         end
 
+        # @return [String]
+        # @api public
         def represent
           "retry[#{scope} #{attempts}/#{limit}]"
         end

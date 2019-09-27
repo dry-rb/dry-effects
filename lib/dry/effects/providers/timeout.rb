@@ -22,12 +22,18 @@ module Dry
           end
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack, timeout)
           @time_out_at = read_clock + timeout
 
           super(stack)
         end
 
+        # @param [Effect] effect
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           effect.type.equal?(:timeout) && scope.equal?(effect.scope)
         end

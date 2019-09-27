@@ -6,6 +6,9 @@ module Dry
       module Error
       end
 
+      # No handler in the stack
+      #
+      # @api private
       class UnhandledEffectError < RuntimeError
         include Error
 
@@ -23,6 +26,9 @@ module Dry
         end
       end
 
+      # No state handler
+      #
+      # @api private
       class MissingStateError < UnhandledEffectError
         def initialize(effect)
           message = "Value of +#{effect.scope}+ is not set, "\
@@ -32,6 +38,9 @@ module Dry
         end
       end
 
+      # Uninitialized state accessed
+      #
+      # @api private
       class UndefinedStateError < RuntimeError
         include Error
 
@@ -44,10 +53,17 @@ module Dry
         end
       end
 
+      # Effect cannot be handled
+      # Some effects are not compatible without re
+      #
+      # @api private
       class EffectRejectedError < RuntimeError
         include Error
       end
 
+      # Unresolved dependency
+      #
+      # @api private
       class ResolutionError < RuntimeError
         include Error
 
@@ -56,6 +72,9 @@ module Dry
         end
       end
 
+      # State value has invalid type
+      #
+      # @api private
       class InvalidValueError < ArgumentError
         include Error
 

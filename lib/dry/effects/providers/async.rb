@@ -20,6 +20,9 @@ module Dry
           Frame.spawn_fiber(stack, &@tasks.delete(task))
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(stack)
           @stack = stack
           super

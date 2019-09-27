@@ -14,6 +14,9 @@ module Dry
           Instructions.Raise(halt.new(payload))
         end
 
+        # Yield the block with the handler installed
+        #
+        # @api private
         def call(_stack)
           [false, yield]
         rescue halt => e
@@ -24,10 +27,15 @@ module Dry
           Halt[scope]
         end
 
+        # @return [String]
+        # @api public
         def represent
           "interrupt[#{scope}]"
         end
 
+        # @param [Effect] effect
+        # @return [Boolean]
+        # @api public
         def provide?(effect)
           super && scope.equal?(effect.scope)
         end

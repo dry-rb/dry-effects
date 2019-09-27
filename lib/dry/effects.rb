@@ -18,6 +18,21 @@ module Dry
     class << self
       attr_reader :effects, :providers
 
+      # Handle an effect.
+      # If no handler is present in the stack it will either
+      # raise an exception and yield a block if given.
+      # It is not recommended to build effects manually, hence
+      # this method shouldn't be used often.
+      #
+      # @example getting current user with yield
+      #
+      #   require 'dry/effects/effects/reader'
+      #   extend Dry::Effects::Constructors
+      #   Dry::Effects.yield(Read(:current_user))
+      #
+      # @param [Effect] effect
+      # @return [Object] Result value is determined by effect type
+      # @api public
       def yield(effect)
         result = ::Fiber.yield(effect)
 
@@ -26,7 +41,7 @@ module Dry
         else
           result
         end
-      rescue FiberError => e
+      rescue ::FiberError => e
         if block_given?
           yield(effect, e)
         else
@@ -34,6 +49,19 @@ module Dry
         end
       end
 
+      # Build a handler.
+      # Normally, handlers are built via mixins.
+      # This method is useful for demonstration purposes.
+      #
+      # @example providing current user
+      #
+      #   Dry::Effects[:reader, :current_user].(User.new) do
+      #     code_using_current_user.()
+      #   end
+      #
+      # @param [Array<Object>] args Handler parameters
+      # @return [Handler]
+      # @api public
       def [](*args)
         Handler.new(*args)
       end
