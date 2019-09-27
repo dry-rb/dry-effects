@@ -74,7 +74,7 @@ module Dry
           end
 
           if !parent.nil?
-            -> options { parent.current_time(options) }
+            -> **options { parent.current_time(**options) }
           elsif !Undefined.equal?(generator)
             generator
           elsif !Undefined.equal?(step)
