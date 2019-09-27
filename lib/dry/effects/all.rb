@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'concurrent/map'
-require 'dry/effects'
 require 'dry/effects/inflector'
 require 'dry/effects/handler'
 
