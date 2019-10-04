@@ -79,9 +79,9 @@ class Caller
 end
 
 caller = Caller.new
-caller = Callee.new
+callee = Callee.new
 
-caller.() { caller.() } # => :foo
+caller.() { callee.() } # => :foo
 caller.() { } # => :bar
 ```
 
