@@ -16,6 +16,7 @@ end
 group :tools do
   gem 'pry-byebug', platform: :mri
   gem 'rubocop'
+  gem 'ossy', git: 'https://github.com/solnic/ossy.git', branch: 'master'
 end
 
 gem 'dry-struct'
