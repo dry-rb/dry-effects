@@ -126,7 +126,6 @@ RSpec.describe 'handling state' do
     include Dry::Effects::Constructors
 
     example 'read effects' do
-      value = double(:value)
       expect(Read(:foo)).to eql(
         Dry::Effects::Effects::State::State.new(
           type: :state,
