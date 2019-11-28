@@ -7,7 +7,7 @@ name: dry-effects
 Reader is the simplest effect. It passes a value down to the stack.
 
 ```ruby
-require 'dry-effects'
+require 'dry/effects'
 
 class SetLocaleMiddleware
   include Dry::Effects::Handler.Reader(:locale)
