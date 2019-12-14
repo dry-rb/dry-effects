@@ -23,7 +23,7 @@ RSpec.describe Dry::Effects::Providers::Resolve do
         end
 
         example 'not empty hash' do
-          resolve.({ foo: :bar }) do
+          resolve.(foo: :bar) do
             expect(resolve.represent).to eql('resolve[hash]')
           end
         end
@@ -53,7 +53,7 @@ RSpec.describe Dry::Effects::Providers::Resolve do
         end
 
         example 'not empty hash' do
-          resolve.({ foo: :bar }) do
+          resolve.(foo: :bar) do
             expect(resolve.represent).to eql('resolve[hash+hash]')
           end
         end
@@ -83,7 +83,7 @@ RSpec.describe Dry::Effects::Providers::Resolve do
         end
 
         example 'not empty hash' do
-          resolve.({ foo: :bar }) do
+          resolve.(foo: :bar) do
             expect(resolve.represent).to eql('resolve[Container+hash]')
           end
         end
