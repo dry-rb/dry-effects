@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/effects/provider'
+require 'dry/effects/frame'
 
 module Dry
   module Effects
@@ -23,8 +24,8 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack)
-          @stack = stack
+        def call
+          @stack = Frame.stack
           super
           nil
         end

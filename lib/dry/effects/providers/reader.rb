@@ -10,13 +10,13 @@ module Dry
           Undefined.default(as) { :"with_#{scope}" }
         end
 
-        Any = Object.new.tap { |any|
+        Any = ::Object.new.tap { |any|
           def any.===(_)
             true
           end
         }.freeze
 
-        include Dry::Equalizer(:scope, :state)
+        include ::Dry::Equalizer(:scope, :state, inspect: false)
 
         attr_reader :state
 
@@ -24,7 +24,7 @@ module Dry
 
         option :type, as: :state_type, default: -> { Any }
 
-        def initialize(*)
+        def initialize(*, **)
           super
 
           @state = Undefined
@@ -37,11 +37,11 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, state)
+        def call(state)
           case state
           when state_type
             @state = state
-            super(stack)
+            yield
           else
             raise Errors::InvalidValueError.new(state, scope)
           end

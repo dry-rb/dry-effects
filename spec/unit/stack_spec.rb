@@ -29,15 +29,15 @@ RSpec.describe Dry::Effects::Stack do
     let(:stack) { described_class.new }
 
     it 'combines two providers' do
-      result = stack.push(words_provider, [10]) do
-        stack.push(chars_provider, [100]) do
+      result = stack.push(words_provider) do
+        stack.push(chars_provider) do
           expect(stack.size).to eql(2)
           expect(stack.provider(read_chars)).not_to be_nil
           expect(stack.provider(read_words)).not_to be_nil
           :done
         end
       end
-      expect(result).to eql([10, [100, :done]])
+      expect(result).to be(:done)
     end
   end
 
@@ -56,12 +56,15 @@ RSpec.describe Dry::Effects::Stack do
   describe '#dup' do
     let(:stack) { described_class.new }
 
-    around { |ex| stack.push(chars_provider, [100], &ex) }
-
-    let!(:copy) { stack.dup }
+    around do |ex|
+      chars_provider.(100) do
+        stack.push(chars_provider, &ex)
+      end
+    end
 
     it 'creates a copy of a stack' do
-      chars_provider.write(200)
+      copy = stack.dup
+      chars_provider.write(value: 200)
       expect(copy.(read_chars)).to eql(100)
     end
   end

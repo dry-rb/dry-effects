@@ -7,7 +7,7 @@ module Dry
   module Effects
     module Providers
       class State < Reader[:state]
-        def write(value)
+        def write(value:)
           case value
           when state_type
             @state = value
@@ -19,7 +19,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, state = Undefined)
+        def call(state = Undefined)
           r = super
           [self.state, r]
         end

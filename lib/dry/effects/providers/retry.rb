@@ -7,7 +7,7 @@ module Dry
   module Effects
     module Providers
       class Retry < Provider[:retry]
-        include Dry::Equalizer(:scope, :limit, :attempts)
+        include Dry::Equalizer(:scope, :limit, :attempts, inspect: false)
 
         param :scope
 
@@ -18,7 +18,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(_, limit)
+        def call(limit)
           @limit = limit
           @attempts = 0
 

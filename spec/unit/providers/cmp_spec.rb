@@ -9,7 +9,7 @@ RSpec.describe Dry::Effects::Providers::Cmp do
     let(:id) { :feature }
 
     it 'shows id and current state' do
-      strings = cmp.(double(:stack)) do
+      strings = cmp.() do
         cmp.represent
       end
 
@@ -17,5 +17,3 @@ RSpec.describe Dry::Effects::Providers::Cmp do
     end
   end
 end
-
-

@@ -12,7 +12,7 @@ RSpec.describe Dry::Effects::Providers::Retry do
       retries = 0
       strings = []
 
-      self.retry.(double(:stack), 10) do
+      self.retry.(10) do
         retries += 1
         strings << self.retry.represent
         self.retry.retry.() if retries <= 2
@@ -26,5 +26,3 @@ RSpec.describe Dry::Effects::Providers::Retry do
     end
   end
 end
-
-

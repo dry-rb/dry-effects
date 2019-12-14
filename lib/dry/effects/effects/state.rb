@@ -48,7 +48,7 @@ module Dry
 
             if writer
               define_method(:"#{as}=") do |value|
-                ::Dry::Effects.yield(write.(value))
+                ::Dry::Effects.yield(write.(value: value))
               end
             end
           end

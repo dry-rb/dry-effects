@@ -89,7 +89,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, backend = Undefined)
+        def call(backend = Undefined)
           backend_replace = Undefined.default(backend) do
             parent = ::Dry::Effects.yield(Locate) { Undefined }
             Undefined.map(parent, &:backend)
@@ -97,7 +97,7 @@ module Dry
 
           with_backend(backend_replace) do
             begin
-              super(stack)
+              yield
             ensure
               owned.each { |handle| unlock(handle) }
             end

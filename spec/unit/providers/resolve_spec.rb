@@ -17,19 +17,19 @@ RSpec.describe Dry::Effects::Providers::Resolve do
 
       context 'dynamic container is provided' do
         example 'empty hash' do
-          resolve.(double(:stack)) do
+          resolve.() do
             expect(resolve.represent).to eql('resolve[empty]')
           end
         end
 
         example 'not empty hash' do
-          resolve.(double(:stack), { foo: :bar }) do
+          resolve.(foo: :bar) do
             expect(resolve.represent).to eql('resolve[hash]')
           end
         end
 
         example 'a class' do
-          resolve.(double(:stack), stub_const('Container', Class.new)) do
+          resolve.(stub_const('Container', Class.new)) do
             expect(resolve.represent).to eql('resolve[Container]')
           end
         end
@@ -47,19 +47,19 @@ RSpec.describe Dry::Effects::Providers::Resolve do
 
       context 'dynamic container is provided' do
         example 'empty hash' do
-          resolve.(double(:stack)) do
+          resolve.() do
             expect(resolve.represent).to eql('resolve[hash]')
           end
         end
 
         example 'not empty hash' do
-          resolve.(double(:stack), { foo: :bar }) do
+          resolve.(foo: :bar) do
             expect(resolve.represent).to eql('resolve[hash+hash]')
           end
         end
 
         example 'a class' do
-          resolve.(double(:stack), stub_const('Container', Class.new)) do
+          resolve.(stub_const('Container', Class.new)) do
             expect(resolve.represent).to eql('resolve[hash+Container]')
           end
         end
@@ -77,13 +77,13 @@ RSpec.describe Dry::Effects::Providers::Resolve do
 
       context 'dynamic container is provided' do
         example 'empty hash' do
-          resolve.(double(:stack)) do
+          resolve.() do
             expect(resolve.represent).to eql('resolve[Container]')
           end
         end
 
         example 'not empty hash' do
-          resolve.(double(:stack), { foo: :bar }) do
+          resolve.(foo: :bar) do
             expect(resolve.represent).to eql('resolve[Container+hash]')
           end
         end

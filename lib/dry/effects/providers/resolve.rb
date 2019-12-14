@@ -11,7 +11,7 @@ module Dry
           Undefined.default(as, :provide)
         end
 
-        include Dry::Equalizer(:static, :parent, :dynamic)
+        include Dry::Equalizer(:static, :parent, :dynamic, inspect: false)
 
         Locate = Effect.new(type: :resolve, name: :locate)
 
@@ -49,7 +49,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, dynamic = EMPTY_HASH, options = EMPTY_HASH)
+        def call(dynamic = EMPTY_HASH, options = EMPTY_HASH)
           @dynamic = dynamic
 
           if options.fetch(:overridable, false)
@@ -58,7 +58,7 @@ module Dry
             @parent = nil
           end
 
-          super(stack)
+          yield
         ensure
           @dynamic = EMPTY_HASH
         end

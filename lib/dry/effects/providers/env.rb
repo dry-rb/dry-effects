@@ -7,7 +7,7 @@ module Dry
   module Effects
     module Providers
       class Env < Provider[:env]
-        include Dry::Equalizer(:values, :dynamic)
+        include ::Dry::Equalizer(:values, :dynamic, inspect: false)
 
         Locate = Effect.new(type: :env, name: :locate)
 
@@ -41,7 +41,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, values = EMPTY_HASH, options = EMPTY_HASH)
+        def call(values = EMPTY_HASH, options = EMPTY_HASH)
           unless values.empty?
             @values = @values.merge(values)
           end
@@ -52,7 +52,7 @@ module Dry
             @parent = EMPTY_HASH
           end
 
-          super(stack)
+          yield
         end
 
         # @param [Effect] effect

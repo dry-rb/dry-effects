@@ -5,7 +5,7 @@ require 'dry/effects/providers/defer'
 RSpec.describe Dry::Effects::Providers::Defer do
   subject(:defer) { described_class.new }
 
-  around { |ex| defer.(double(:stack), &ex) }
+  around { |ex| defer.(&ex) }
 
   describe '#dup' do
     it "prevents subsequent #later calls because it's not safe" do
