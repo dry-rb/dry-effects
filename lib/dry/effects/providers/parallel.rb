@@ -2,11 +2,14 @@
 
 require 'concurrent/promise'
 require 'dry/effects/provider'
+require 'dry/effects/frame'
 
 module Dry
   module Effects
     module Providers
       class Parallel < Provider[:parallel]
+        include ::Dry::Equalizer(:executor, inspect: false)
+
         option :executor, default: -> { :io }
 
         attr_reader :stack
@@ -27,9 +30,9 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack)
-          @stack = stack
-          super
+        def call
+          @stack = Frame.stack
+          yield
         end
       end
     end

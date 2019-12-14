@@ -17,7 +17,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(_stack)
+        def call
           [false, yield]
         rescue halt => e
           [true, e.payload[0]]

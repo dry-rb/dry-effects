@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'dry/effects/provider'
+require 'dry/effects/frame'
 
 module Dry
   module Effects
@@ -13,8 +14,8 @@ module Dry
           -> &cont { Frame.spawn_fiber(stack.dup, &cont) }
         end
 
-        def call(stack)
-          @stack = stack
+        def call
+          @stack = Frame.stack
           super
         end
       end

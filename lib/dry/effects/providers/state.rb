@@ -19,7 +19,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, state = Undefined)
+        def call(state = Undefined)
           r = super
           [self.state, r]
         end

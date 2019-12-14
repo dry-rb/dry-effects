@@ -7,7 +7,7 @@ module Dry
   module Effects
     module Providers
       class Cache < Provider[:cache]
-        include Dry::Equalizer(:scope, :cache)
+        include ::Dry::Equalizer(:scope, :cache, inspect: false)
 
         param :scope
 
@@ -24,9 +24,9 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, cache = EMPTY_HASH.dup)
+        def call(cache = EMPTY_HASH.dup)
           @cache = cache
-          super(stack)
+          yield
         end
 
         # @param [Effect] effect

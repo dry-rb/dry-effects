@@ -13,7 +13,7 @@ RSpec.describe Dry::Effects::Providers::Reader do
     end
 
     context 'with value' do
-      around { |ex| reader.(double(:stack), 10, &ex) }
+      around { |ex| reader.(10, &ex) }
 
       it { is_expected.to eql('reader[counter set]') }
     end

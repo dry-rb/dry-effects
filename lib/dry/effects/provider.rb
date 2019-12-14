@@ -15,7 +15,7 @@ module Dry
       # yield the block with the handler installed
       #
       # @api private
-      def call(_stack)
+      def call
         yield
       end
 
@@ -42,6 +42,12 @@ module Dry
       # @api public
       def provide?(effect)
         type.equal?(effect.type)
+      end
+
+      # @return [String]
+      # @api public
+      def inspect
+        "#<#{self.class.name} #{represent}>"
       end
 
       private

@@ -25,10 +25,10 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, timeout)
+        def call(timeout)
           @time_out_at = read_clock + timeout
 
-          super(stack)
+          yield
         end
 
         # @param [Effect] effect

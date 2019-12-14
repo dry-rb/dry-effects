@@ -7,7 +7,7 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
 
   let(:generator) { Dry::Effects::Undefined }
 
-  around { |ex| current_time.(double(:stack), generator, &ex) }
+  around { |ex| current_time.(generator, &ex) }
 
   describe '#current_time' do
     it 'returns current time' do
@@ -33,7 +33,7 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
       let(:time) { Time.new(2019, 8, 9, 18, 50, 10.000002, 0) }
 
       before do
-        current_time.(double(:stack), proc { time }) {}
+        current_time.(proc { time }) {}
       end
 
       it 'shows current time' do

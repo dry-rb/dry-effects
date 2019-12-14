@@ -6,7 +6,7 @@ module Dry
   module Effects
     module Providers
       class Implicit < Provider[:implicit]
-        include Dry::Equalizer(:name, :static, :dictionary)
+        include ::Dry::Equalizer(:name, :static, :dictionary, inspect: false)
 
         param :dependency
 
@@ -21,14 +21,14 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, dynamic = EMPTY_HASH)
+        def call(dynamic = EMPTY_HASH)
           if dynamic.empty?
             @dictionary = static
           else
             @dictionary = static.merge(dynamic)
           end
 
-          super(stack)
+          yield
         end
 
         # @param [Effect] effect

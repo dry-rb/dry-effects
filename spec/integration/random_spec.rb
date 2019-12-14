@@ -22,9 +22,9 @@ RSpec.describe 'handling random' do
           result
         end
 
-        def call(stack, seed = @seed)
+        def call(seed = @seed)
           @seed = seed
-          super(stack)
+          yield
         end
 
         private

@@ -6,7 +6,7 @@ module Dry
   module Effects
     module Providers
       class Cmp < Provider[:cmp]
-        include Dry::Equalizer(:id, :value)
+        include ::Dry::Equalizer(:id, :value, inspect: false)
 
         attr_reader :value
 
@@ -20,15 +20,15 @@ module Dry
         #
         # @return [Array(Any, Any)]
         # @api private
-        def call(stack, value = Undefined)
+        def call(value = Undefined)
           if Undefined.equal?(value)
             @value = false
-            first = super(stack)
+            first = yield
             @value = true
-            [first, super(stack)]
+            [first, yield]
           else
             @value = value
-            super(stack)
+            yield
           end
         end
 

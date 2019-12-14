@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'time'
 require 'dry/effects/provider'
 require 'dry/effects/providers/current_time/time_generators'
 
@@ -7,7 +8,7 @@ module Dry
   module Effects
     module Providers
       class CurrentTime < Provider[:current_time]
-        include Dry::Equalizer(:fixed, :round)
+        include ::Dry::Equalizer(:fixed, :round, inspect: false)
         include TimeGenetators
 
         Locate = Effect.new(type: :current_time, name: :locate)
@@ -23,10 +24,10 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, *args)
+        def call(*args)
           gen, options = value_with_options_from_args(args)
           @generator = build_generator(gen, **options)
-          super(stack)
+          yield
         end
 
         def current_time(round_to: Undefined, **options)

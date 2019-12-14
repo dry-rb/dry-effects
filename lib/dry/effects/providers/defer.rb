@@ -2,12 +2,13 @@
 
 require 'concurrent/promise'
 require 'dry/effects/provider'
+require 'dry/effects/frame'
 
 module Dry
   module Effects
     module Providers
       class Defer < Provider[:defer]
-        include Dry::Equalizer(:executor)
+        include ::Dry::Equalizer(:executor, inspect: false)
 
         option :executor, default: -> { :io }
 
@@ -50,14 +51,14 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, executor: Undefined)
+        def call(executor: Undefined)
           unless Undefined.equal?(executor)
             @executor = executor
           end
 
-          @stack = stack
+          @stack = Frame.stack
           @later_calls = []
-          super(stack)
+          yield
         ensure
           later_calls.each(&:execute)
         end

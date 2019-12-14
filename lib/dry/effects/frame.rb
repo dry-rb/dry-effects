@@ -71,7 +71,7 @@ module Dry
         prov = provider.dup
         was_empty = stack.empty?
 
-        prov.(stack, *args) do
+        prov.(*args) do
           if was_empty
             stack.push(prov) do
               Frame.spawn_fiber(stack, &block)

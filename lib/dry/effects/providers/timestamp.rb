@@ -19,10 +19,10 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, *args)
+        def call(*args)
           gen, options = value_with_options_from_args(args)
           @generator = build_generator(gen, **options)
-          super(stack)
+          yield
         end
 
         def timestamp(round_to: Undefined, **options)

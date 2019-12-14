@@ -16,7 +16,7 @@ module Dry
           end
         }.freeze
 
-        include Dry::Equalizer(:scope, :state)
+        include ::Dry::Equalizer(:scope, :state, inspect: false)
 
         attr_reader :state
 
@@ -37,11 +37,11 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, state)
+        def call(state)
           case state
           when state_type
             @state = state
-            super(stack)
+            yield
           else
             raise Errors::InvalidValueError.new(state, scope)
           end

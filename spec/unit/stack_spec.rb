@@ -57,7 +57,7 @@ RSpec.describe Dry::Effects::Stack do
     let(:stack) { described_class.new }
 
     around do |ex|
-      chars_provider.(stack, 100) do
+      chars_provider.(100) do
         stack.push(chars_provider, &ex)
       end
     end
