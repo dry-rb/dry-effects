@@ -12,8 +12,8 @@ module Dry
 
         def initialize
           module_eval do
-            define_method(:async) { |&block| ::Dry::Effects.yield(Async.payload(block)) }
-            define_method(:await) { |task| ::Dry::Effects.yield(Await.payload(task)) }
+            define_method(:async) { |&block| ::Dry::Effects.yield(Async.(block)) }
+            define_method(:await) { |task| ::Dry::Effects.yield(Await.(task)) }
           end
         end
       end

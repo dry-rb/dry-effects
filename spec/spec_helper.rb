@@ -24,6 +24,8 @@ require 'warning'
 
 Warning.ignore(/dry-system/)
 Warning.ignore(/dry-configurable/)
+Warning.ignore(/__LINE__/)
+Warning.ignore(/__FILE__/)
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

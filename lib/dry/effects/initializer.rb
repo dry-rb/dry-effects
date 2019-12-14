@@ -14,6 +14,7 @@ module Dry
             __define_with__
           end
         end
+        ruby2_keywords(:param) if respond_to?(:ruby2_keywords, true)
 
         # @api private
         def option(*)
@@ -22,6 +23,7 @@ module Dry
             @has_options = true
           end
         end
+        ruby2_keywords(:option) if respond_to?(:ruby2_keywords, true)
 
         # @api private
         def params_arity
@@ -52,11 +54,11 @@ module Dry
           undef_method(:with) if method_defined?(:with)
 
           class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
-            def with(new_options = EMPTY_HASH)
+            def with(**new_options)
               if new_options.empty?
                 self
               else
-                self.class.new(#{seq_names}options.merge(new_options))
+                self.class.new(#{seq_names}**options, **new_options)
               end
             end
           RUBY

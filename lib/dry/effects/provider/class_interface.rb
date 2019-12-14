@@ -40,15 +40,15 @@ module Dry
           end
         end
 
-        def mixin(*args, **kwargs)
-          handle_method = handle_method(*args, **kwargs)
+        def mixin(*as, **kw)
+          handle_method = handle_method(*as, **kw)
 
-          provider = new(*args, **kwargs).freeze
+          provider = new(*as, **kw).freeze
           frame = Frame.new(provider)
 
           ::Module.new do
-            define_method(handle_method) do |*xs, &block|
-              frame.(xs, &block)
+            define_method(handle_method) do |*args, &block|
+              frame.(*args, &block)
             end
           end
         end

@@ -13,19 +13,21 @@ module Dry
           if kwargs.empty?
             CurrentTime
           else
-            CurrentTime.payload(kwargs)
+            CurrentTime.(**kwargs)
           end
         end
 
-        def initialize(options = EMPTY_HASH)
+        def initialize(**options)
           module_eval do
-            define_method(:current_time) do |round: Undefined, refresh: false|
+            define_method(:current_time) do |opts = EMPTY_HASH|
+              round = opts.fetch(:round, Undefined)
+              refresh = opts.fetch(:refresh, false)
               round_to = Undefined.coalesce(round, options.fetch(:round, Undefined))
 
               if Undefined.equal?(round_to) && refresh.equal?(false)
                 effect = CurrentTime
               else
-                effect = CurrentTime.payload(round_to: round_to, refresh: refresh)
+                effect = CurrentTime.(round_to: round_to, refresh: refresh)
               end
 
               ::Dry::Effects.yield(effect)

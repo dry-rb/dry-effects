@@ -43,6 +43,23 @@ module Dry
       def provide?(effect)
         type.equal?(effect.type)
       end
+
+      private
+
+      def value_with_options_from_args(args)
+        case args.size
+        when 2
+          args
+        when 1
+          if args[0].is_a?(::Hash)
+            [Undefined, args[0]]
+          else
+            [args[0], EMPTY_HASH]
+          end
+        when 0
+          [Undefined, EMPTY_HASH]
+        end
+      end
     end
   end
 end

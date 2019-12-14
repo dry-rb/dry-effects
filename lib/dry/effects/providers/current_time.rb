@@ -23,8 +23,9 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(stack, generator = Undefined, **options)
-          @generator = build_generator(generator, **options)
+        def call(stack, *args)
+          gen, options = value_with_options_from_args(args)
+          @generator = build_generator(gen, **options)
           super(stack)
         end
 

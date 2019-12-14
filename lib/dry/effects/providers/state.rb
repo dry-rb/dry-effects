@@ -7,7 +7,7 @@ module Dry
   module Effects
     module Providers
       class State < Reader[:state]
-        def write(value)
+        def write(value:)
           case value
           when state_type
             @state = value

@@ -30,6 +30,7 @@ module Dry
               ::Dry::Effects.effects[key].new(*args).freeze
             end
           end
+          ruby2_keywords(class_name) if respond_to?(:ruby2_keywords, true)
         end
       end
 
@@ -39,8 +40,8 @@ module Dry
           Providers.const_get(Inflector.camelize(key))
         end
 
-        Handler.singleton_class.send(:define_method, class_name) do |*args|
-          ::Dry::Effects.providers[key].mixin(*args)
+        Handler.singleton_class.send(:define_method, class_name) do |*args, **kwargs|
+          ::Dry::Effects.providers[key].mixin(*args, **kwargs)
         end
       end
     end

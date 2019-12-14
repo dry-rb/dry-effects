@@ -10,7 +10,7 @@ module Dry
           Undefined.default(as) { :"with_#{scope}" }
         end
 
-        Any = Object.new.tap { |any|
+        Any = ::Object.new.tap { |any|
           def any.===(_)
             true
           end
@@ -24,7 +24,7 @@ module Dry
 
         option :type, as: :state_type, default: -> { Any }
 
-        def initialize(*)
+        def initialize(*, **)
           super
 
           @state = Undefined

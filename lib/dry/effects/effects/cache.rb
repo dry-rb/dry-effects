@@ -10,8 +10,10 @@ module Dry
           option :scope
         end
 
-        def initialize(scope, shared: false)
-          if scope.is_a?(::Hash)
+        def initialize(scope = nil, shared: false, **kw)
+          if !kw.empty?
+            scope, as = kw.to_a[0]
+          elsif scope.is_a?(::Hash)
             scope, as = scope.to_a[0]
           else
             as = :cache

@@ -12,8 +12,16 @@ module Dry
         @frame = Frame.new(provider)
       end
 
-      def call(*args, &block)
-        frame.(args, &block)
+      if RUBY_VERSION >= '2.7'
+        class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
+          def call(...)
+            frame.(...)
+          end
+        RUBY
+      else
+        def call(*args, &block)
+          frame.(*args, &block)
+        end
       end
 
       def to_s
