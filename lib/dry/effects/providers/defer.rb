@@ -51,9 +51,9 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(executor: Undefined)
-          unless Undefined.equal?(executor)
-            @executor = executor
+        def call(options = { executor: Undefined })
+          unless Undefined.equal?(options[:executor])
+            @executor = options[:executor]
           end
 
           @stack = Frame.stack
@@ -65,7 +65,7 @@ module Dry
 
         def dup
           if defined? @later_calls
-            super.tap { |p| p.instance_exec { @later_calls = EMPTY_ARRAY } }
+            super.tap { |p| p.instance_variable_set(:@later_calls, EMPTY_ARRAY) }
           else
             super
           end
