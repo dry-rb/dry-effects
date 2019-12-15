@@ -1,3 +1,11 @@
+# v0.1.2 - 2019-12-15
+
+## Fixed
+
+- Keyword warnings issued by Ruby 2.7 (flash-gordon)
+
+[Compare v0.1.1...v0.1.2](https://github.com/dry-rb/dry-effects/compare/v0.1.1...v0.1.2)
+
 # v0.1.1 - 2019-11-30
 
 ## Added
