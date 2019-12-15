@@ -17,14 +17,14 @@ class RunDivision
   include Dry::Effects::Handler.Interrupt(:division_by_zero, as: :catch_zero_division)
 
   def call
-    success, answer = catch_zero_division do
+    error, answer = catch_zero_division do
       yield
     end
 
-    if success
-      answer
-    else
+    if error
       :error
+    else
+      answer
     end
   end
 end
