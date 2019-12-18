@@ -3,60 +3,128 @@
 require 'dry/effects/provider'
 
 RSpec.describe 'handling random' do
-  let(:handler) { Dry::Effects::Frame.new(provider) }
-
+  include Dry::Effects::Handler.Random
   include Dry::Effects.Random
 
-  context 'with custom provider' do
-    let(:provider) do
-      Class.new(Dry::Effects::Provider[:random]) {
-        attr_reader :seed
+  context 'default generator' do
+    around { |ex| with_random(&ex) }
 
-        def rand(modulo)
-          n = seed % modulo
-          shift
-          n
-        end
+    context 'integers' do
+      it 'returns integer when input is >= 1' do
+        integers = Array.new(100) { rand(100) }
+        expect(integers.all? { |i| i < 100 && i.is_a?(Integer) })
+      end
 
-        def output(result)
-          result
-        end
-
-        def call(seed = @seed)
-          @seed = seed
-          yield
-        end
-
-        private
-
-        def shift
-          @seed = seed % 1000 + seed / 1000
-        end
-      }.new.freeze
+      it 'returns 0 for 1' do
+        integers = Array.new(10) { rand(1) }
+        expect(integers.all? { |i| i.equal?(0) })
+      end
     end
 
-    context 'seed = 10' do
-      let(:seed) { 121 }
-
-      example 'getting random values' do
-        result = handler.(seed) do
-          [rand(5), rand(9)]
-        end
-
-        expect(result).to eql([1, 4])
+    context 'float' do
+      it 'uses input as an upper bound if it < 1' do
+        floats = Array.new(100) { rand(0.5) }
+        expect(floats.all? { |f| f < 0.5 && f >= 0.0 })
       end
+
+      it 'returns an integer if input >= 1' do
+        integers = Array.new(100) { rand(10.5) }
+
+        expect(integers.max).to eql(10)
+        expect(integers.min).to eql(0)
+      end
+    end
+
+    context 'range' do
+      context 'integer..integer' do
+        specify do
+          integers = Array.new(100) { rand(0..10) }
+          expect(integers.min).to eql(0)
+          expect(integers.max).to eql(10)
+        end
+      end
+
+      context 'integer...integer' do
+        specify do
+          integers = Array.new(100) { rand(0...10) }
+          expect(integers.min).to eql(0)
+          expect(integers.max).to eql(9)
+        end
+      end
+
+      context 'float..float' do
+        specify do
+          floats = Array.new(100) { rand(0.0...0.5) }
+          expect(floats.min).to be >= 0
+          expect(floats.max).to be < 0.5
+        end
+      end
+
+      context 'float...float' do
+        specify do
+          floats = Array.new(100) { rand(0.0..0.5) }
+          expect(floats.min).to be >= 0
+          expect(floats.max).to be <= 0.5
+        end
+      end
+    end
+
+    it 'relies on srand' do
+      fixed_seed = ::Random.new_seed
+
+      prev_seed = srand(fixed_seed)
+      values_a = with_random { Array.new(10) { rand } }
+
+      srand(fixed_seed)
+      values_b = with_random { Array.new(10) { rand } }
+
+      expect(values_a).to eql(values_b)
+
+      srand(prev_seed)
     end
   end
 
-  context 'with default provider' do
-    let(:handler) { Dry::Effects[:random] }
+  context 'custom generator' do
+    example 'simple proc' do
+      random_float = with_random(proc { 0.3 }) { rand }
+      expect(random_float).to eql(0.3)
 
-    example 'producing random values' do
-      result = handler.() do
-        Array.new(100) { rand(10) }
+      random_int = with_random(proc { 0.5 }) { rand(10) }
+      expect(random_int).to eql(5)
+    end
+
+    example 'increasing values' do
+      with_random(proc { |prev = 0.0| prev + 0.1 }) do
+        expect(Array.new(11) { rand.round(1) }).to eql([
+          0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1
+        ])
       end
 
-      expect(result.max).to be < 10
+      with_random(proc { |prev = 0.0| prev + 0.1 }) do
+        expect(Array.new(11) { rand(0.0...1.0).round(1) }).to eql([
+          0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1
+        ])
+      end
+    end
+
+    example 'seed' do
+      values_a = with_random(seed: 100) { Array.new(11) { rand } }
+      values_b = with_random(seed: 100) { Array.new(11) { rand } }
+
+      expect(values_a).to eql(values_b)
+    end
+
+    example 'other options' do
+      fixed_seed = ::Random.new_seed
+      prev_seed = srand(fixed_seed)
+      values_a = with_random({}) { Array.new(11) { rand } }
+
+      srand(fixed_seed)
+      values_b = with_random { Array.new(11) { rand } }
+
+      expect(values_a).to eql(values_b)
+
+      srand(prev_seed)
     end
   end
 end

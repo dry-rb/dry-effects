@@ -10,7 +10,7 @@ module Dry
 
         def initialize
           module_eval do
-            define_method(:rand) { |n| ::Dry::Effects.yield(Read.(n)) }
+            define_method(:rand) { |n = nil| ::Dry::Effects.yield(Read.(n)) }
           end
         end
       end
