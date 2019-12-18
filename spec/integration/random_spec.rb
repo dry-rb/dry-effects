@@ -30,7 +30,7 @@ RSpec.describe 'handling random' do
       it 'returns an integer if input >= 1' do
         integers = Array.new(100) { rand(10.5) }
 
-        expect(integers.max).to eql(10)
+        expect(integers.max).to eql(9)
         expect(integers.min).to eql(0)
       end
     end
