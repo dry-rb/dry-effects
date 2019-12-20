@@ -1,3 +1,13 @@
+# v0.1.3 - 2019-12-20
+
+## Added
+
+- Options for the random provider. You can pass a `seed` or a proc that will be used to generate random values. It is expected the value returned from the proc is within the `0.0...1.0` range (flash-gordon)
+  ```ruby
+  with_random(seed: 123) { ... }
+  with_random(proc {|prev = 0.0| (prev + 0.1) % 1 }) { ... }
+  ```
+
 # v0.1.2 - 2019-12-15
 
 ## Fixed
