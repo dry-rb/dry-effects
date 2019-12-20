@@ -8,6 +8,8 @@
   with_random(proc {|prev = 0.0| (prev + 0.1) % 1 }) { ... }
   ```
 
+[Compare v0.1.2...v0.1.3](https://github.com/dry-rb/dry-effects/compare/v0.1.2...v0.1.3)
+
 # v0.1.2 - 2019-12-15
 
 ## Fixed
