@@ -29,7 +29,7 @@ end
 ###
 
 class CreateSubscription
-  include Dry::Efefcts.Resolve(:subscription_repo)
+  include Dry::Effects.Resolve(:subscription_repo)
   include Dry::Effects.CurrentTime
 
   def call(values)
