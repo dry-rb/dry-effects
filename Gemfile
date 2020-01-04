@@ -2,21 +2,18 @@
 
 source 'https://rubygems.org'
 
-git_source(:github) { |repo_name| "https://github.com/dry-rb/#{repo_name}" }
+eval_gemfile 'Gemfile.devtools'
 
 gemspec
 
 group :test do
   gem 'dry-auto_inject', require: false
   gem 'dry-system', github: 'dry-system', branch: 'master', require: false
-  gem 'simplecov', require: false, platform: :mri
   gem 'warning'
 end
 
 group :tools do
   gem 'pry-byebug', platform: :mri
-  gem 'rubocop'
-  gem 'ossy', git: 'https://github.com/solnic/ossy.git', branch: 'master'
 end
 
 gem 'dry-struct'
