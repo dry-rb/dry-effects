@@ -1,22 +1,29 @@
 [gem]: https://rubygems.org/gems/dry-effects
-[ci]: https://github.com/dry-rb/dry-effects/actions?query=workflow%3Aci
-[codeclimate]: https://codeclimate.com/github/dry-rb/dry-effects/maintainability
-[coverage]: https://codeclimate.com/github/dry-rb/dry-effects/test_coverage
+[actions]: https://github.com/dry-rb/dry-effects/actions
+[codacy]: https://www.codacy.com/gh/dry-rb/dry-effects
 [chat]: https://dry-rb.zulipchat.com
+[inchpages]: http://inch-ci.org/github/dry-rb/dry-effects
 
 # dry-effects [![Join the chat at https://dry-rb.zulipchat.com](https://img.shields.io/badge/dry--rb-join%20chat-%23346b7a.svg)][chat]
 
 [![Gem Version](https://badge.fury.io/rb/dry-effects.svg)][gem]
-[![Build Status](https://github.com/dry-rb/dry-monads/workflows/ci/badge.svg)][ci]
-[![Maintainability](https://api.codeclimate.com/v1/badges/83bdab1ec9e1097c2284/maintainability)][codeclimate]
-[![Test Coverage](https://api.codeclimate.com/v1/badges/83bdab1ec9e1097c2284/test_coverage)][coverage]
+[![CI Status](https://github.com/dry-rb/dry-effects/workflows/ci/badge.svg)][actions]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/22edf59617be4aef97cfbe4e1c99f1ce)][codacy]
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/22edf59617be4aef97cfbe4e1c99f1ce)][codacy]
+[![Inline docs](http://inch-ci.org/github/dry-rb/dry-effects.svg?branch=master)][inchpages]
 
-## Development
+## Links
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+* [User documentation](http://dry-rb.org/gems/dry-effects)
+* [API documentation](http://rubydoc.info/gems/dry-effects)
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Supported Ruby versions
 
-## Contributing
+This library officially supports the following Ruby versions:
 
-See CONTRIBUTING.md.
+* MRI >= `2.4`
+* jruby >= `9.2`
+
+## License
+
+See `LICENSE` file.
