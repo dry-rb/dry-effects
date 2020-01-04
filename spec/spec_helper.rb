@@ -2,12 +2,7 @@
 
 require 'bundler/setup'
 
-if ENV['COVERAGE'] == 'true'
-  require 'simplecov'
-  SimpleCov.start do
-    add_filter '/spec/'
-  end
-end
+require_relative 'support/coverage'
 
 begin
   require 'pry-byebug'
@@ -22,6 +17,7 @@ Dir[SPEC_ROOT.join('support/**/*.rb')].each(&method(:require))
 require 'dry/effects'
 require 'warning'
 
+Warning.ignore(/codacy/)
 Warning.ignore(/dry-system/)
 Warning.ignore(/dry-configurable/)
 Warning.ignore(/__LINE__/)
