@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Dry::Effects::Handler do
   subject(:handler) { Dry::Effects[:random] }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Dry::Effects.load_extensions(:rspec)
 
 RSpec.describe 'rspec extension' do

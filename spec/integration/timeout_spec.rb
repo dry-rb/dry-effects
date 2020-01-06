@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'handling timeout' do
   include Dry::Effects::Handler.Timeout(:request)
   include Dry::Effects.Timeout(:request)
