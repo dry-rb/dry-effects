@@ -37,7 +37,7 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
       end
 
       it 'shows current time' do
-        expect(current_time.represent).to eql("current_time[fixed=2019-08-09T18:50:10.000002+00:00]")
+        expect(current_time.represent).to eql('current_time[fixed=2019-08-09T18:50:10.000002+00:00]')
       end
     end
 
@@ -45,7 +45,7 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
       subject(:current_time) { described_class.new(fixed: false) }
 
       it 'only shows that time in flux' do
-        expect(current_time.represent).to eql("current_time[fixed=false]")
+        expect(current_time.represent).to eql('current_time[fixed=false]')
       end
     end
 
