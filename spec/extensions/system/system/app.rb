@@ -11,8 +11,8 @@ module Test
     auto_register!('app')
 
     boot(:persistence) do |container|
-      init() { }
-      start() { }
+      init() {}
+      start() {}
     end
   end
 end

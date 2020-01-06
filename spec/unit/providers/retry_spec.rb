@@ -19,10 +19,10 @@ RSpec.describe Dry::Effects::Providers::Retry do
       end
 
       expect(strings).to eql([
-        'retry[transaction 1/10]',
-        'retry[transaction 2/10]',
-        'retry[transaction 3/10]'
-      ])
+                               'retry[transaction 1/10]',
+                               'retry[transaction 2/10]',
+                               'retry[transaction 3/10]'
+                             ])
     end
   end
 end

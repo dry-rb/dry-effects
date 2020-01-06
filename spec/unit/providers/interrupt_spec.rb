@@ -11,5 +11,3 @@ RSpec.describe Dry::Effects::Providers::Interrupt do
     end
   end
 end
-
-

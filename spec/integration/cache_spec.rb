@@ -122,11 +122,11 @@ RSpec.describe 'handling cache' do
         end
 
         expect(result).to eql(%i[
-          foo_a foo_b
-          foo_a foo_b
-          slow_foo_a slow_foo_b
-          slow_foo_a slow_foo_b
-        ])
+                                foo_a foo_b
+                                foo_a foo_b
+                                slow_foo_a slow_foo_b
+                                slow_foo_a slow_foo_b
+                              ])
         expect(called).to be(4)
       end
 

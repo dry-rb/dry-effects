@@ -48,4 +48,3 @@ RSpec.describe 'dry-system extnesion' do
     expect(Test::App.finalize!).to be(Test::App)
   end
 end
-

@@ -96,14 +96,14 @@ RSpec.describe 'handling random' do
     example 'increasing values' do
       with_random(proc { |prev = 0.0| prev + 0.1 }) do
         expect(Array.new(11) { rand.round(1) }).to eql([
-          0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1
-        ])
+                                                         0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1
+                                                       ])
       end
 
       with_random(proc { |prev = 0.0| prev + 0.1 }) do
         expect(Array.new(11) { rand(0.0...1.0).round(1) }).to eql([
-          0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1
-        ])
+                                                                    0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1
+                                                                  ])
       end
     end
 

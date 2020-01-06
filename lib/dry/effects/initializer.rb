@@ -38,6 +38,7 @@ module Dry
         # @api private
         def options?
           return @has_options if defined? @has_options
+
           @has_options = false
         end
 

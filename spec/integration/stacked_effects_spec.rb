@@ -98,8 +98,8 @@ RSpec.describe 'stacked effects' do
 
       example 'interrupt,cmp' do
         expect(handle_feature { handle_feature2 { [feature?, feature2?] } }).to eql([
-          [[false, false], [false, true]], [[true, false], [true, true]]
-        ])
+                                                                                      [[false, false], [false, true]], [[true, false], [true, true]]
+                                                                                    ])
       end
     end
   end
