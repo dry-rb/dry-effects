@@ -3,6 +3,7 @@
 require 'bundler/setup'
 
 require_relative 'support/coverage'
+require_relative 'support/warnings'
 
 begin
   require 'pry-byebug'
@@ -15,7 +16,6 @@ SPEC_ROOT = Pathname(__FILE__).dirname
 Dir[SPEC_ROOT.join('support/**/*.rb')].each(&method(:require))
 
 require 'dry/effects'
-require 'warning'
 
 Warning.ignore(/codacy/)
 Warning.ignore(/dry-system/)
@@ -31,8 +31,6 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.filter_run_when_matching :focus
-
-  config.warnings = true
 
   config.expect_with :rspec do |c|
     c.syntax = :expect

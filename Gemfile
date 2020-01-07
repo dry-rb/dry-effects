@@ -9,7 +9,6 @@ gemspec
 group :test do
   gem 'dry-auto_inject', require: false
   gem 'dry-system', github: 'dry-rb/dry-system', branch: 'master', require: false
-  gem 'warning'
 end
 
 group :tools do
