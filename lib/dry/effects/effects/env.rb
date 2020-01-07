@@ -19,7 +19,7 @@ module Dry
             else
               readers.each do |reader, key|
                 define_method(reader) do
-                  ::Dry::Effects.yield(Read.(key))
+                  ::Dry::Effects.yield(Read.payload(key))
                 end
               end
             end

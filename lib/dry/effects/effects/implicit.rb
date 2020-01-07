@@ -15,7 +15,7 @@ module Dry
 
           module_eval do
             define_method(dependency) do |*args|
-              ::Dry::Effects.yield(lookup.(args[0])).(*args)
+              ::Dry::Effects.yield(lookup.payload(args[0])).(*args)
             end
           end
         end

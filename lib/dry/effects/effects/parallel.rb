@@ -11,7 +11,7 @@ module Dry
 
         def initialize
           define_method(:par) { |&block| ::Dry::Effects.yield(Par).(&block) }
-          define_method(:join) { |xs| ::Dry::Effects.yield(Join.(xs)) }
+          define_method(:join) { |xs| ::Dry::Effects.yield(Join.payload(xs)) }
         end
       end
     end
