@@ -18,7 +18,7 @@ module Dry
               if Undefined.equal?(payload)
                 ::Dry::Effects.yield(interrupt)
               else
-                ::Dry::Effects.yield(interrupt.(payload))
+                ::Dry::Effects.yield(interrupt.payload(payload))
               end
             end
           end

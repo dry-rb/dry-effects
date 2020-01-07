@@ -16,13 +16,13 @@ module Dry
             define_method(:lock) do |key, meta: Undefined, &block|
               if block
                 begin
-                  handle = ::Dry::Effects.yield(Lock.(key, meta))
+                  handle = ::Dry::Effects.yield(Lock.payload(key, meta))
                   block.(!handle.nil?)
                 ensure
-                  ::Dry::Effects.yield(Unlock.(handle)) if handle
+                  ::Dry::Effects.yield(Unlock.payload(handle)) if handle
                 end
               else
-                ::Dry::Effects.yield(Lock.(key, meta))
+                ::Dry::Effects.yield(Lock.payload(key, meta))
               end
             end
 
@@ -31,11 +31,11 @@ module Dry
             end
 
             define_method(:locked?) do |key|
-              ::Dry::Effects.yield(Locked.(key))
+              ::Dry::Effects.yield(Locked.payload(key))
             end
 
             define_method(:lock_meta) do |key|
-              ::Dry::Effects.yield(Meta.(key))
+              ::Dry::Effects.yield(Meta.payload(key))
             end
           end
         end

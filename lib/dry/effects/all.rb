@@ -34,7 +34,7 @@ module Dry
         end
       end
 
-      if ::File.exists?("#{__dir__}/providers/#{key}.rb")
+      if ::File.exist?("#{__dir__}/providers/#{key}.rb")
         providers.register(key, memoize: true) do
           require "dry/effects/providers/#{key}"
           Providers.const_get(Inflector.camelize(key))
