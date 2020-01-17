@@ -1,14 +1,14 @@
-# v0.1.4 - 2020-01-07
+## 0.1.4 2020-01-07
 
-## Fixed
+
+### Fixed
 
 - Some calls of effect builders were updated to prevent keyword warnings on 2.7 (flash-gordon)
 
-[Compare v0.1.3...v0.1.4](https://github.com/dry-rb/dry-effects/compare/v0.1.3...v0.1.4)
+## 0.1.3 2019-12-20
 
-# v0.1.3 - 2019-12-20
 
-## Added
+### Added
 
 - Options for the random provider. You can pass a `seed` or a proc that will be used to generate random values. It is expected the value returned from the proc is within the `0.0...1.0` range (flash-gordon)
   ```ruby
@@ -16,19 +16,17 @@
   with_random(proc {|prev = 0.0| (prev + 0.1) % 1 }) { ... }
   ```
 
-[Compare v0.1.2...v0.1.3](https://github.com/dry-rb/dry-effects/compare/v0.1.2...v0.1.3)
+## 0.1.2 2019-12-15
 
-# v0.1.2 - 2019-12-15
 
-## Fixed
+### Fixed
 
 - Keyword warnings issued by Ruby 2.7 (flash-gordon)
 
-[Compare v0.1.1...v0.1.2](https://github.com/dry-rb/dry-effects/compare/v0.1.1...v0.1.2)
+## 0.1.1 2019-11-30
 
-# v0.1.1 - 2019-11-30
 
-## Added
+### Added
 
 - Extension for RSpec. Some features of RSpec require access to thread-local storage. This extension patches RSpec so that storage is shared between the root fiber and dry-effects context (flash-gordon)
 
@@ -39,8 +37,6 @@
   Dry::Effects.load_extensions(:rspec)
   ```
 
-[Compare v0.1.0...v0.1.1](https://github.com/dry-rb/dry-effects/compare/v0.1.0...v0.1.1)
-
-# v0.1.0 - 2019-09-28
+## 0.1.0 2019-09-28
 
 Initial release.
