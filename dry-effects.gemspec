@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Algebraic effects"
   spec.description   = spec.summary
   spec.homepage      = 'https://dry-rb.org/gems/dry-effects'
-  spec.files         = Dir['CHANGELOG.md', 'LICENSE', 'README.md', 'dry-effects.gemspec', 'lib/**/*']
+  spec.files         = Dir["CHANGELOG.md", "LICENSE", "README.md", "dry-effects.gemspec", "lib/**/*"]
   spec.require_paths = ['lib']
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
