@@ -5,6 +5,7 @@
 
 - Some calls of effect builders were updated to prevent keyword warnings on 2.7 (flash-gordon)
 
+
 [Compare v0.1.3...v0.1.4](https://github.com/dry-rb/dry-effects/compare/v0.1.3...v0.1.4)
 
 ## 0.1.3 2019-12-20
@@ -18,6 +19,7 @@
   with_random(proc {|prev = 0.0| (prev + 0.1) % 1 }) { ... }
   ```
 
+
 [Compare v0.1.2...v0.1.3](https://github.com/dry-rb/dry-effects/compare/v0.1.2...v0.1.3)
 
 ## 0.1.2 2019-12-15
@@ -26,6 +28,7 @@
 ### Fixed
 
 - Keyword warnings issued by Ruby 2.7 (flash-gordon)
+
 
 [Compare v0.1.1...v0.1.2](https://github.com/dry-rb/dry-effects/compare/v0.1.1...v0.1.2)
 
@@ -42,6 +45,7 @@
 
   Dry::Effects.load_extensions(:rspec)
   ```
+
 
 [Compare v0.1.0...v0.1.1](https://github.com/dry-rb/dry-effects/compare/v0.1.0...v0.1.1)
 
