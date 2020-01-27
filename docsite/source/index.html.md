@@ -77,7 +77,7 @@ CreatePost.new.({})
 # => Dry::Effects::Errors::MissingStateError (Value of +counter+ is not set, you need to provide value with an effect handler)
 ```
 
-In a statically typed with support for algebraic effects you won't be able to run code without providing all required handlers, it'd be a type error.
+In a statically typed programming languages with support for algebraic effects you won't be able to run code without providing all required handlers, it'd be a type error.
 
 It may remind you using global state, but it's not actually global. It should instead be called "goto on steroids" or "goto made unharmful."
 
