@@ -55,13 +55,10 @@ Style/DateTime:
 Style/IfUnlessModifier:
   Enabled: false
 
-Style/EachWithObject:
-  Enabled: false
-
 Style/TrailingUnderscoreVariable:
   Enabled: false
 
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - "spec/spec_helper.rb"
 
@@ -75,7 +72,7 @@ Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
 
-Layout/IndentFirstArrayElement:
+Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
 
 Naming/PredicateName:
@@ -91,7 +88,7 @@ Naming/MethodName:
 Naming/MemoizedInstanceVariableName:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
 
 Metrics/MethodLength:
