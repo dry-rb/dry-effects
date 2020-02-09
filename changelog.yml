@@ -4,9 +4,9 @@
   fixed:
   - |-
     Add patch for ActiveRecord::TaggedLogger to preserve tags in presence of effect handlers (leehambley)
-    ```ruby
-    Dry::Effects.load_extensions(:active_support_tagged_logging)
-    ```
+      ```ruby
+      Dry::Effects.load_extensions(:active_support_tagged_logging)
+      ```
 - version: 0.1.4
   date: '2020-01-07'
   fixed:
