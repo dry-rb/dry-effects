@@ -7,6 +7,7 @@ eval_gemfile 'Gemfile.devtools'
 gemspec
 
 group :test do
+  gem 'activesupport'
   gem 'dry-auto_inject', require: false
   gem 'dry-system', github: 'dry-rb/dry-system', branch: 'master', require: false
 end

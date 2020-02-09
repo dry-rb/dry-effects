@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/tagged_logging'
+
 ActiveSupport::TaggedLogging::Formatter.prepend(Module.new {
   def current_tags
     thread_key = @thread_key ||= "activesupport_tagged_logging_tags:#{object_id}"
