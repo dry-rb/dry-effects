@@ -41,15 +41,36 @@ module Dry
           result = fiber.resume
 
           loop do
+            error = false
             break result unless fiber.alive?
 
             provided = stack.(result) do
-              ::Dry::Effects.yield(result) do |_, error|
-                Instructions.Raise(error)
+              ::Dry::Effects.yield(result) do |_, e|
+                error = true
+                e
               end
             end
 
-            result = fiber.resume(provided)
+            result =
+              if error
+                raise_in_fiber(fiber, provided)
+              else
+                fiber.resume(provided)
+              end
+          end
+        end
+
+        private
+
+        if RUBY_VERSION >= "2.7"
+          # @api private
+          def raise_in_fiber(fiber, error)
+            fiber.raise(error)
+          end
+        else
+          # @api private
+          def raise_in_fiber(fiber, error)
+            fiber.resume(Instructions.Raise(error))
           end
         end
       end
