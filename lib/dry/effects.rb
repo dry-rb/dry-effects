@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'dry/core/constants'
-require 'dry/effects/version'
-require 'dry/effects/container'
-require 'dry/effects/errors'
-require 'dry/effects/instructions/raise'
+require "dry/core/constants"
+require "dry/effects/version"
+require "dry/effects/container"
+require "dry/effects/errors"
+require "dry/effects/instructions/raise"
 
 module Dry
   module Effects
@@ -69,5 +69,5 @@ module Dry
   end
 end
 
-require 'dry/effects/all'
-require 'dry/effects/extensions'
+require "dry/effects/all"
+require "dry/effects/extensions"
