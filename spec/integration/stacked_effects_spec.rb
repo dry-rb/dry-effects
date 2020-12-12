@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe 'stacked effects' do
-  context 'different effect types' do
+RSpec.describe "stacked effects" do
+  context "different effect types" do
     include Dry::Effects.Random
     include Dry::Effects.CurrentTime
 
@@ -9,7 +9,7 @@ RSpec.describe 'stacked effects' do
 
     let(:time_handler) { Dry::Effects[:current_time] }
 
-    example 'nesting handlers' do
+    example "nesting handlers" do
       past = Time.now
       future = rand_handler.() do
         time_handler.() do
@@ -21,8 +21,8 @@ RSpec.describe 'stacked effects' do
     end
   end
 
-  context 'same types' do
-    context 'different identifier' do
+  context "same types" do
+    context "different identifier" do
       before do
         extend Dry::Effects.State(:counter_a), Dry::Effects.State(:counter_b)
       end
@@ -31,7 +31,7 @@ RSpec.describe 'stacked effects' do
 
       let(:state_b) { Dry::Effects[:state, :counter_b] }
 
-      example 'works nicely' do
+      example "works nicely" do
         accumulated_state = state_a.(0) do
           state_b.(10) do
             self.counter_a += 4
@@ -44,7 +44,7 @@ RSpec.describe 'stacked effects' do
       end
     end
 
-    context 'same identifier' do
+    context "same identifier" do
       before do
         extend Dry::Effects.State(:counter)
         extend Dry::Effects::Handler.State(:counter)
@@ -72,7 +72,7 @@ RSpec.describe 'stacked effects' do
     end
   end
 
-  context 'mixing two stack-affecting effects' do
+  context "mixing two stack-affecting effects" do
     before do
       extend Dry::Effects.Cmp(:feature)
       extend Dry::Effects.Interrupt(:stop)
@@ -80,23 +80,23 @@ RSpec.describe 'stacked effects' do
       extend Dry::Effects::Handler.Interrupt(:stop, as: :handle_stop)
     end
 
-    example 'cmp,interrupt' do
+    example "cmp,interrupt" do
       expect(handle_feature { handle_stop { stop(feature?) } }).to eql(
         [[true, false], [true, true]]
       )
     end
 
-    example 'interrupt,cmp' do
+    example "interrupt,cmp" do
       expect(handle_stop { handle_feature { stop(feature?) } }).to eql([true, false])
     end
 
-    context 'more nesting' do
+    context "more nesting" do
       before do
         extend Dry::Effects.Cmp(:feature2)
         extend Dry::Effects::Handler.Cmp(:feature2, as: :handle_feature2)
       end
 
-      example 'interrupt,cmp' do
+      example "interrupt,cmp" do
         expect(handle_feature { handle_feature2 { [feature?, feature2?] } }).to eql([
                                                                                       [[false, false], [false, true]], [[true, false], [true, true]]
                                                                                     ])
@@ -104,7 +104,7 @@ RSpec.describe 'stacked effects' do
     end
   end
 
-  context 'defer + parallel' do
+  context "defer + parallel" do
     before do
       extend Dry::Effects.Defer
       extend Dry::Effects.Parallel
@@ -112,7 +112,7 @@ RSpec.describe 'stacked effects' do
       extend Dry::Effects::Handler.Defer
     end
 
-    example 'defer + parallel' do
+    example "defer + parallel" do
       tasks = [0, 1, 2]
       observed_order = Concurrent::Array.new
       result = with_defer do
@@ -134,7 +134,7 @@ RSpec.describe 'stacked effects' do
       expect(observed_order.sort).to eql([0, 1, 2])
     end
 
-    example 'parallel + defer' do
+    example "parallel + defer" do
       tasks = [0, 1, 2]
       observed_order = []
       result = with_parallel do
@@ -157,7 +157,7 @@ RSpec.describe 'stacked effects' do
     end
   end
 
-  context 'async + state' do
+  context "async + state" do
     include Dry::Effects.Async
     include Dry::Effects::Handler.Async
     include Dry::Effects.State(:counter)
@@ -176,26 +176,26 @@ RSpec.describe 'stacked effects' do
       tasks.each { |t| await(t) }
     end
 
-    example 'async + state' do
+    example "async + state" do
       result = with_async { with_counter(100) { program } }
       expect(outputs).to eql([110, 120, 130])
       expect(result).to be_nil
     end
 
-    example 'state + async' do
+    example "state + async" do
       result = with_counter(100) { with_async { program } }
       expect(outputs).to eql([110, 120, 130])
       expect(result).to eql([130, nil])
     end
   end
 
-  context 'cache + state' do
+  context "cache + state" do
     include Dry::Effects::Handler.State(:counter)
     include Dry::Effects::Handler.Cache(:counter_values)
     include Dry::Effects.State(:counter)
     include Dry::Effects.Cache(:counter_values)
 
-    example 'cache + state' do
+    example "cache + state" do
       calls = 0
 
       result = with_cache do
@@ -218,12 +218,12 @@ RSpec.describe 'stacked effects' do
     end
   end
 
-  context 'state + reader' do
+  context "state + reader" do
     include Dry::Effects::Handler.State(:value, as: :handle_state)
     include Dry::Effects::Handler.Reader(:value, as: :handle_reader)
     include Dry::Effects.State(:value)
 
-    it 'works according to stack rules' do
+    it "works according to stack rules" do
       handled = handle_state(0) do
         handle_reader(5) do
           self.value = value + 10
@@ -235,12 +235,12 @@ RSpec.describe 'stacked effects' do
     end
   end
 
-  context 'env + env' do
+  context "env + env" do
     include Dry::Effects::Handler.Env
     include Dry::Effects.Env(:foo)
     include Dry::Effects.Env(:bar)
 
-    it 'reads env from matching provider' do
+    it "reads env from matching provider" do
       handled = with_env(foo: 5) do
         with_env({ bar: 6 }, overridable: true) do
           foo + bar
@@ -251,13 +251,13 @@ RSpec.describe 'stacked effects' do
     end
   end
 
-  context 'state + env' do
+  context "state + env" do
     include Dry::Effects::Handler.Reader(:foo)
     include Dry::Effects::Handler.Env
     include Dry::Effects.Env(:bar)
     include Dry::Effects.State(:foo)
 
-    example 'nesting env within state' do
+    example "nesting env within state" do
       result = with_foo(10) { with_env(bar: 5) { foo + bar } }
       expect(result).to be(15)
     end

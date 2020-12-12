@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'dry-auto_inject'
+require "dry-auto_inject"
 
-RSpec.describe 'dry-auto_inject extnesion' do
+RSpec.describe "dry-auto_inject extnesion" do
   before(:all) do
     Dry::Effects.load_extensions(:auto_inject)
   end
@@ -11,7 +11,7 @@ RSpec.describe 'dry-auto_inject extnesion' do
 
   let(:container) do
     Dry::Container.new.tap do |c|
-      c.register('repos.user_repo', user_repo)
+      c.register("repos.user_repo", user_repo)
     end
   end
 
@@ -21,28 +21,28 @@ RSpec.describe 'dry-auto_inject extnesion' do
 
   let(:operation) do
     Class.new.tap { |klass|
-      klass.include import['repos.user_repo']
+      klass.include import["repos.user_repo"]
     }.new
   end
 
-  let(:overriding_container) { { 'repos.user_repo' => overridden_repo } }
+  let(:overriding_container) { { "repos.user_repo" => overridden_repo } }
 
-  context 'static resolution' do
+  context "static resolution" do
     before do
       extend Dry::Effects::Handler.Resolve(container)
     end
 
-    it 'resolves dependencies' do
+    it "resolves dependencies" do
       provided = provide { operation.user_repo }
       expect(provided).to be(user_repo)
     end
 
-    it 'supports overriding' do
+    it "supports overriding" do
       provided = provide(overriding_container) { operation.user_repo }
       expect(provided).to be(overridden_repo)
     end
 
-    it 'caches result' do
+    it "caches result" do
       provided_before = provide(overriding_container) { operation.user_repo }
       provided_after = provide { operation.user_repo }
       expect(provided_before).to be(provided_after)
@@ -50,7 +50,7 @@ RSpec.describe 'dry-auto_inject extnesion' do
     end
   end
 
-  context 'static resolution with overriding from parent handler' do
+  context "static resolution with overriding from parent handler" do
     let(:parent_container) { overriding_container }
 
     before do
@@ -58,21 +58,21 @@ RSpec.describe 'dry-auto_inject extnesion' do
       extend Dry::Effects::Handler.Resolve(container)
     end
 
-    it 'uses parent dep when possible' do
+    it "uses parent dep when possible" do
       provided = provide_parent { provide({}, overridable: true) { operation.user_repo } }
 
       expect(provided).to be(overridden_repo)
     end
   end
 
-  context 'dynamic resolution' do
+  context "dynamic resolution" do
     let(:import) { Dry::Effects.AutoInject(dynamic: true) }
 
     before do
       extend Dry::Effects::Handler.Resolve(container)
     end
 
-    it 'has no cache' do
+    it "has no cache" do
       provided_before = provide(overriding_container) { operation.user_repo }
       provided_after = provide { operation.user_repo }
       expect(provided_before).to be(overridden_repo)
@@ -80,7 +80,7 @@ RSpec.describe 'dry-auto_inject extnesion' do
     end
   end
 
-  context 'dynamic resolution with overriding via parent container' do
+  context "dynamic resolution with overriding via parent container" do
     let(:import) { Dry::Effects.AutoInject(dynamic: true) }
 
     before do
@@ -96,12 +96,12 @@ RSpec.describe 'dry-auto_inject extnesion' do
     end
   end
 
-  context 'static resolution with constructor defined' do
+  context "static resolution with constructor defined" do
     let(:operation) do
       import = self.import
 
       Class.new {
-        include import['repos.user_repo']
+        include import["repos.user_repo"]
 
         def initialize(*)
           super
@@ -113,7 +113,7 @@ RSpec.describe 'dry-auto_inject extnesion' do
       extend Dry::Effects::Handler.Resolve(container)
     end
 
-    it 'still works' do
+    it "still works" do
       provided = provide(overriding_container) { operation.user_repo }
       expect(provided).to be(overridden_repo)
     end

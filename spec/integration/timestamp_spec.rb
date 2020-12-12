@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'dry/effects/handler'
+require "dry/effects/handler"
 
-RSpec.describe 'handling current time' do
+RSpec.describe "handling current time" do
   include Dry::Effects.Timestamp
 
-  context 'with custom generator' do
+  context "with custom generator" do
     include Dry::Effects::Handler.Timestamp
 
-    example 'getting a timestamp' do
+    example "getting a timestamp" do
       fixed = Time.now
       before, after = with_timestamp(proc { fixed }) do
         before = timestamp
@@ -22,18 +22,18 @@ RSpec.describe 'handling current time' do
     end
   end
 
-  context 'with step' do
+  context "with step" do
     include Dry::Effects::Handler.Timestamp
 
-    it 'uses the given step as an interval' do
+    it "uses the given step as an interval" do
       with_timestamp(step: 0.1) do
         expect(timestamp - timestamp).to eql(-0.1)
         expect(timestamp - timestamp).to eql(-0.1)
       end
     end
 
-    context 'with initial value' do
-      it 'can be passed as a start value' do
+    context "with initial value" do
+      it "can be passed as a start value" do
         initial = Time.now + 100
 
         with_timestamp(step: 0.1, initial: initial) do
@@ -44,11 +44,11 @@ RSpec.describe 'handling current time' do
     end
   end
 
-  context 'with rounding' do
-    context 'in handler' do
+  context "with rounding" do
+    context "in handler" do
       include Dry::Effects::Handler.Timestamp(round: 3)
 
-      it 'applies mixin argument' do
+      it "applies mixin argument" do
         fixed = Time.now
 
         with_timestamp(proc { fixed }) do
@@ -56,7 +56,7 @@ RSpec.describe 'handling current time' do
         end
       end
 
-      it 'can be overridden' do
+      it "can be overridden" do
         fixed = Time.now
 
         with_timestamp(proc { fixed }) do
@@ -65,10 +65,10 @@ RSpec.describe 'handling current time' do
       end
     end
 
-    context 'in caller' do
+    context "in caller" do
       include Dry::Effects::Handler.Timestamp
 
-      it 'can be passed' do
+      it "can be passed" do
         fixed = Time.now
 
         with_timestamp(proc { fixed }) do
@@ -78,10 +78,10 @@ RSpec.describe 'handling current time' do
     end
   end
 
-  context 'overridding' do
+  context "overridding" do
     include Dry::Effects::Handler.Timestamp
 
-    it 'can be overridden' do
+    it "can be overridden" do
       fixed = Time.now
       with_timestamp(proc { fixed }) do
         with_timestamp(overridable: true) do

@@ -4,7 +4,7 @@ RSpec.describe Enumerator::Lazy do
   include Dry::Effects::Handler.Reader(:multiplier)
   include Dry::Effects.Reader(:multiplier)
 
-  it 'works using fork' do
+  it "works using fork" do
     enumerator = with_fork do
       with_multiplier(2) do
         fork do |stack|

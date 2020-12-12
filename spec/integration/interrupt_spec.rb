@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe 'handle interruption' do
+RSpec.describe "handle interruption" do
   include Dry::Effects.Interrupt(:halt)
   include Dry::Effects::Handler.Interrupt(:halt, as: :catch_halt)
   include Dry::Effects::Handler.State(:counter_a, as: :outer)
   include Dry::Effects::Handler.State(:counter_b, as: :inner)
 
-  it 'aborts execution with payload' do
+  it "aborts execution with payload" do
     result = outer(10) do
       catch_halt do
         inner(20) { halt :done }
@@ -16,7 +16,7 @@ RSpec.describe 'handle interruption' do
     expect(result).to eql([10, [true, :done]])
   end
 
-  it 'aborts execution without payload' do
+  it "aborts execution without payload" do
     result = outer(10) do
       catch_halt do
         inner(20) { halt }
@@ -26,7 +26,7 @@ RSpec.describe 'handle interruption' do
     expect(result).to eql([10, [true, nil]])
   end
 
-  it 'returns result if no interruption was triggerred' do
+  it "returns result if no interruption was triggerred" do
     result = outer(10) do
       catch_halt { :success }
     end
@@ -34,14 +34,14 @@ RSpec.describe 'handle interruption' do
     expect(result).to eql([10, [false, :success]])
   end
 
-  context 'stacked' do
-    context 'same identifiers' do
+  context "stacked" do
+    context "same identifiers" do
       include Dry::Effects.Interrupt(:halt)
       include Dry::Effects.Interrupt(:raise)
       include Dry::Effects::Handler.Interrupt(:halt, as: :handle_halt)
       include Dry::Effects::Handler.Interrupt(:raise, as: :handle_raise)
 
-      example 'handling within inner block' do
+      example "handling within inner block" do
         _, outer = handle_halt do
           _, inner = handle_raise do
             raise 20
@@ -54,7 +54,7 @@ RSpec.describe 'handle interruption' do
         expect(outer).to be(30)
       end
 
-      example 'handling within outer block' do
+      example "handling within outer block" do
         _, outer = handle_halt do
           _, inner = handle_raise do
             halt 20

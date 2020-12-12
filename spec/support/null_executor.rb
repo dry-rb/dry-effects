@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'singleton'
-require 'concurrent/executor/executor_service'
+require "singleton"
+require "concurrent/executor/executor_service"
 
 class NullExecutor
   include Singleton

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/effects/errors'
-require 'dry/effects/effects/state'
+require "dry/effects/errors"
+require "dry/effects/effects/state"
 
 RSpec.describe Dry::Effects::Stack do
   def state_effect(name, scope)
@@ -22,13 +22,13 @@ RSpec.describe Dry::Effects::Stack do
 
   let(:read_words) { state_effect(:read, :words) }
 
-  describe '#push' do
+  describe "#push" do
     include Dry::Effects.State(:words)
     include Dry::Effects.State(:chars)
 
     let(:stack) { described_class.new }
 
-    it 'combines two providers' do
+    it "combines two providers" do
       result = stack.push(words_provider) do
         stack.push(chars_provider) do
           expect(stack.size).to eql(2)
@@ -41,19 +41,19 @@ RSpec.describe Dry::Effects::Stack do
     end
   end
 
-  describe '#provider' do
+  describe "#provider" do
     let(:providers) do
       [words_provider, chars_provider]
     end
 
     let(:stack) { described_class.new(providers) }
 
-    it 'looks up provider for a given effect' do
+    it "looks up provider for a given effect" do
       expect(stack.provider(read_chars)).to be(chars_provider)
     end
   end
 
-  describe '#dup' do
+  describe "#dup" do
     let(:stack) { described_class.new }
 
     around do |ex|
@@ -62,7 +62,7 @@ RSpec.describe Dry::Effects::Stack do
       end
     end
 
-    it 'creates a copy of a stack' do
+    it "creates a copy of a stack" do
       copy = stack.dup
       chars_provider.write(value: 200)
       expect(copy.(read_chars)).to eql(100)

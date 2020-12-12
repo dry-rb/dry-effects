@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe 'handling state' do
+RSpec.describe "handling state" do
   include Dry::Effects::Handler.State(:counter)
   include Dry::Effects.State(:counter)
 
-  example 'manipulating state' do
+  example "manipulating state" do
     state, result = with_counter(0) do
       self.counter += 1
       self.counter += 1
@@ -15,7 +15,7 @@ RSpec.describe 'handling state' do
     expect(result).to be(:done)
   end
 
-  example 'effectless' do
+  example "effectless" do
     state, result = with_counter(0) do
       :done
     end
@@ -24,12 +24,12 @@ RSpec.describe 'handling state' do
     expect(result).to be(:done)
   end
 
-  context 'missing state' do
-    example 'with fallback' do
+  context "missing state" do
+    example "with fallback" do
       expect(counter { :fallback }).to be(:fallback)
     end
 
-    example 'without fallback' do
+    example "without fallback" do
       expect { counter }.to raise_error(
         Dry::Effects::Errors::MissingStateError,
         /\+counter\+ is not set/
@@ -37,22 +37,22 @@ RSpec.describe 'handling state' do
     end
   end
 
-  context 'default value' do
+  context "default value" do
     include Dry::Effects.State(:counter, default: :fallback)
 
-    example 'with no handler it returns default value' do
+    example "with no handler it returns default value" do
       expect(counter).to be(:fallback)
     end
 
-    example 'with value' do
+    example "with value" do
       expect(with_counter(0) { counter }).to eql([0, 0])
     end
   end
 
-  context 'aliases' do
+  context "aliases" do
     include Dry::Effects.State(:counter, as: :cnt)
 
-    it 'uses provided alias' do
+    it "uses provided alias" do
       result = with_counter(0) do
         self.cnt += 1
         :done
@@ -62,10 +62,10 @@ RSpec.describe 'handling state' do
     end
   end
 
-  context 'not defined state' do
+  context "not defined state" do
     include Dry::Effects.State(:counter)
 
-    it 'can be called without providing state' do
+    it "can be called without providing state" do
       result = with_counter do
         self.counter = 10
         :done
@@ -74,7 +74,7 @@ RSpec.describe 'handling state' do
       expect(result).to eql([10, :done])
     end
 
-    it 'raises an error when undefined state is accessed' do
+    it "raises an error when undefined state is accessed" do
       with_counter do
         expect {
           counter
@@ -82,39 +82,39 @@ RSpec.describe 'handling state' do
       end
     end
 
-    it 'returns default value if it is provided' do
+    it "returns default value if it is provided" do
       result = with_counter { counter { :fallback } }
 
       expect(result).to eql([Dry::Effects::Undefined, :fallback])
     end
   end
 
-  context 'type' do
+  context "type" do
     include Dry::Effects::Handler.State(:counter, type: Integer)
 
-    it 'accepts integer values' do
+    it "accepts integer values" do
       result = with_counter(0) { self.counter += 10 }
       expect(result).to eql([10, 10])
     end
 
-    it 'rejects invalid values in handler' do
-      expect { with_counter('') {} }.to raise_error(
+    it "rejects invalid values in handler" do
+      expect { with_counter("") {} }.to raise_error(
         Dry::Effects::Errors::InvalidValueError,
         /invalid/
       )
     end
 
-    it 'rejects invalid values on assignment' do
-      expect { with_counter(0) { self.counter = '' } }.to raise_error(
+    it "rejects invalid values on assignment" do
+      expect { with_counter(0) { self.counter = "" } }.to raise_error(
         Dry::Effects::Errors::InvalidValueError,
         /invalid/
       )
     end
 
-    context '===' do
+    context "===" do
       include Dry::Effects::Handler.State(:counter, type: -> x { x.is_a?(Float) })
 
-      it 'uses case equality' do
+      it "uses case equality" do
         expect { with_counter(0) {} }.to raise_error(
           Dry::Effects::Errors::InvalidValueError
         )
@@ -122,10 +122,10 @@ RSpec.describe 'handling state' do
     end
   end
 
-  describe 'constructors' do
+  describe "constructors" do
     include Dry::Effects::Constructors
 
-    example 'read effects' do
+    example "read effects" do
       expect(Read(:foo)).to eql(
         Dry::Effects::Effects::State::State.new(
           type: :state,
@@ -135,7 +135,7 @@ RSpec.describe 'handling state' do
       )
     end
 
-    example 'write effects' do
+    example "write effects" do
       value = double(:value)
       expect(Write(:foo, value)).to eql(
         Dry::Effects::Effects::State::State.new(

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe 'forking' do
+RSpec.describe "forking" do
   include Dry::Effects.State(:counter)
   include Dry::Effects::Handler.State(:counter)
   include Dry::Effects.Fork
   include Dry::Effects::Handler.Fork
 
-  it 'duplicates a handler with the current stack' do
+  it "duplicates a handler with the current stack" do
     result = with_fork do
       with_counter(0) do
         begin
@@ -42,7 +42,7 @@ RSpec.describe 'forking' do
     expect(result).to eql([0, 20])
   end
 
-  it 'captures current stack values' do
+  it "captures current stack values" do
     _, with_stack = with_fork { with_counter(10) { fork { |stack| stack } } }
 
     expect(with_stack.() { counter }).to eql(10)

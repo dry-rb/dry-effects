@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'concurrent/array'
+require "concurrent/array"
 
-RSpec.describe 'defer effects' do
+RSpec.describe "defer effects" do
   include Dry::Effects::Handler.Defer
   include Dry::Effects.Defer
 
   let(:null_executor) { NullExecutor.instance }
 
-  describe 'defer' do
-    it 'postpones blocks and schedules caller' do
+  describe "defer" do
+    it "postpones blocks and schedules caller" do
       observed = Concurrent::Array.new
       values = nil
 
@@ -34,12 +34,12 @@ RSpec.describe 'defer effects' do
     end
   end
 
-  describe 'later' do
+  describe "later" do
     include Dry::Effects.State(:counter)
     include Dry::Effects::Handler.State(:counter)
     include Dry::Effects::Handler.Defer(executor: :immediate)
 
-    it 'sends blocks to executor on finish' do
+    it "sends blocks to executor on finish" do
       results = Concurrent::Array.new
 
       with_defer do
@@ -54,13 +54,13 @@ RSpec.describe 'defer effects' do
     end
   end
 
-  describe 'choosing executor in handler' do
+  describe "choosing executor in handler" do
     include Dry::Effects.State(:counter)
     include Dry::Effects::Handler.State(:counter)
     include Dry::Effects::Handler.Defer
 
-    context 'with in-place executor' do
-      it 'accepts executor in handler' do
+    context "with in-place executor" do
+      it "accepts executor in handler" do
         results = Concurrent::Array.new
 
         with_defer(executor: :immediate) do
@@ -75,8 +75,8 @@ RSpec.describe 'defer effects' do
       end
     end
 
-    context 'without execution' do
-      it 'produces no output' do
+    context "without execution" do
+      it "produces no output" do
         results = Concurrent::Array.new
 
         with_defer(executor: null_executor) do
@@ -92,13 +92,13 @@ RSpec.describe 'defer effects' do
     end
   end
 
-  describe 'passing executor via context' do
+  describe "passing executor via context" do
     let(:executor) { CaptureExecutor.new }
 
     include Dry::Effects::Handler.Defer(executor: :immediate)
 
-    context 'with later' do
-      it 'uses passed executor' do
+    context "with later" do
+      it "uses passed executor" do
         called = false
 
         with_defer do
@@ -111,8 +111,8 @@ RSpec.describe 'defer effects' do
       end
     end
 
-    context 'with defer' do
-      it 'uses passed executor' do
+    context "with defer" do
+      it "uses passed executor" do
         called = false
 
         with_defer do

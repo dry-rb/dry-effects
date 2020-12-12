@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'scheduling effect' do
+RSpec.describe "scheduling effect" do
   include Dry::Effects.Async
   include Dry::Effects::Handler.Async
 
@@ -8,7 +8,7 @@ RSpec.describe 'scheduling effect' do
     async { i**2 }
   end
 
-  example 'fork-join style' do
+  example "fork-join style" do
     results = []
     snapshots = []
 

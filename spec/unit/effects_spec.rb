@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require 'dry/effects'
+require "dry/effects"
 
 RSpec.describe Dry::Effects do
-  describe '.yield' do
-    example 'with a fallback' do
+  describe ".yield" do
+    example "with a fallback" do
       expect(Dry::Effects.yield(Object.new) { :fallback }).to be(:fallback)
     end
   end
 
-  describe '.[]' do
+  describe ".[]" do
     include Dry::Effects.CurrentTime
 
-    it 'builds an inline handler' do
+    it "builds an inline handler" do
       now = Time.now
 
       Dry::Effects[:current_time].(proc { now }) do
