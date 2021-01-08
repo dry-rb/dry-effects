@@ -12,8 +12,9 @@ module Dry
         Constructors.register(:Resolve) { |key| Resolve.(key) }
 
         def initialize(*keys, **aliases)
+          keys_aliased = keys.map { |k| k.to_s.split(".").last }.zip(keys)
           module_eval do
-            (keys.zip(keys) + aliases.to_a).each do |name, key|
+            (keys_aliased + aliases.to_a).each do |name, key|
               define_method(name) { |&block| ::Dry::Effects.yield(Resolve.(key), &block) }
             end
           end

@@ -47,6 +47,15 @@ RSpec.describe "resolving dependencies" do
     end
   end
 
+  describe "nested names" do
+    include Dry::Effects.Resolve("name.space.foo")
+
+    it "uses last name" do
+      provided = provide("name.space.foo" => 10) { foo }
+      expect(provided).to be(10)
+    end
+  end
+
   describe "constructors" do
     include Dry::Effects::Constructors
 
