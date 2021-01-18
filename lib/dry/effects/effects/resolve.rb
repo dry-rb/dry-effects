@@ -9,7 +9,7 @@ module Dry
       class Resolve < ::Module
         DependencyNameInvalid = Class.new(StandardError)
 
-        VALID_NAME = /([a-z_][a-zA-Z_0-9]*)$/
+        VALID_NAME = /([a-z_][a-zA-Z_0-9]*)$/.freeze
 
         Resolve = Effect.new(type: :resolve)
 
