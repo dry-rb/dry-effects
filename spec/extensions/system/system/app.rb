@@ -2,13 +2,14 @@
 
 module Test
   class App < Dry::Effects::System::Container
-    config.root = ::File.expand_path(::File.join(__dir__, '..'))
-    config.default_namespace = 'test'
+    configure do |config|
+      config.root = ::File.expand_path(::File.join(__dir__, ".."))
+      config.component_dirs.default_namespace = "test"
+      config.component_dirs.add_to_load_path = true
+      config.component_dirs.add "app"
+    end
 
     Import = injector
-
-    load_paths!('app')
-    auto_register!('app')
 
     boot(:persistence) do |container|
       init() {}
