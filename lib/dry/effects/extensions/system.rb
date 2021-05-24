@@ -18,7 +18,7 @@ module Dry
       end
 
       class Container < ::Dry::System::Container
-        setting :auto_registrar, AutoRegistrar
+        config.auto_registrar = AutoRegistrar
 
         def self.injector(effects: true, **kwargs)
           if effects
