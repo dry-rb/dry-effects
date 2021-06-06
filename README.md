@@ -1,3 +1,4 @@
+<!--- this file is synced from dry-rb/template-gem project -->
 [gem]: https://rubygems.org/gems/dry-effects
 [actions]: https://github.com/dry-rb/dry-effects/actions
 [codacy]: https://www.codacy.com/gh/dry-rb/dry-effects
@@ -14,15 +15,15 @@
 
 ## Links
 
-* [User documentation](http://dry-rb.org/gems/dry-effects)
+* [User documentation](https://dry-rb.org/gems/dry-effects)
 * [API documentation](http://rubydoc.info/gems/dry-effects)
 
 ## Supported Ruby versions
 
 This library officially supports the following Ruby versions:
 
-* MRI >= `2.5`
-* jruby >= `9.2`
+* MRI `>= 2.6.0`
+* jruby `>= 9.2`
 
 ## License
 
