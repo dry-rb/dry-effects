@@ -8,17 +8,18 @@ module Dry
   module Effects
     module System
       class AutoRegistrar < ::Dry::System::AutoRegistrar
-        def call(dir)
-          super do |config|
-            config.memoize = true
-            config.instance { |c| c.instance.freeze }
-            yield(config) if block_given?
+        # Always memoize and freeze registered components
+        def call(component_dir)
+          components(component_dir).each do |component|
+            next unless register_component?(component)
+
+            container.register(component.key, memoize: true) { component.instance.freeze }
           end
         end
       end
 
       class Container < ::Dry::System::Container
-        setting :auto_registrar, AutoRegistrar
+        config.auto_registrar = AutoRegistrar
 
         def self.injector(effects: true, **kwargs)
           if effects
