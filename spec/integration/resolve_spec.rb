@@ -47,6 +47,22 @@ RSpec.describe "resolving dependencies" do
     end
   end
 
+  describe "nested names" do
+    include Dry::Effects.Resolve("name.space.foo", "name/space/foo1", "name-space-foo2")
+
+    it "uses last name" do
+      provided = provide("name.space.foo" => 10, "name/space/foo1" => 10, "name-space-foo2" => 10) { foo + foo1 + foo2 }
+      expect(provided).to be(30)
+    end
+  end
+
+  it "raise when Ruby identifier is invalid name" do
+    expect { include Dry::Effects.Resolve("-/foo/-") }.to raise_error(
+      Dry::Effects::Effects::Resolve::DependencyNameInvalid,
+      "name +-/foo/-+ is not a valid Ruby identifier"
+    )
+  end
+
   describe "constructors" do
     include Dry::Effects::Constructors
 
