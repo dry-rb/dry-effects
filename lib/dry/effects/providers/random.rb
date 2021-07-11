@@ -6,7 +6,8 @@ module Dry
   module Effects
     module Providers
       class Random < Provider[:random]
-        DEFAULT = -> _ { ::Random::DEFAULT.rand }
+        DEFAULT_RANDOM = ::Random
+        DEFAULT = -> _ { DEFAULT_RANDOM.rand }
 
         DEFAULT_RANGE = 0.0...1.0
 
@@ -66,7 +67,7 @@ module Dry
             if options.key?(:seed)
               random = ::Random.new(options[:seed])
             else
-              random = ::Random::DEFAULT
+              random = DEFAULT_RANDOM
             end
 
             -> _ { random.rand }
