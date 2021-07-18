@@ -24,7 +24,7 @@ module Dry
 
           loop do
             return attempt(&block)
-          rescue halt
+          rescue halt # rubocop:disable Lint/SuppressedException
           end
         end
 

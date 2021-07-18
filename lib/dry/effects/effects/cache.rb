@@ -27,16 +27,10 @@ module Dry
             scope: scope
           )
 
-          if shared
-            key = method(:shared_cache_key)
-          else
-            key = method(:cache_key)
-          end
-
-          methods = Array(as)
+          key = key(shared)
 
           module_eval do
-            methods.each do |meth|
+            Array(as).each do |meth|
               define_method(meth) do |*args, &block|
                 if block
                   eff = fetch_or_store.(key.(self, args), block)
@@ -47,6 +41,14 @@ module Dry
                 ::Dry::Effects.yield(eff)
               end
             end
+          end
+        end
+
+        def key(shared)
+          if shared
+            method(:shared_cache_key)
+          else
+            method(:cache_key)
           end
         end
 

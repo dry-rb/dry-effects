@@ -9,7 +9,7 @@ module Dry
         DEFAULT_RANDOM = ::Random
         DEFAULT = -> _ { DEFAULT_RANDOM.rand }
 
-        DEFAULT_RANGE = 0.0...1.0
+        DEFAULT_RANGE = (0.0...1.0).freeze
 
         def rand(range_or_limit = nil)
           range_or_limit ||= DEFAULT_RANGE

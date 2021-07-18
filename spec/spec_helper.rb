@@ -14,7 +14,7 @@ end
 require "pathname"
 
 SPEC_ROOT = Pathname(__FILE__).dirname
-Dir[SPEC_ROOT.join("support/**/*.rb")].each(&method(:require))
+Dir[SPEC_ROOT.join("support/**/*.rb")].sort.each(&method(:require))
 
 require "dry/effects"
 

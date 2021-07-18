@@ -2,7 +2,7 @@
 
 module Dry
   module Effects
-    class Instruction
+    class Instruction # rubocop:disable Lint/EmptyClass
     end
   end
 end

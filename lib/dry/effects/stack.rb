@@ -23,7 +23,7 @@ module Dry
         else
           yield
         end
-      rescue ::Exception => e
+      rescue ::Exception => e # rubocop:disable Lint/RescueException
         Instructions::Raise.new(e)
       end
 

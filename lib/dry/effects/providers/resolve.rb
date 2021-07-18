@@ -91,9 +91,10 @@ module Dry
         # @return [String]
         # @api private
         def represent_container(container)
-          if container.is_a?(::Hash)
+          case container
+          when ::Hash
             container.empty? ? nil : "hash"
-          elsif container.is_a?(::Class)
+          when ::Class
             container.name || container.to_s
           else
             container.to_s

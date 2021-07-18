@@ -9,6 +9,7 @@ module Dry
         attr_reader :block
 
         def initialize(block)
+          super()
           @block = block
         end
 

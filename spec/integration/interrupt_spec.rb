@@ -37,14 +37,14 @@ RSpec.describe "handle interruption" do
   context "stacked" do
     context "same identifiers" do
       include Dry::Effects.Interrupt(:halt)
-      include Dry::Effects.Interrupt(:abort)
+      include Dry::Effects.Interrupt(:interrupt)
       include Dry::Effects::Handler.Interrupt(:halt, as: :handle_halt)
-      include Dry::Effects::Handler.Interrupt(:abort, as: :handle_abort)
+      include Dry::Effects::Handler.Interrupt(:interrupt, as: :handle_interrupt)
 
       example "handling within inner block" do
         _, outer = handle_halt do
-          _, inner = handle_abort do
-            abort 20
+          _, inner = handle_interrupt do
+            interrupt 20
             10
           end
           halt inner + 10
@@ -56,7 +56,7 @@ RSpec.describe "handle interruption" do
 
       example "handling within outer block" do
         _, outer = handle_halt do
-          _, inner = handle_abort do
+          _, inner = handle_interrupt do
             halt 20
             10
           end

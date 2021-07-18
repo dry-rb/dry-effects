@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Enumerator::Lazy do
   include Dry::Effects::Handler.Fork
   include Dry::Effects.Fork

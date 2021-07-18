@@ -16,7 +16,7 @@ RSpec.describe "handling random" do
       end
 
       it "returns 0 for 1" do
-        integers = Array.new(10) { rand(1) }
+        integers = Array.new(10) { rand(1) } # rubocop:disable Lint/RandOne
         expect(integers.all? { |i| i.equal?(0) })
       end
     end

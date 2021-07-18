@@ -9,6 +9,7 @@ module Dry
         attr_reader :error
 
         def initialize(error)
+          super()
           @error = error
         end
 
