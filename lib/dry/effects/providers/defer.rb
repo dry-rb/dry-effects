@@ -51,7 +51,7 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(options = { executor: Undefined })
+        def call(options = {executor: Undefined})
           unless Undefined.equal?(options[:executor])
             @executor = options[:executor]
           end

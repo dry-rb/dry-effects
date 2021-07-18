@@ -68,7 +68,7 @@ RSpec.describe "env" do
 
       it "can be overridden by providing a handle option" do
         handled = with_env(foo: "external") do
-          with_env({ foo: "internal" }, overridable: true) do
+          with_env({foo: "internal"}, overridable: true) do
             foo
           end
         end

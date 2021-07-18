@@ -25,7 +25,7 @@ RSpec.describe "dry-auto_inject extnesion" do
     }.new
   end
 
-  let(:overriding_container) { { "repos.user_repo" => overridden_repo } }
+  let(:overriding_container) { {"repos.user_repo" => overridden_repo} }
 
   context "static resolution" do
     before do

@@ -131,7 +131,7 @@ RSpec.describe "handling cache" do
       end
 
       context "sharing" do
-        let(:cache_module) { Dry::Effects.Cache({ cached: :expensive }, shared: true) }
+        let(:cache_module) { Dry::Effects.Cache({cached: :expensive}, shared: true) }
 
         it "can be shared" do
           self.called = 0

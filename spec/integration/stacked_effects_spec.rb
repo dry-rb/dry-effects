@@ -238,7 +238,7 @@ RSpec.describe "stacked effects" do
 
     it "reads env from matching provider" do
       handled = with_env(foo: 5) do
-        with_env({ bar: 6 }, overridable: true) do
+        with_env({bar: 6}, overridable: true) do
           foo + bar
         end
       end

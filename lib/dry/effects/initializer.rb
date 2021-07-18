@@ -27,12 +27,10 @@ module Dry
 
         # @api private
         def params_arity
-          @params_arity ||= begin
-            dry_initializer
-              .definitions
-              .reject { |_, d| d.option }
-              .size
-          end
+          @params_arity ||= dry_initializer
+            .definitions
+            .reject { |_, d| d.option }
+            .size
         end
 
         # @api private
