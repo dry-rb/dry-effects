@@ -9,6 +9,8 @@ module Dry
         Rand = Effect.new(type: :random, name: :rand)
 
         def initialize
+          super
+
           module_eval do
             define_method(:rand) { |n = nil| ::Dry::Effects.yield(Rand.payload(n)) }
           end

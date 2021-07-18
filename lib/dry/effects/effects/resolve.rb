@@ -16,6 +16,8 @@ module Dry
         Constructors.register(:Resolve) { |key| Resolve.(key) }
 
         def initialize(*keys, **aliases)
+          super()
+
           keys_aliased = keys.map { |k| name_for(k) }.zip(keys)
           module_eval do
             (keys_aliased + aliases.to_a).each do |name, key|

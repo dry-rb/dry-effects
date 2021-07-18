@@ -9,6 +9,8 @@ module Dry
         Timestamp = Effect.new(type: :timestamp)
 
         def initialize(options = EMPTY_HASH)
+          super()
+
           module_eval do
             define_method(:timestamp) do |round: Undefined|
               round_to = Undefined.coalesce(round, options.fetch(:round, Undefined))

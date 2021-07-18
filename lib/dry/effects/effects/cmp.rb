@@ -11,6 +11,8 @@ module Dry
         end
 
         def initialize(id)
+          super()
+
           get = CmpEffect.new(type: :cmp, name: :get, id: id)
 
           module_eval do

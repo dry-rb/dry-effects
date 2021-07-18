@@ -11,6 +11,8 @@ module Dry
         end
 
         def initialize(scope = :default)
+          super()
+
           interrupt = InterruptEffect.new(type: :interrupt, scope: scope)
 
           module_eval do

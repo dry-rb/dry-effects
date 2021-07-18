@@ -11,6 +11,8 @@ module Dry
         Await = Effect.new(type: :async, name: :await)
 
         def initialize
+          super
+
           module_eval do
             define_method(:async) { |&block| ::Dry::Effects.yield(Async.(block)) }
             define_method(:await) { |task| ::Dry::Effects.yield(Await.(task)) }

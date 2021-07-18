@@ -9,6 +9,8 @@ module Dry
         Read = Effect.new(type: :env, name: :read)
 
         def initialize(*args, **kwargs)
+          super()
+
           readers = args.zip(args) + kwargs.to_a
 
           module_eval do

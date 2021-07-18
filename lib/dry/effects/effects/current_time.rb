@@ -18,6 +18,8 @@ module Dry
         end
 
         def initialize(**options)
+          super()
+
           module_eval do
             define_method(:current_time) do |opts = EMPTY_HASH|
               round = opts.fetch(:round, Undefined)

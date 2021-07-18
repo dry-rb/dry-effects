@@ -22,6 +22,8 @@ module Dry
         end
 
         def initialize(scope, default: Undefined, writer: true, as: scope)
+          super()
+
           read = State.new(type: :state, name: :read, scope: scope)
           write = State.new(type: :state, name: :write, scope: scope)
 

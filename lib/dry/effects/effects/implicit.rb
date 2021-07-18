@@ -11,6 +11,8 @@ module Dry
         end
 
         def initialize(dependency)
+          super()
+
           lookup = ImplicitEffect.new(type: :implicit, dependency: dependency)
 
           module_eval do

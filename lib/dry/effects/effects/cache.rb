@@ -11,6 +11,8 @@ module Dry
         end
 
         def initialize(scope = nil, shared: false, **kw)
+          super()
+
           if !kw.empty?
             scope, as = kw.to_a[0]
           elsif scope.is_a?(::Hash)

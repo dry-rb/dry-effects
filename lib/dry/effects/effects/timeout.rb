@@ -13,6 +13,8 @@ module Dry
         end
 
         def initialize(scope)
+          super()
+
           timeout = TimeoutEffect.new(type: :timeout, name: :timeout, scope: scope)
 
           module_eval do

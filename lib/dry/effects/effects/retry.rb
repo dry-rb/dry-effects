@@ -18,6 +18,8 @@ module Dry
         end
 
         def initialize
+          super
+
           module_eval do
             define_method(:repeat) do |scope|
               effect = Retry.new(type: :retry, scope: scope)

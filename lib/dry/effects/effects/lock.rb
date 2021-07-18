@@ -12,6 +12,8 @@ module Dry
         Locked = Effect.new(type: :lock, name: :locked?)
 
         def initialize
+          super
+
           module_eval do
             define_method(:lock) do |key, meta: Undefined, &block|
               if block

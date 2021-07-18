@@ -11,6 +11,8 @@ module Dry
         Wait = Effect.new(type: :defer, name: :wait)
 
         def initialize
+          super
+
           module_eval do
             define_method(:defer) do |executor: Undefined, &block|
               ::Dry::Effects.yield(Defer.(block, executor))
