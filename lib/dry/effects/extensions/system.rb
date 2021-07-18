@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/system/container'
+require "dry/system/container"
 
 Dry::Effects.load_extensions(:auto_inject)
 

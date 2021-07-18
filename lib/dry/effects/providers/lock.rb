@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'dry/core/equalizer'
-require 'dry/effects/provider'
-require 'dry/effects/initializer'
+require "dry/core/equalizer"
+require "dry/effects/provider"
+require "dry/effects/initializer"
 
 module Dry
   module Effects
@@ -96,11 +96,9 @@ module Dry
           end
 
           with_backend(backend_replace) do
-            begin
-              yield
-            ensure
-              owned.each { |handle| unlock(handle) }
-            end
+            yield
+          ensure
+            owned.each { |handle| unlock(handle) }
           end
         end
 

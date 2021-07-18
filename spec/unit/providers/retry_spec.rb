@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'dry/effects/providers/retry'
+require "dry/effects/providers/retry"
 
 RSpec.describe Dry::Effects::Providers::Retry do
   subject(:retry) { described_class.new(scope) }
 
-  describe '#represent' do
+  describe "#represent" do
     let(:scope) { :transaction }
 
-    it 'shows scope and number of retries' do
+    it "shows scope and number of retries" do
       retries = 0
       strings = []
 
@@ -19,10 +19,10 @@ RSpec.describe Dry::Effects::Providers::Retry do
       end
 
       expect(strings).to eql([
-                               'retry[transaction 1/10]',
-                               'retry[transaction 2/10]',
-                               'retry[transaction 3/10]'
-                             ])
+        "retry[transaction 1/10]",
+        "retry[transaction 2/10]",
+        "retry[transaction 3/10]"
+      ])
     end
   end
 end

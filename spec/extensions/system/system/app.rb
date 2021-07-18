@@ -12,8 +12,8 @@ module Test
     Import = injector
 
     boot(:persistence) do |container|
-      init() {}
-      start() {}
+      init {}
+      start {}
     end
   end
 end

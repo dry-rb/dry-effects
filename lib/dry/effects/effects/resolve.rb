@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/effects/effect'
-require 'dry/effects/constructors'
+require "dry/effects/effect"
+require "dry/effects/constructors"
 
 module Dry
   module Effects
@@ -29,7 +29,10 @@ module Dry
         # similar approach in dry-auto_inject https://github.com/dry-rb/dry-auto_inject/blob/master/lib/dry/auto_inject/dependency_map.rb#L42
         def name_for(identifier)
           matched = VALID_NAME.match(identifier.to_s)
-          raise DependencyNameInvalid, "name +#{identifier}+ is not a valid Ruby identifier" unless matched
+          unless matched
+            raise DependencyNameInvalid,
+                  "name +#{identifier}+ is not a valid Ruby identifier"
+          end
 
           matched[0]
         end

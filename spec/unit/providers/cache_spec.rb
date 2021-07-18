@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'dry/effects/providers/cache'
+require "dry/effects/providers/cache"
 
 RSpec.describe Dry::Effects::Providers::Cache do
   subject(:cache) { described_class.new(:test) }
 
   around { |ex| cache.(&ex) }
 
-  describe '#fetch_or_store' do
-    it 'returns caches result' do
+  describe "#fetch_or_store" do
+    it "returns caches result" do
       missing = cache.fetch_or_store([1, 2, 3], -> { :foo })
 
       expect(missing.call).to be(:foo)
@@ -16,11 +16,11 @@ RSpec.describe Dry::Effects::Providers::Cache do
     end
   end
 
-  describe '#represent' do
-    it 'shows the number of elements' do
-      expect(cache.represent).to eql('cache[test empty]')
+  describe "#represent" do
+    it "shows the number of elements" do
+      expect(cache.represent).to eql("cache[test empty]")
       cache.cache[1] = 1
-      expect(cache.represent).to eql('cache[test size=1]')
+      expect(cache.represent).to eql("cache[test size=1]")
     end
   end
 end

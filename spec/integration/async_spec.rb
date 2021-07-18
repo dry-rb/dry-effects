@@ -34,10 +34,10 @@ RSpec.describe "scheduling effect" do
     end
 
     expect(snapshots).to eql([
-                               [],
-                               [0],
-                               [0, 1],
-                               [0, 1, 5]
-                             ])
+      [],
+      [0],
+      [0, 1],
+      [0, 1, 5]
+    ])
   end
 end

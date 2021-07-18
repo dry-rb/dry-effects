@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'dry/effects/initializer'
-require 'dry/effects/effect'
-require 'dry/effects/instructions/raise'
+require "dry/effects/initializer"
+require "dry/effects/effect"
+require "dry/effects/instructions/raise"
 
 module Dry
   module Effects
@@ -56,9 +56,9 @@ module Dry
 
       def to_s
         if empty?
-          '#<Dry::Effects::Stack>'
+          "#<Dry::Effects::Stack>"
         else
-          stack = map(&:represent).reverse.join('->')
+          stack = map(&:represent).reverse.join("->")
 
           "#<Dry::Effects::Stack #{stack}>"
         end

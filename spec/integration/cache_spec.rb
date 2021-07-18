@@ -75,7 +75,7 @@ RSpec.describe "handling cache" do
     context "clashing" do
       attr_accessor :called
 
-      let(:cache_module) { Dry::Effects.Cache(cached: %i(expensive slow)) }
+      let(:cache_module) { Dry::Effects.Cache(cached: %i[expensive slow]) }
 
       let(:operation_class) do
         ex = self
@@ -122,11 +122,11 @@ RSpec.describe "handling cache" do
         end
 
         expect(result).to eql(%i[
-                                foo_a foo_b
-                                foo_a foo_b
-                                slow_foo_a slow_foo_b
-                                slow_foo_a slow_foo_b
-                              ])
+          foo_a foo_b
+          foo_a foo_b
+          slow_foo_a slow_foo_b
+          slow_foo_a slow_foo_b
+        ])
         expect(called).to be(4)
       end
 

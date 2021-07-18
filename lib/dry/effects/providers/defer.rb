@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'concurrent/promise'
-require 'dry/effects/provider'
-require 'dry/effects/frame'
+require "concurrent/promise"
+require "dry/effects/provider"
+require "dry/effects/frame"
 
 module Dry
   module Effects
@@ -79,9 +79,9 @@ module Dry
           info << "call_later=#{later_calls.size}" if later_calls.any?
 
           if info.empty?
-            'defer'
+            "defer"
           else
-            "defer[#{info.join(' ')}]"
+            "defer[#{info.join(" ")}]"
           end
         end
       end

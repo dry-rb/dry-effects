@@ -9,7 +9,7 @@ module Test
         super.tap { |i| operations << i }
       end
 
-      include App::Import['repos.user_repo']
+      include App::Import["repos.user_repo"]
     end
   end
 end

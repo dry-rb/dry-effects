@@ -9,7 +9,7 @@ module Test
         super.tap { |i| repos << i }
       end
 
-      include App::Import['persistence']
+      include App::Import["persistence"]
     end
   end
 end

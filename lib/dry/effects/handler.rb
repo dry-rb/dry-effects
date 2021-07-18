@@ -12,7 +12,7 @@ module Dry
         @frame = Frame.new(provider)
       end
 
-      if RUBY_VERSION >= '2.7'
+      if RUBY_VERSION >= "2.7"
         class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
           def call(...)
             frame.(...)

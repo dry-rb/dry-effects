@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/effects/provider'
-require 'dry/effects/instructions/raise'
+require "dry/effects/provider"
+require "dry/effects/instructions/raise"
 
 module Dry
   module Effects
@@ -84,15 +84,15 @@ module Dry
         # @return [String]
         # @api public
         def represent
-          containers = [represent_container(static), represent_container(dynamic)].compact.join('+')
-          "resolve[#{containers.empty? ? 'empty' : containers}]"
+          containers = [represent_container(static), represent_container(dynamic)].compact.join("+")
+          "resolve[#{containers.empty? ? "empty" : containers}]"
         end
 
         # @return [String]
         # @api private
         def represent_container(container)
           if container.is_a?(::Hash)
-            container.empty? ? nil : 'hash'
+            container.empty? ? nil : "hash"
           elsif container.is_a?(::Class)
             container.name || container.to_s
           else

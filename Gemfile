@@ -17,5 +17,5 @@ group :tools do
   gem "pry-byebug", platform: :mri
 end
 
-gem "dry-struct"
 gem "dry-monads"
+gem "dry-struct"

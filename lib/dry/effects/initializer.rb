@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/initializer'
+require "dry/initializer"
 
 module Dry
   module Effects
@@ -48,9 +48,9 @@ module Dry
             .definitions
             .reject { |_, d| d.option }
             .keys
-            .join(', ')
+            .join(", ")
 
-          seq_names << ', ' unless seq_names.empty?
+          seq_names << ", " unless seq_names.empty?
 
           undef_method(:with) if method_defined?(:with)
 

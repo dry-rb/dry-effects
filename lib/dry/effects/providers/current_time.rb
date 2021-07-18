@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'time'
-require 'dry/effects/provider'
-require 'dry/effects/providers/current_time/time_generators'
+require "time"
+require "dry/effects/provider"
+require "dry/effects/providers/current_time/time_generators"
 
 module Dry
   module Effects
@@ -55,12 +55,12 @@ module Dry
         def represent
           if fixed?
             if generator.nil?
-              'current_time[fixed=true]'
+              "current_time[fixed=true]"
             else
               "current_time[fixed=#{generator.().iso8601(6)}]"
             end
           else
-            'current_time[fixed=false]'
+            "current_time[fixed=false]"
           end
         end
 

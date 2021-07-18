@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'concurrent/promise'
-require 'dry/effects/provider'
-require 'dry/effects/frame'
+require "concurrent/promise"
+require "dry/effects/provider"
+require "dry/effects/frame"
 
 module Dry
   module Effects

@@ -52,19 +52,15 @@ RSpec.describe "stacked effects" do
 
       example do
         accumulated_state = with_counter(0) do
-          begin
-            self.counter += 1
-            with_counter(10) do
-              begin
-                self.counter += 30
-                :result
-              ensure
-                self.counter += 50
-              end
-            end
+          self.counter += 1
+          with_counter(10) do
+            self.counter += 30
+            :result
           ensure
-            self.counter += 4
+            self.counter += 50
           end
+        ensure
+          self.counter += 4
         end
 
         expect(accumulated_state).to eql([5, [90, :result]])
@@ -98,8 +94,8 @@ RSpec.describe "stacked effects" do
 
       example "interrupt,cmp" do
         expect(handle_feature { handle_feature2 { [feature?, feature2?] } }).to eql([
-                                                                                      [[false, false], [false, true]], [[true, false], [true, true]]
-                                                                                    ])
+          [[false, false], [false, true]], [[true, false], [true, true]]
+        ])
       end
     end
   end

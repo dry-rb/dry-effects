@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/effects/initializer'
-require 'dry/effects/provider/class_interface'
+require "dry/effects/initializer"
+require "dry/effects/provider/class_interface"
 
 module Dry
   module Effects

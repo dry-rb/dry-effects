@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/core/class_attributes'
-require 'dry/effects/frame'
+require "dry/core/class_attributes"
+require "dry/effects/frame"
 
 module Dry
   module Effects

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/effects/provider'
-require 'dry/effects/providers/current_time'
+require "dry/effects/provider"
+require "dry/effects/providers/current_time"
 
 module Dry
   module Effects

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'concurrent/map'
-require 'dry/effects/inflector'
-require 'dry/effects/handler'
+require "concurrent/map"
+require "dry/effects/inflector"
+require "dry/effects/handler"
 
 module Dry
   module Effects

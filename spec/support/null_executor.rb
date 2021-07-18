@@ -7,6 +7,5 @@ class NullExecutor
   include Singleton
   include Concurrent::ExecutorService
 
-  def post
-  end
+  def post; end
 end

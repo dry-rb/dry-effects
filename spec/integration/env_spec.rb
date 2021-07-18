@@ -33,7 +33,7 @@ RSpec.describe "env" do
           [foo, bar]
         end
 
-        expect(handled).to eql(["value_foo", "value_bar"])
+        expect(handled).to eql(%w[value_foo value_bar])
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe "env" do
             [foo, bar]
           end
 
-          expect(handled).to eql(["value_foo", "value_bar"])
+          expect(handled).to eql(%w[value_foo value_bar])
         end
       end
     end

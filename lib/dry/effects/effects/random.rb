@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/effects/effect'
+require "dry/effects/effect"
 
 module Dry
   module Effects

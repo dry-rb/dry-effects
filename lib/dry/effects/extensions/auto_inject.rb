@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'concurrent/map'
-require 'dry/auto_inject/strategies/constructor'
-require 'dry/effects/effects/resolve'
+require "concurrent/map"
+require "dry/auto_inject/strategies/constructor"
+require "dry/effects/effects/resolve"
 
 module Dry
   module Effects

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/effects/provider'
-require 'dry/effects/halt'
+require "dry/effects/provider"
+require "dry/effects/halt"
 
 module Dry
   module Effects
@@ -18,15 +18,13 @@ module Dry
         # Yield the block with the handler installed
         #
         # @api private
-        def call(limit)
+        def call(limit, &block)
           @limit = limit
           @attempts = 0
 
           loop do
-            begin
-              return attempt { yield }
-            rescue halt
-            end
+            return attempt(&block)
+          rescue halt
           end
         end
 

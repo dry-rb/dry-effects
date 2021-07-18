@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'dry/effects/provider'
+require "dry/effects/provider"
 
 module Dry
   module Effects
     module Providers
       class Timeout < Provider[:timeout]
-        def self.handle_method(scope, as: Undefined, **)
+        def self.handle_method(_scope, as: Undefined, **)
           Undefined.default(as) { :with_timeout }
         end
 

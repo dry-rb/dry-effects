@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'active_support/tagged_logging'
+require "active_support/tagged_logging"
 
 ActiveSupport::TaggedLogging::Formatter.prepend(Module.new {
   def current_tags

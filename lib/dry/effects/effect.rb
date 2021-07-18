@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/core/equalizer'
-require 'dry/effects/initializer'
+require "dry/core/equalizer"
+require "dry/effects/initializer"
 
 module Dry
   module Effects

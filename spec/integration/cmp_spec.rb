@@ -20,7 +20,7 @@ RSpec.describe "comparative effect" do
     it "can use one branch or another by passing an argument to the handler" do
       result = alternative(false) do
         if feature?
-          fail
+          raise
         else
           :no_feature
         end
@@ -32,7 +32,7 @@ RSpec.describe "comparative effect" do
         if feature?
           :feature
         else
-          fail
+          raise
         end
       end
 
