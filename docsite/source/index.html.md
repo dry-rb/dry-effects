@@ -206,7 +206,7 @@ If you're interested in the subject, there is a list of articles, papers, and vi
 - [Algebraic Effects for Functional Programming](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/08/algeff-tr-2016-v2.pdf) is another paper by Microsoft Research.
 - [Asynchrony with Algebraic Effects](https://www.youtube.com/watch?v=hrBq8R_kxI0) intro given by Daan Leijen, the author of the previous paper and the [Koka](https://github.com/koka-lang/koka) programming language created specifically for exploring algebraic effects.
 - [Do Be Do Be Do](https://arxiv.org/pdf/1611.09259.pdf) describes the Frank programming language with typed effects and ML-like syntax.
-- [Effective programming in Ruby with dry-effects!](https://hanamimastery.com/episodes/11-effective-ruby-programming-with-dry-effects) - A video tutorial from Hanami Mastery, shocasing real-world usage of basic applicaitons with dry-effects!
+- [Effective programming in Ruby with dry-effects!](https://hanamimastery.com/episodes/11-effective-ruby-programming-with-dry-effects) - A video tutorial from Hanami Mastery, showcasing real-world usage of basic applicaitons with dry-effects!
 
 ### Goal of dry-effects
 
