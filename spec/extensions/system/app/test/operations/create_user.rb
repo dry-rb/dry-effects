@@ -6,7 +6,7 @@ module Test
       extend Dry::Effects.Reader(:operations)
 
       def self.new(*)
-        super.tap { |i| operations << i }
+        super.tap { operations << _1 }
       end
 
       include App::Import["repos.user_repo"]

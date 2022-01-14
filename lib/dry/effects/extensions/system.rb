@@ -35,7 +35,7 @@ module Dry
           super
 
           # Force all components to load
-          each_key { |key| resolve(key) }
+          each_key { resolve(_1) }
           self
         end
       end

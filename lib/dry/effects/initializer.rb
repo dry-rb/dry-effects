@@ -29,7 +29,7 @@ module Dry
         def params_arity
           @params_arity ||= dry_initializer
             .definitions
-            .reject { |_, d| d.option }
+            .reject { _2.option }
             .size
         end
 
@@ -44,7 +44,7 @@ module Dry
         def __define_with__
           seq_names = dry_initializer
             .definitions
-            .reject { |_, d| d.option }
+            .reject { _2.option }
             .keys
             .join(", ")
 

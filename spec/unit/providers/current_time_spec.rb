@@ -7,7 +7,7 @@ RSpec.describe Dry::Effects::Providers::CurrentTime do
 
   let(:generator) { Dry::Effects::Undefined }
 
-  around { |ex| current_time.(generator, &ex) }
+  around { current_time.(generator, &_1) }
 
   describe "#current_time" do
     it "returns current time" do

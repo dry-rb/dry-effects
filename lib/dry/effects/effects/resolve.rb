@@ -13,12 +13,12 @@ module Dry
 
         Resolve = Effect.new(type: :resolve)
 
-        Constructors.register(:Resolve) { |key| Resolve.(key) }
+        Constructors.register(:Resolve) { Resolve.(_1) }
 
         def initialize(*keys, **aliases)
           super()
 
-          keys_aliased = keys.map { |k| name_for(k) }.zip(keys)
+          keys_aliased = keys.map { name_for(_1) }.zip(keys)
           module_eval do
             (keys_aliased + aliases.to_a).each do |name, key|
               define_method(name) { |&block| ::Dry::Effects.yield(Resolve.(key), &block) }

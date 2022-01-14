@@ -13,13 +13,13 @@ RSpec.describe Dry::Effects::Providers::State do
     end
 
     context "without value" do
-      around { |ex| state.(Dry::Effects::Undefined, &ex) }
+      around { state.(Dry::Effects::Undefined, &_1) }
 
       it { is_expected.to eql("state[counter not set]") }
     end
 
     context "with value" do
-      around { |ex| state.(10, &ex) }
+      around { state.(10, &_1) }
 
       it { is_expected.to eql("state[counter set]") }
     end

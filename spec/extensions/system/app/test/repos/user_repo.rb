@@ -6,7 +6,7 @@ module Test
       extend Dry::Effects.Reader(:repos)
 
       def self.new(*)
-        super.tap { |i| repos << i }
+        super.tap { repos << _1 }
       end
 
       include App::Import["persistence"]

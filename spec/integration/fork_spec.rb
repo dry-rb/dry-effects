@@ -41,7 +41,7 @@ RSpec.describe "forking" do
   end
 
   it "captures current stack values" do
-    _, with_stack = with_fork { with_counter(10) { fork { |stack| stack } } }
+    _, with_stack = with_fork { with_counter(10) { fork { _1 } } }
 
     expect(with_stack.() { counter }).to eql(10)
   end

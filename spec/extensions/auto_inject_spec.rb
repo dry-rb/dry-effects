@@ -20,8 +20,8 @@ RSpec.describe "dry-auto_inject extnesion" do
   let(:import) { Dry::Effects.AutoInject }
 
   let(:operation) do
-    Class.new.tap { |klass|
-      klass.include import["repos.user_repo"]
+    Class.new.tap {
+      _1.include import["repos.user_repo"]
     }.new
   end
 

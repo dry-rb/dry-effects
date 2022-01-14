@@ -7,24 +7,24 @@ RSpec.describe "handling random" do
   include Dry::Effects.Random
 
   context "default generator" do
-    around { |ex| with_random(&ex) }
+    around { with_random(&_1) }
 
     context "integers" do
       it "returns integer when input is >= 1" do
         integers = Array.new(100) { rand(100) }
-        expect(integers.all? { |i| i < 100 && i.is_a?(Integer) })
+        expect(integers.all? { _1 < 100 && _1.is_a?(Integer) })
       end
 
       it "returns 0 for 1" do
         integers = Array.new(10) { rand(1) } # rubocop:disable Lint/RandOne
-        expect(integers.all? { |i| i.equal?(0) })
+        expect(integers.all? { _1.equal?(0) })
       end
     end
 
     context "float" do
       it "uses input as an upper bound if it < 1" do
         floats = Array.new(100) { rand(0.5) }
-        expect(floats.all? { |f| f < 0.5 && f >= 0.0 })
+        expect(floats.all? { _1 < 0.5 && _1 >= 0.0 })
       end
 
       it "returns an integer if input >= 1" do

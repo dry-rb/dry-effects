@@ -35,7 +35,7 @@ module Dry
       end
 
       def provider(effect)
-        find { |p| p.provide?(effect) }
+        find { _1.provide?(effect) }
       end
 
       def each(&block)

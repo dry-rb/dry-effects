@@ -13,7 +13,7 @@ module Dry
           super
 
           define_method(:par) { |&block| ::Dry::Effects.yield(Par).(&block) }
-          define_method(:join) { |xs| ::Dry::Effects.yield(Join.payload(xs)) }
+          define_method(:join) { ::Dry::Effects.yield(Join.payload(_1)) }
         end
       end
     end

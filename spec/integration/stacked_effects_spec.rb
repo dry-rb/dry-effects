@@ -169,7 +169,7 @@ RSpec.describe "stacked effects" do
         end
       end
 
-      tasks.each { |t| await(t) }
+      tasks.each { await(_1) }
     end
 
     example "async + state" do

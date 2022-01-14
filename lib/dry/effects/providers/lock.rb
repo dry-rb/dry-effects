@@ -98,7 +98,7 @@ module Dry
           with_backend(backend_replace) do
             yield
           ensure
-            owned.each { |handle| unlock(handle) }
+            owned.each { unlock(_1) }
           end
         end
 

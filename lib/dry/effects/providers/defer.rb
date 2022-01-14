@@ -65,7 +65,7 @@ module Dry
 
         def dup
           if defined? @later_calls
-            super.tap { |p| p.instance_variable_set(:@later_calls, EMPTY_ARRAY) }
+            super.tap { _1.instance_variable_set(:@later_calls, EMPTY_ARRAY) }
           else
             super
           end
