@@ -85,7 +85,7 @@ RSpec.describe "handling state" do
       it "uses case equality" do
         user = Struct.new(:name)
         expect { with_user(0) {} }.to raise_error(Dry::Effects::Errors::InvalidValueError)
-        result = with_user(user.new(name: "John")) { :done }
+        result = with_user(user.new({ name: "John" })) { :done }
         expect(result).to be(:done)
       end
     end

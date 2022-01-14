@@ -62,8 +62,8 @@ module Dry
       # @param [Array<Object>] args Handler parameters
       # @return [Handler]
       # @api public
-      def [](*args)
-        Handler.new(*args)
+      def [](...)
+        Handler.new(...)
       end
     end
   end
