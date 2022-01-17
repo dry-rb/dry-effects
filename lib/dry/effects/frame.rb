@@ -62,16 +62,9 @@ module Dry
 
         private
 
-        if RUBY_VERSION >= "2.7"
-          # @api private
-          def raise_in_fiber(fiber, error)
-            fiber.raise(error)
-          end
-        else
-          # @api private
-          def raise_in_fiber(fiber, error)
-            fiber.resume(Instructions.Raise(error))
-          end
+        # @api private
+        def raise_in_fiber(fiber, error)
+          fiber.raise(error)
         end
       end
 
