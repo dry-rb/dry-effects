@@ -20,9 +20,7 @@ RSpec.describe "dry-auto_inject extnesion" do
   let(:import) { Dry::Effects.AutoInject }
 
   let(:operation) do
-    Class.new.tap {
-      _1.include import["repos.user_repo"]
-    }.new
+    Class.new { _1.include import["repos.user_repo"] }.new
   end
 
   let(:overriding_container) { {"repos.user_repo" => overridden_repo} }

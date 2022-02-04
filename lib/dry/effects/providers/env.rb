@@ -67,7 +67,7 @@ module Dry
         end
 
         def key?(key)
-          values.key?(key) || key.is_a?(::String) && ::ENV.key?(key) || parent.key?(key)
+          values.key?(key) || (key.is_a?(::String) && ::ENV.key?(key)) || parent.key?(key)
         end
       end
     end

@@ -20,7 +20,7 @@ module Dry
           super(
             Undefined.default(message) {
               "Effect #{effect.inspect} not handled. "\
-              "Effects must be wrapped with corresponding handlers"
+                "Effects must be wrapped with corresponding handlers"
             }
           )
         end
