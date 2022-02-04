@@ -24,7 +24,7 @@ module Dry
       class Static < Base
         private
 
-        def define_readers(dynamic = false) # rubocop:disable Style/OptionalBooleanParameter
+        def define_readers(dynamic: false)
           map = dependency_map.to_h
           cache = ::Concurrent::Map.new
           instance_mod.class_exec do
@@ -49,7 +49,7 @@ module Dry
       class Dynamic < Static
         private
 
-        def define_readers(dynamic = true) # rubocop:disable Style/OptionalBooleanParameter
+        def define_readers(dynamic: true)
           super
         end
       end
