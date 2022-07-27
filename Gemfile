@@ -9,7 +9,7 @@ gemspec
 group :test do
   gem "activesupport"
   gem "dry-auto_inject", require: false
-  gem "dry-system", "~> 0.20.0"
+  gem "dry-system", github: "dry-rb/dry-system", branch: "main"
 end
 
 group :tools do

@@ -10,7 +10,7 @@ module Dry
       class AutoRegistrar < ::Dry::System::AutoRegistrar
         # Always memoize and freeze registered components
         def call(component_dir)
-          components(component_dir).each do |component|
+          component_dir.each_component do |component|
             next unless register_component?(component)
 
             container.register(component.key, memoize: true) { component.instance.freeze }
@@ -19,7 +19,7 @@ module Dry
       end
 
       class Container < ::Dry::System::Container
-        config.auto_registrar = AutoRegistrar
+        setting :auto_registrar, default: AutoRegistrar
 
         def self.injector(effects: true, **kwargs)
           if effects
