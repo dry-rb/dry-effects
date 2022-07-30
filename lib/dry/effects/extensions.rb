@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/core/extensions"
-
 Dry::Effects.extend(Dry::Core::Extensions)
 
 Dry::Effects.register_extension(:auto_inject) do
