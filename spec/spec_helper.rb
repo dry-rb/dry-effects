@@ -20,7 +20,6 @@ require "dry/effects"
 
 Warning.ignore(/codacy/)
 Warning.ignore(/dry-system/)
-Warning.ignore(/dry-configurable/)
 Warning.ignore(/__LINE__/)
 Warning.ignore(/__FILE__/)
 

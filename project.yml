@@ -10,7 +10,6 @@ gemspec:
     - rspec
   runtime_dependencies:
     - [concurrent-ruby, "~> 1.0"]
-    - [dry-configurable]
     - [dry-container, "~> 0.7", ">= 0.7.2"]
     - [dry-core, "~> 0.9", ">= 0.9"]
     - [dry-inflector, "~> 0.1", ">= 0.1.2"]
