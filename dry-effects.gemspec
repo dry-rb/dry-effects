@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
-  spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-effects/blob/master/CHANGELOG.md"
+  spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-effects/blob/main/CHANGELOG.md"
   spec.metadata["source_code_uri"]   = "https://github.com/dry-rb/dry-effects"
   spec.metadata["bug_tracker_uri"]   = "https://github.com/dry-rb/dry-effects/issues"
 
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   # to update dependencies edit project.yml
   spec.add_runtime_dependency "concurrent-ruby", "~> 1.0"
   spec.add_runtime_dependency "dry-container", "~> 0.7", ">= 0.7.2"
-  spec.add_runtime_dependency "dry-core", "~> 0.5", ">= 0.5"
+  spec.add_runtime_dependency "dry-core", "~> 0.9", ">= 0.9"
   spec.add_runtime_dependency "dry-inflector", "~> 0.1", ">= 0.1.2"
   spec.add_runtime_dependency "dry-initializer", "~> 3.0"
 
