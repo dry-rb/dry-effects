@@ -1,4 +1,9 @@
 ---
+- version: 0.3.0
+  date: '2022-10-15'
+  changed:
+  - "Use zeitwerk for auto-loading (@flash-gordon)"
+  - "Remove dependency on dry-configurable (@flash-gordon)"
 - version: 0.2.0
   date: '2021-09-12'
   changed:
