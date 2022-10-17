@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/providers/current_time"
-
 RSpec.describe Dry::Effects::Providers::CurrentTime do
   subject(:current_time) { described_class.new }
 

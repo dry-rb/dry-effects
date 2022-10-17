@@ -2,12 +2,11 @@
 
 require "concurrent/map"
 require "dry/auto_inject/strategies/constructor"
-require "dry/effects/effects/resolve"
 
 module Dry
   module Effects
     class DryAutoEffectsStrategies
-      extend Dry::Container::Mixin
+      extend ::Dry::Container::Mixin
 
       class Base < AutoInject::Strategies::Constructor
         private

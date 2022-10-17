@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/providers/state"
-
 RSpec.describe Dry::Effects::Providers::Reader do
   subject(:reader) { described_class.new(:counter) }
 

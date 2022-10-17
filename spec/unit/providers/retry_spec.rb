@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/providers/retry"
-
 RSpec.describe Dry::Effects::Providers::Retry do
   subject(:retry) { described_class.new(scope) }
 

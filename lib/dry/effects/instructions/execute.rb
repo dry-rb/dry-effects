@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/instruction"
-
 module Dry
   module Effects
     module Instructions
@@ -16,10 +14,6 @@ module Dry
         def call
           block.call
         end
-      end
-
-      def self.Execute(&block)
-        Execute.new(block)
       end
     end
   end

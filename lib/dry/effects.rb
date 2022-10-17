@@ -1,21 +1,45 @@
 # frozen_string_literal: true
 
+require "zeitwerk"
+require "concurrent/map"
+
 require "dry/core"
-require "dry/effects/version"
+require "dry/container"
+require "dry/inflector"
+require "dry/initializer"
+
 require "dry/effects/container"
+require "dry/effects/inflector"
+require "dry/effects/initializer"
+require "dry/effects/extensions"
 require "dry/effects/errors"
-require "dry/effects/instructions/raise"
+require "dry/effects/version"
 
 module Dry
   module Effects
     include Core::Constants
 
-    class Error < StandardError; end
+    class Error < ::StandardError; end
 
     @effects = Container.new
     @providers = Container.new
 
     class << self
+      # @api private
+      def loader
+        @loader ||= ::Zeitwerk::Loader.new.tap do |loader|
+          root = ::File.expand_path("..", __dir__)
+          loader.tag = "dry-effects"
+          loader.inflector = ::Zeitwerk::GemInflector.new("#{root}/dry-effects.rb")
+          loader.push_dir(root)
+          loader.ignore(
+            "#{root}/dry-effects.rb",
+            "#{root}/dry/effects/{all,error,extensions,inflector,initializer,version}.rb",
+            "#{root}/dry/effects/extensions/**/*.rb",
+          )
+        end
+      end
+
       attr_reader :effects, :providers
 
       # Handle an effect.
@@ -66,8 +90,9 @@ module Dry
         Handler.new(...)
       end
     end
+
+    loader.setup
   end
 end
 
 require "dry/effects/all"
-require "dry/effects/extensions"

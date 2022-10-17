@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/providers/random"
-
 RSpec.describe Dry::Effects do
   context "without handlers" do
     before do

@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require "concurrent/map"
-require "dry/effects/inflector"
-require "dry/effects/handler"
-
 module Dry
   module Effects
     default = %i[
@@ -40,7 +36,7 @@ module Dry
           Providers.const_get(Inflector.camelize(key))
         end
 
-        Handler.singleton_class.send(:define_method, class_name) do |*args, **kwargs|
+        Handler.singleton_class.define_method(class_name) do |*args, **kwargs|
           ::Dry::Effects.providers[key].mixin(*args, **kwargs)
         end
       end

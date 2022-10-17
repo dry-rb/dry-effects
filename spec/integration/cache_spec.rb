@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/handler"
-
 RSpec.describe "handling cache" do
   include Dry::Effects::Handler.Cache(:cached)
   include Dry::Effects.Cache(:cached)

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/frame"
-
 module Dry
   module Effects
     class Provider
@@ -14,7 +12,7 @@ module Dry
             @effects = ::Hash.new do |es, type|
               @mutex.synchronize do
                 es.fetch(type) do
-                  es[type] = Class.new(Provider).tap do |provider|
+                  es[type] = ::Class.new(Provider).tap do |provider|
                     provider.type type
                   end
                 end

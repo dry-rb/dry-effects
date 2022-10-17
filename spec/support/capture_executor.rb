@@ -3,7 +3,7 @@
 require "concurrent/executor/executor_service"
 
 class CaptureExecutor
-  include Concurrent::ExecutorService
+  include ::Concurrent::ExecutorService
 
   def initialize
     @captured = []

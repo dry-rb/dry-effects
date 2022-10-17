@@ -12,11 +12,10 @@ rescue LoadError
 end
 
 require "pathname"
+require "dry/effects"
 
 SPEC_ROOT = Pathname(__FILE__).dirname
 Dir[SPEC_ROOT.join("support/**/*.rb")].sort.each(&method(:require))
-
-require "dry/effects"
 
 Warning.ignore(/codacy/)
 Warning.ignore(/dry-system/)

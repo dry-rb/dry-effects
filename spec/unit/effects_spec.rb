@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects"
-
 RSpec.describe Dry::Effects do
   describe ".yield" do
     example "with a fallback" do

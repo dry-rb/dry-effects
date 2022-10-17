@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/initializer"
-
 module Dry
   module Effects
     module Initializer

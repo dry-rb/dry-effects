@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/provider"
-
 module Dry
   module Effects
     module Providers

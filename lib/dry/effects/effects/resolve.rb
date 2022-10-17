@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-require "dry/effects/effect"
-require "dry/effects/constructors"
-
 module Dry
   module Effects
     module Effects
       class Resolve < ::Module
-        DependencyNameInvalid = Class.new(StandardError)
+        DependencyNameInvalid = ::Class.new(StandardError)
 
         VALID_NAME = /([a-z_][a-zA-Z_0-9]*)$/.freeze
 

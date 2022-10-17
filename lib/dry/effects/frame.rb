@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 require "fiber"
-require "dry/effects/initializer"
-require "dry/effects/effect"
-require "dry/effects/errors"
-require "dry/effects/stack"
-require "dry/effects/instructions/raise"
 
 module Dry
   module Effects

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/providers/interrupt"
-
 RSpec.describe Dry::Effects::Providers::Interrupt do
   subject(:interrupt) { described_class.new(:scope_name) }
 

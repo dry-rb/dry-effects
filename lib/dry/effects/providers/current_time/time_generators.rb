@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require "dry/effects/provider"
-
 module Dry
   module Effects
     module Providers
       class CurrentTime < Provider[:current_time]
-        module TimeGenetators
+        module TimeGenerators
           FixedTimeGenerator = lambda do
             time = ::Time.now
             lambda do |refresh: false, **|

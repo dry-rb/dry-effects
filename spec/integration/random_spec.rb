@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/provider"
-
 RSpec.describe "handling random" do
   include Dry::Effects::Handler.Random
   include Dry::Effects.Random

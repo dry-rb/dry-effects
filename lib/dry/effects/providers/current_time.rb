@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 require "time"
-require "dry/effects/provider"
-require "dry/effects/providers/current_time/time_generators"
 
 module Dry
   module Effects
     module Providers
       class CurrentTime < Provider[:current_time]
         include ::Dry::Equalizer(:fixed, :round, inspect: false)
-        include TimeGenetators
+        include TimeGenerators
 
         Locate = Effect.new(type: :current_time, name: :locate)
 

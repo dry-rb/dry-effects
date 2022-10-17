@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/providers/cache"
-
 RSpec.describe Dry::Effects::Providers::Cache do
   subject(:cache) { described_class.new(:test) }
 

@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
-require "dry/effects/provider"
-require "dry/effects/providers/current_time"
-
 module Dry
   module Effects
     module Providers
       class Timestamp < Provider[:timestamp]
-        include Dry::Equalizer(:round)
-        include CurrentTime::TimeGenetators
+        include ::Dry::Equalizer(:round)
+        include CurrentTime::TimeGenerators
 
         Locate = Effect.new(type: :timestamp, name: :locate)
 

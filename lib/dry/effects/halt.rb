@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "concurrent/map"
-require "dry/effects/inflector"
 
 module Dry
   module Effects

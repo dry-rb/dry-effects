@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
-require "dry/effects/initializer"
-require "dry/effects/effect"
-require "dry/effects/instructions/raise"
-
 module Dry
   module Effects
     class Stack
       extend Initializer
-      include Enumerable
-      include Dry::Equalizer(:providers)
+      include ::Enumerable
+      include ::Dry::Equalizer(:providers)
 
       param :providers, default: -> { [] }
 

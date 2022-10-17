@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/effects/initializer"
-
 module Dry
   module Effects
     class Effect
