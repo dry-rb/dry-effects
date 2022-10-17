@@ -6,14 +6,6 @@ module Dry
       class CurrentTime < ::Module
         CurrentTime = Effect.new(type: :current_time)
 
-        Constructors.register(:CurrentTime) do |**kwargs|
-          if kwargs.empty?
-            CurrentTime
-          else
-            CurrentTime.(**kwargs)
-          end
-        end
-
         def initialize(**options)
           super()
 

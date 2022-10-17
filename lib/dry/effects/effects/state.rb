@@ -10,14 +10,6 @@ module Dry
           option :scope
         end
 
-        Constructors.register(:Read) do |scope|
-          State.new(type: :state, name: :read, scope: scope)
-        end
-
-        Constructors.register(:Write) do |scope, value|
-          State.new(type: :state, name: :write, scope: scope, payload: [value])
-        end
-
         def initialize(scope, default: Undefined, writer: true, as: scope)
           super()
 

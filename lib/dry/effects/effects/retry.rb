@@ -10,10 +10,6 @@ module Dry
           option :scope
         end
 
-        Constructors.register(:Retry) do |scope|
-          Retry.new(type: :retry, scope: scope)
-        end
-
         def initialize
           super
 

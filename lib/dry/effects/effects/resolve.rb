@@ -10,8 +10,6 @@ module Dry
 
         Resolve = Effect.new(type: :resolve)
 
-        Constructors.register(:Resolve) { Resolve.(_1) }
-
         def initialize(*keys, **aliases)
           super()
 

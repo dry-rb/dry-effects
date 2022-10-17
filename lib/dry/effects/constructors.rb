@@ -3,27 +3,35 @@
 module Dry
   module Effects
     module Constructors
-      # @api private
-      def self.register(name, &block)
-        define_method(name, &block)
-        module_function name
+      extend self
+
+      # @api public
+      def CurrentTime(**kwargs)
+        if kwargs.empty?
+          Effects::CurrentTime::CurrentTime
+        else
+          Effects::CurrentTime::CurrentTime.(**kwargs)
+        end
       end
 
-      # @api private
-      def self.method_missing(name, *args, &block)
-        effect_name = name.to_s
+      # @api public
+      def Resolve(identifier)
+        Effects::Resolve::Resolve.(identifier)
+      end
 
-        if effect_name[0].match?(/[A-Z]/)
-          Effects.const_get(name)
+      # @api public
+      def Retry(scope)
+        Effects::Retry::Retry.new(type: :retry, scope: scope)
+      end
 
-          if respond_to?(name)
-            public_send(name, *args, &block)
-          else
-            raise ArgumentError, "no constructor for #{name} effect"
-          end
-        else
-          super
-        end
+      # @api public
+      def Read(scope)
+        Effects::State::State.new(type: :state, name: :read, scope: scope)
+      end
+
+      # @api public
+      def Write(scope, value)
+        Effects::State::State.new(type: :state, name: :write, scope: scope, payload: [value])
       end
     end
   end
