@@ -3,8 +3,6 @@
 module Dry
   module Effects
     module Constructors
-      extend self
-
       # @api public
       def CurrentTime(**kwargs)
         if kwargs.empty?
@@ -33,6 +31,8 @@ module Dry
       def Write(scope, value)
         Effects::State::State.new(type: :state, name: :write, scope: scope, payload: [value])
       end
+
+      instance_methods(false).each { module_function(_1) }
     end
   end
 end
