@@ -19,7 +19,7 @@ module Dry
 
           super(
             Undefined.default(message) {
-              "Effect #{effect.inspect} not handled. "\
+              "Effect #{effect.inspect} not handled. " \
                 "Effects must be wrapped with corresponding handlers"
             }
           )
@@ -31,7 +31,7 @@ module Dry
       # @api private
       class MissingStateError < UnhandledEffectError
         def initialize(effect)
-          message = "Value of +#{effect.scope}+ is not set, "\
+          message = "Value of +#{effect.scope}+ is not set, " \
                     "you need to provide value with an effect handler"
 
           super(effect, message)
@@ -45,8 +45,8 @@ module Dry
         include Error
 
         def initialize(effect)
-          message = "+#{effect.scope}+ is not defined, you need to assign it first "\
-                    "by using a writer, passing initial value to the handler, or "\
+          message = "+#{effect.scope}+ is not defined, you need to assign it first " \
+                    "by using a writer, passing initial value to the handler, or " \
                     "providing a fallback value"
 
           super(message)

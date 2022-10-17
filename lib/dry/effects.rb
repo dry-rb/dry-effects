@@ -35,7 +35,7 @@ module Dry
           loader.ignore(
             "#{root}/dry-effects.rb",
             "#{root}/dry/effects/{all,error,extensions,inflector,initializer,version}.rb",
-            "#{root}/dry/effects/extensions/**/*.rb",
+            "#{root}/dry/effects/extensions/**/*.rb"
           )
         end
       end
