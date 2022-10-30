@@ -10,7 +10,7 @@ RSpec.describe "dry-auto_inject extnesion" do
   let(:user_repo) { double(:user_repo) }
 
   let(:container) do
-    Dry::Container.new.tap do |c|
+    Dry::Core::Container.new.tap do |c|
       c.register("repos.user_repo", user_repo)
     end
   end
