@@ -6,7 +6,7 @@ require "dry/auto_inject/strategies/constructor"
 module Dry
   module Effects
     class DryAutoEffectsStrategies
-      extend ::Dry::Container::Mixin
+      extend Core::Container::Mixin
 
       class Base < AutoInject::Strategies::Constructor
         private
