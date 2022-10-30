@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "dry-core", ">= 1.0.0.rc1", "< 2"
   spec.add_runtime_dependency "dry-inflector", "~> 0.1", ">= 0.1.2"
   spec.add_runtime_dependency "dry-initializer", "~> 3.0"
+  spec.add_runtime_dependency "zeitwerk", "~> 2.6"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
