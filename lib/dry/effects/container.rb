@@ -3,7 +3,7 @@
 module Dry
   module Effects
     class Container
-      include ::Dry::Container::Mixin
+      include Core::Container::Mixin
     end
   end
 end
