@@ -21,5 +21,6 @@ group :tools do
 end
 
 gem "dry-configurable", github: "dry-rb/dry-configurable", branch: "main"
+gem "dry-inflector", github: "dry-rb/dry-inflector", branch: "main"
 gem "dry-monads", github: "dry-rb/dry-monads", branch: "main"
 gem "dry-struct", github: "dry-rb/dry-struct", branch: "main"
