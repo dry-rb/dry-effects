@@ -14,6 +14,3 @@ group :test do
   gem "dry-system", "1.0.0.rc1"
 end
 
-group :tools do
-  gem "pry-byebug", platform: :mri
-end
