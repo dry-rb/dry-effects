@@ -14,7 +14,7 @@ class CreateUser
 
   def call(values)
     name = values.values_at(:first_name, :last_name).join(' ')
-    user_repo.create(values.merge(name: name))
+    user_repo.create(**values.merge(name: name))
   end
 end
 ```
