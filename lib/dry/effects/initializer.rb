@@ -17,7 +17,7 @@ module Dry
         # @api private
         def option(*)
           super.tap do
-            __define_with__ unless method_defined?(:with)
+            __define_with__ unless with_method_defined?
             @has_options = true
           end
         end
@@ -48,7 +48,7 @@ module Dry
 
           seq_names << ", " unless seq_names.empty?
 
-          undef_method(:with) if method_defined?(:with)
+          undef_method(:with) if with_method_defined?
 
           class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
             def with(**new_options)                                    # def with(**new_options)
@@ -59,6 +59,10 @@ module Dry
               end                                                      #   end
             end                                                        # end
           RUBY
+        end
+
+        def with_method_defined?
+          (instance_methods - superclass.instance_methods).include?(:with)
         end
       end
 
