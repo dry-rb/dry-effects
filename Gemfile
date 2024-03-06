@@ -8,9 +8,8 @@ gemspec
 
 group :test do
   gem "activesupport"
-  gem "dry-auto_inject", "1.0.0.rc1", require: false
+  gem "dry-auto_inject", require: false
   gem "dry-logic"
+  gem "dry-system"
   gem "dry-types"
-  gem "dry-system", "1.0.0.rc1"
 end
-

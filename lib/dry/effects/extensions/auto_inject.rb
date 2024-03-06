@@ -5,7 +5,7 @@ require "dry/auto_inject"
 require "dry/auto_inject/version"
 
 if Gem::Version.new(Dry::AutoInject::VERSION) < Gem::Version.new("0.10.0")
-  raise RuntimeError, "dry-effects requires dry-auto_inject >= 0.10.0"
+  raise "dry-effects requires dry-auto_inject >= 0.10.0"
 end
 
 module Dry
