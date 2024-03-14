@@ -64,9 +64,15 @@ module Dry
 
       # @api private
       def self.extended(base)
-        base.extend(::Dry::Initializer)
-        base.extend(DefineWithHook)
-        base.include(InstanceMethods)
+        base.module_eval do
+          if method_defined?(:with)
+            undef_method(:with)
+          end
+
+          extend(::Dry::Initializer)
+          extend(DefineWithHook)
+          include(InstanceMethods)
+        end
       end
 
       # @api private
