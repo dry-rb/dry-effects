@@ -1,4 +1,8 @@
 ---
+- version: 0.4.1
+  date:
+  changed:
+    - "Workaround for a clash with Object#with (@tallica + @flash-gordon)"
 - version: 0.4.0
   date:
   changed:
