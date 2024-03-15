@@ -1,10 +1,10 @@
 ---
 - version: 0.4.1
-  date:
+  date: "2024-03-15"
   changed:
     - "Workaround for a clash with Object#with (@tallica + @flash-gordon)"
 - version: 0.4.0
-  date:
+  date: "2022-11-07"
   changed:
     - "This version is compatible with recently released dry-rb dependencies (@flash-gordon)"
 - version: 0.3.1
