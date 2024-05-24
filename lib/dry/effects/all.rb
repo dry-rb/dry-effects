@@ -21,12 +21,11 @@ module Dry
         end
 
         singleton_class.class_eval do
-          define_method(class_name) do |*args|
-            effect_modules.fetch_or_store([key, args]) do
-              ::Dry::Effects.effects[key].new(*args).freeze
+          define_method(class_name) do |*args, **kwargs|
+            effect_modules.fetch_or_store([key, args, kwargs]) do
+              ::Dry::Effects.effects[key].new(*args, **kwargs).freeze
             end
           end
-          ruby2_keywords(class_name) if respond_to?(:ruby2_keywords, true)
         end
       end
 

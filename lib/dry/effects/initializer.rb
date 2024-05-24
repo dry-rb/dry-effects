@@ -6,22 +6,20 @@ module Dry
       # @api private
       module DefineWithHook
         # @api private
-        def param(*)
+        def param(...)
           super.tap do
             @params_arity = nil
             __define_with__
           end
         end
-        ruby2_keywords(:param) if respond_to?(:ruby2_keywords, true)
 
         # @api private
-        def option(*)
+        def option(...)
           super.tap do
             __define_with__ unless method_defined?(:with)
             @has_options = true
           end
         end
-        ruby2_keywords(:option) if respond_to?(:ruby2_keywords, true)
 
         # @api private
         def params_arity
