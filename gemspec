@@ -16,7 +16,8 @@ Gem::Specification.new do |spec|
   spec.summary       = "Algebraic effects"
   spec.description   = spec.summary
   spec.homepage      = "https://dry-rb.org/gems/dry-effects"
-  spec.files         = Dir["CHANGELOG.md", "LICENSE", "README.md", "dry-effects.gemspec", "lib/**/*"]
+  spec.files         = Dir["CHANGELOG.md", "LICENSE", "README.md", "dry-effects.gemspec",
+                           "lib/**/*"]
   spec.bindir        = "bin"
   spec.executables   = []
   spec.require_paths = ["lib"]
@@ -26,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"]   = "https://github.com/dry-rb/dry-effects"
   spec.metadata["bug_tracker_uri"]   = "https://github.com/dry-rb/dry-effects/issues"
 
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.required_ruby_version = ">= 3.1.0"
 
   # to update dependencies edit project.yml
   spec.add_runtime_dependency "concurrent-ruby", "~> 1.0"
