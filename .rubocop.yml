@@ -273,3 +273,7 @@ Naming/BinaryOperatorParameterName:
 Lint/NumericOperationWithConstantResult:
   Exclude:
     - "spec/**/*.rb"
+
+Style/SymbolProc:
+  Exclude:
+    - "spec/**/*.rb"

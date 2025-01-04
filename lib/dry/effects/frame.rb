@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "fiber"
-
 module Dry
   module Effects
     # Stack frame

@@ -36,7 +36,7 @@ RSpec.describe "handling random" do
     context "range" do
       context "integer..integer" do
         specify do
-          integers = Array.new(100) { rand(0..10) }
+          integers = Array.new(1000) { rand(0..10) }
           expect(integers.min).to eql(0)
           expect(integers.max).to eql(10)
         end
@@ -68,7 +68,7 @@ RSpec.describe "handling random" do
     end
 
     it "relies on srand" do
-      fixed_seed = ::Random.new_seed
+      fixed_seed = Random.new_seed
 
       prev_seed = srand(fixed_seed)
       values_a = with_random { Array.new(10) { rand } }
@@ -113,7 +113,7 @@ RSpec.describe "handling random" do
     end
 
     example "other options" do
-      fixed_seed = ::Random.new_seed
+      fixed_seed = Random.new_seed
       prev_seed = srand(fixed_seed)
       values_a = with_random({}) { Array.new(11) { rand } }
 

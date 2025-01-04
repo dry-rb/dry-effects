@@ -34,8 +34,8 @@ module Dry
         find { _1.provide?(effect) }
       end
 
-      def each(&block)
-        providers.each(&block)
+      def each(&)
+        providers.each(&)
       end
 
       def size
