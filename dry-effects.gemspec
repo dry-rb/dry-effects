@@ -16,26 +16,24 @@ Gem::Specification.new do |spec|
   spec.summary       = "Algebraic effects"
   spec.description   = spec.summary
   spec.homepage      = "https://dry-rb.org/gems/dry-effects"
-  spec.files         = Dir["CHANGELOG.md", "LICENSE", "README.md", "dry-effects.gemspec", "lib/**/*"]
+  spec.files         = Dir["CHANGELOG.md", "LICENSE", "README.md", "dry-effects.gemspec",
+                           "lib/**/*"]
   spec.bindir        = "bin"
   spec.executables   = []
   spec.require_paths = ["lib"]
 
-  spec.metadata["allowed_push_host"] = "https://rubygems.org"
-  spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-effects/blob/main/CHANGELOG.md"
-  spec.metadata["source_code_uri"]   = "https://github.com/dry-rb/dry-effects"
-  spec.metadata["bug_tracker_uri"]   = "https://github.com/dry-rb/dry-effects/issues"
+  spec.metadata["allowed_push_host"]     = "https://rubygems.org"
+  spec.metadata["changelog_uri"]         = "https://github.com/dry-rb/dry-effects/blob/main/CHANGELOG.md"
+  spec.metadata["source_code_uri"]       = "https://github.com/dry-rb/dry-effects"
+  spec.metadata["bug_tracker_uri"]       = "https://github.com/dry-rb/dry-effects/issues"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.required_ruby_version = ">= 3.0.0"
 
   # to update dependencies edit project.yml
-  spec.add_runtime_dependency "concurrent-ruby", "~> 1.0"
-  spec.add_runtime_dependency "dry-core", "~> 1.0"
-  spec.add_runtime_dependency "dry-inflector", "~> 1.0"
-  spec.add_runtime_dependency "dry-initializer", "~> 3.0"
-  spec.add_runtime_dependency "zeitwerk", "~> 2.6"
-
-  spec.add_development_dependency "bundler"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
+  spec.add_dependency "concurrent-ruby", "~> 1.0"
+  spec.add_dependency "dry-core", "~> 1.0"
+  spec.add_dependency "dry-inflector", "~> 1.0"
+  spec.add_dependency "dry-initializer", "~> 3.0"
+  spec.add_dependency "zeitwerk", "~> 2.6"
 end
