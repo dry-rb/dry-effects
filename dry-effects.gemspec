@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.metadata["bug_tracker_uri"]       = "https://github.com/dry-rb/dry-effects/issues"
   spec.metadata["rubygems_mfa_required"] = "true"
 
-  spec.required_ruby_version = ">= 3.0.0"
+  spec.required_ruby_version = ">= 3.1"
 
   # to update dependencies edit project.yml
   spec.add_dependency "concurrent-ruby", "~> 1.0"
