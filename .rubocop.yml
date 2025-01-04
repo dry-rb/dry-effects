@@ -269,3 +269,7 @@ Naming/VariableNumber:
 
 Naming/BinaryOperatorParameterName:
   Enabled: false
+
+Lint/NumericOperationWithConstantResult:
+  Exclude:
+    - "spec/**/*.rb"
