@@ -6,7 +6,7 @@ eval_gemfile "Gemfile.devtools"
 
 gemspec
 
-gem "dry-auto_inject", github: "dry-rb/dry-auto_inject"
+gem "dry-auto_inject"
 gem "dry-system", github: "dry-rb/dry-system"
 
 group :test do
