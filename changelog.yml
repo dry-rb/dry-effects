@@ -1,6 +1,6 @@
 ---
 - version: 0.5.0
-  date: "2025-01-04"
+  date: "2025-01-07"
   changed:
     - "Set minimum Ruby version to 3.1 (@flash-gordon)"
 - version: 0.4.1
