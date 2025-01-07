@@ -38,9 +38,7 @@ module Dry
         #
         # @return [Provider]
         # @api private
-        def locate
-          self
-        end
+        def locate = self
 
         private
 

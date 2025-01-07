@@ -53,9 +53,7 @@ module Dry
       class Dynamic < Static
         private
 
-        def define_readers(dynamic: true)
-          super
-        end
+        def define_readers(dynamic: true) = super
       end
 
       register :static, Static

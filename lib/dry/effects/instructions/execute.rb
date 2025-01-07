@@ -11,9 +11,7 @@ module Dry
           @block = block
         end
 
-        def call
-          block.call
-        end
+        def call = block.call
       end
     end
   end

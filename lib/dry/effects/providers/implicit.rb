@@ -12,9 +12,7 @@ module Dry
 
         attr_reader :dictionary
 
-        def implicit(arg)
-          dictionary.fetch(arg.class)
-        end
+        def implicit(arg) = dictionary.fetch(arg.class)
 
         # Yield the block with the handler installed
         #

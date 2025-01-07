@@ -25,9 +25,7 @@ module Dry
           end
         end
 
-        def retry
-          Instructions.Raise(halt.new)
-        end
+        def retry = Instructions.Raise(halt.new)
 
         def attempt
           if attempts_exhausted?
@@ -42,19 +40,13 @@ module Dry
           attempts.equal?(limit)
         end
 
-        def halt
-          Halt[scope]
-        end
+        def halt = Halt[scope]
 
-        def provide?(effect)
-          super && scope.equal?(effect.scope)
-        end
+        def provide?(effect) = super && scope.equal?(effect.scope)
 
         # @return [String]
         # @api public
-        def represent
-          "retry[#{scope} #{attempts}/#{limit}]"
-        end
+        def represent = "retry[#{scope} #{attempts}/#{limit}]"
       end
     end
   end

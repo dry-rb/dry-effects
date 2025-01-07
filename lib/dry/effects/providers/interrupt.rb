@@ -6,9 +6,7 @@ module Dry
       class Interrupt < Provider[:interrupt]
         param :scope, default: -> { :default }
 
-        def interrupt(*payload)
-          Instructions.Raise(halt.new(payload))
-        end
+        def interrupt(*payload) = Instructions.Raise(halt.new(payload))
 
         # Yield the block with the handler installed
         #
@@ -19,22 +17,16 @@ module Dry
           [true, e.payload[0]]
         end
 
-        def halt
-          Halt[scope]
-        end
+        def halt = Halt[scope]
 
         # @return [String]
         # @api public
-        def represent
-          "interrupt[#{scope}]"
-        end
+        def represent = "interrupt[#{scope}]"
 
         # @param [Effect] effect
         # @return [Boolean]
         # @api public
-        def provide?(effect)
-          super && scope.equal?(effect.scope)
-        end
+        def provide?(effect) = super && scope.equal?(effect.scope)
       end
     end
   end

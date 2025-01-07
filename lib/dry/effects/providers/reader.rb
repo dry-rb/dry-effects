@@ -28,9 +28,7 @@ module Dry
           @state = Undefined
         end
 
-        def read
-          state
-        end
+        def read = state
 
         # Yield the block with the handler installed
         #

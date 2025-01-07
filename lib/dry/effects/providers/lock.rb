@@ -31,9 +31,7 @@ module Dry
             end
           end
 
-          def locked?(key)
-            locks.key?(key)
-          end
+          def locked?(key) = locks.key?(key)
 
           def unlock(handle)
             mutex.synchronize do
@@ -62,25 +60,17 @@ module Dry
           locked
         end
 
-        def locked?(key)
-          backend.locked?(key)
-        end
+        def locked?(key) = backend.locked?(key)
 
-        def unlock(handle)
-          backend.unlock(handle)
-        end
+        def unlock(handle) = backend.unlock(handle)
 
-        def meta(key)
-          backend.meta(key)
-        end
+        def meta(key) = backend.meta(key)
 
         # Locate handler in the stack
         #
         # @return [Provider]
         # @api private
-        def locate
-          self
-        end
+        def locate = self
 
         # Yield the block with the handler installed
         #

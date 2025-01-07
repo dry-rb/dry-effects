@@ -10,9 +10,7 @@ module Dry
 
         param :id
 
-        def get
-          value
-        end
+        def get = value
 
         # Yield the block with the handler installed
         #
@@ -33,15 +31,11 @@ module Dry
         # @param [Effect] effect
         # @return [Boolean]
         # @api public
-        def provide?(effect)
-          super && id.equal?(effect.id)
-        end
+        def provide?(effect) = super && id.equal?(effect.id)
 
         # @return [String]
         # @api public
-        def represent
-          "cmp[#{id}=#{@value}]"
-        end
+        def represent = "cmp[#{id}=#{@value}]"
       end
     end
   end

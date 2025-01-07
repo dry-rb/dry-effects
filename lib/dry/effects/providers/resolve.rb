@@ -39,9 +39,7 @@ module Dry
         #
         # @return [Provider]
         # @api private
-        def locate
-          self
-        end
+        def locate = self
 
         # Yield the block with the handler installed
         #

@@ -11,9 +11,7 @@ module Dry
           @error = error
         end
 
-        def call
-          raise error
-        end
+        def call = raise error
       end
     end
   end

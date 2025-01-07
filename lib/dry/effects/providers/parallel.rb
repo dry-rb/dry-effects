@@ -21,9 +21,7 @@ module Dry
           end
         end
 
-        def join(xs)
-          xs.map(&:value!)
-        end
+        def join(xs) = xs.map(&:value!)
 
         # Yield the block with the handler installed
         #

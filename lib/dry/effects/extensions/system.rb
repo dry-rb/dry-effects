@@ -23,7 +23,7 @@ module Dry
 
         def self.injector(effects: true, **kwargs)
           if effects
-            Dry::Effects.AutoInject(**kwargs)
+            ::Dry::Effects.AutoInject(**kwargs)
           else
             super()
           end

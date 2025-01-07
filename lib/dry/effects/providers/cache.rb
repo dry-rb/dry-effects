@@ -29,9 +29,7 @@ module Dry
         # @param [Effect] effect
         # @return [Boolean]
         # @api public
-        def provide?(effect)
-          super && scope.eql?(effect.scope)
-        end
+        def provide?(effect) = super && scope.eql?(effect.scope)
 
         # @return [String]
         # @api public

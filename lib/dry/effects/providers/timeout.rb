@@ -36,9 +36,7 @@ module Dry
           effect.type.equal?(:timeout) && scope.equal?(effect.scope)
         end
 
-        def read_clock
-          ::Process.clock_gettime(::Process::CLOCK_MONOTONIC)
-        end
+        def read_clock = ::Process.clock_gettime(::Process::CLOCK_MONOTONIC)
       end
     end
   end

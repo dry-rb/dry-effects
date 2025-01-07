@@ -20,9 +20,7 @@ module Dry
               ::Dry::Effects.yield(timeout)
             end
 
-            def timed_out?
-              timeout.zero?
-            end
+            def timed_out? = timeout.zero?
           end
         end
       end

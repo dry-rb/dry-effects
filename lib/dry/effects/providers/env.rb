@@ -12,9 +12,7 @@ module Dry
 
         attr_reader :parent
 
-        def read(key)
-          parent.fetch(key) { fetch(key) }
-        end
+        def read(key) = parent.fetch(key) { fetch(key) }
 
         def fetch(key)
           values.fetch(key) do
@@ -31,9 +29,7 @@ module Dry
         #
         # @return [Provider]
         # @api private
-        def locate
-          self
-        end
+        def locate = self
 
         # Yield the block with the handler installed
         #
