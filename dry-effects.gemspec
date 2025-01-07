@@ -32,8 +32,8 @@ Gem::Specification.new do |spec|
 
   # to update dependencies edit project.yml
   spec.add_dependency "concurrent-ruby", "~> 1.0"
-  spec.add_dependency "dry-core", "~> 1.0"
-  spec.add_dependency "dry-inflector", "~> 1.0"
-  spec.add_dependency "dry-initializer", "~> 3.0"
+  spec.add_dependency "dry-core", "~> 1.1"
+  spec.add_dependency "dry-inflector", "~> 1.1"
+  spec.add_dependency "dry-initializer", "~> 3.2"
   spec.add_dependency "zeitwerk", "~> 2.6"
 end
