@@ -13,8 +13,8 @@ module Dry
         def initialize(scope, default: Undefined, writer: true, as: scope)
           super()
 
-          read = State.new(type: :state, name: :read, scope: scope)
-          write = State.new(type: :state, name: :write, scope: scope)
+          read = State.new(type: :state, name: :read, scope:)
+          write = State.new(type: :state, name: :write, scope:)
 
           module_eval do
             if Undefined.equal?(default)
@@ -39,7 +39,7 @@ module Dry
 
             if writer
               define_method(:"#{as}=") do |value|
-                ::Dry::Effects.yield(write.(value: value))
+                ::Dry::Effects.yield(write.(value:))
               end
             end
           end

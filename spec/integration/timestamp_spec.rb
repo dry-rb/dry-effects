@@ -36,7 +36,7 @@ RSpec.describe "handling current time" do
       it "can be passed as a start value" do
         initial = Time.now + 100
 
-        with_timestamp(step: 0.1, initial: initial) do
+        with_timestamp(step: 0.1, initial:) do
           expect(timestamp - initial).to eql(0.0)
           expect(timestamp - timestamp).to eql(-0.1)
         end

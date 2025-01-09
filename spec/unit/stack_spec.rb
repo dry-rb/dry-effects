@@ -3,7 +3,7 @@
 RSpec.describe Dry::Effects::Stack do
   def state_effect(name, scope)
     Dry::Effects::Effects::State::State.new(
-      type: :state, name: name, scope: scope
+      type: :state, name:, scope:
     )
   end
 

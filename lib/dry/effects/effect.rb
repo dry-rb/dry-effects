@@ -19,7 +19,7 @@ module Dry
         if payload.empty?
           @payload
         else
-          with(payload: payload)
+          with(payload:)
         end
       end
 

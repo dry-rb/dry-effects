@@ -11,7 +11,7 @@ module Dry
         def initialize(scope = :default)
           super()
 
-          interrupt = InterruptEffect.new(type: :interrupt, scope: scope)
+          interrupt = InterruptEffect.new(type: :interrupt, scope:)
 
           module_eval do
             define_method(scope) do |payload = Undefined|

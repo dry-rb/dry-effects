@@ -15,7 +15,7 @@ module Dry
 
           module_eval do
             define_method(:repeat) do |scope|
-              effect = Retry.new(type: :retry, scope: scope)
+              effect = Retry.new(type: :retry, scope:)
               ::Dry::Effects.yield(effect)
             end
           end

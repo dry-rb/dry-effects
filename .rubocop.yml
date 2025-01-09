@@ -277,3 +277,6 @@ Lint/NumericOperationWithConstantResult:
 Style/SymbolProc:
   Exclude:
     - "spec/**/*.rb"
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: always

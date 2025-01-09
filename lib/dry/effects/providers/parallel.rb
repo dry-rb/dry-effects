@@ -15,7 +15,7 @@ module Dry
         def par
           stack = self.stack.dup
           proc do |&block|
-            ::Concurrent::Promise.execute(executor: executor) do
+            ::Concurrent::Promise.execute(executor:) do
               Frame.spawn_fiber(stack, &block)
             end
           end

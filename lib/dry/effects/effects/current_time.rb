@@ -18,7 +18,7 @@ module Dry
               if Undefined.equal?(round_to) && refresh.equal?(false)
                 effect = CurrentTime
               else
-                effect = CurrentTime.(round_to: round_to, refresh: refresh)
+                effect = CurrentTime.(round_to:, refresh:)
               end
 
               ::Dry::Effects.yield(effect)
