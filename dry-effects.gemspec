@@ -34,6 +34,9 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "dry-inflector", "~> 1.1"
   spec.add_runtime_dependency "dry-initializer", "~> 3.2"
   spec.add_runtime_dependency "zeitwerk", "~> 2.6"
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
   
 end
 
