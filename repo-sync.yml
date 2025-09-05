@@ -1,12 +1,14 @@
-name: dry-effects
-codacy_id: 158a8a584a3845eba4a67a71ad540210
+name:
+  gem: dry-effects
+  constant: Dry::Effects
+github_org: dry-rb
 gemspec:
-  authors: ["Nikita Shilnikov"]
-  email: ["fg@flashgordon.ru"]
+  authors: ["Hanakai team"]
+  email: ["info@hanakai.org"]
   summary: "Algebraic effects"
   runtime_dependencies:
-    - [zeitwerk, "~> 2.6"]
     - [concurrent-ruby, "~> 1.0"]
     - [dry-core, "~> 1.1"]
     - [dry-inflector, "~> 1.1"]
     - [dry-initializer, "~> 3.2"]
+    - [zeitwerk, "~> 2.6"]
