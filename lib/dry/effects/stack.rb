@@ -19,8 +19,8 @@ module Dry
         else
           yield
         end
-      rescue ::Exception => e # rubocop:disable Lint/RescueException
-        Instructions::Raise.new(e)
+      rescue ::Exception => exception # rubocop:disable Lint/RescueException
+        Instructions::Raise.new(exception)
       end
 
       def push(provider)

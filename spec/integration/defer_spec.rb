@@ -102,7 +102,7 @@ RSpec.describe "defer effects" do
         called = false
 
         with_defer do
-          later(executor:) { called = true }
+          later(executor: executor) { called = true }
         end
 
         expect(called).to be(false)
@@ -116,7 +116,7 @@ RSpec.describe "defer effects" do
         called = false
 
         with_defer do
-          defer(executor:) { called = true }
+          defer(executor: executor) { called = true }
         end
 
         expect(called).to be(false)

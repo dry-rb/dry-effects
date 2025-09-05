@@ -13,8 +13,8 @@ module Dry
         # @api private
         def call
           [false, yield]
-        rescue halt => e
-          [true, e.payload[0]]
+        rescue halt => exception
+          [true, exception.payload[0]]
         end
 
         def halt = Halt[scope]

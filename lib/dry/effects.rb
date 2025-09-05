@@ -64,9 +64,9 @@ module Dry
         else
           result
         end
-      rescue ::FiberError => e
+      rescue ::FiberError => exception
         if block_given?
-          yield(effect, e)
+          yield(effect, exception)
         else
           raise Errors::UnhandledEffectError, effect
         end

@@ -11,7 +11,7 @@ module Dry
         def initialize(dependency)
           super()
 
-          lookup = ImplicitEffect.new(type: :implicit, dependency:)
+          lookup = ImplicitEffect.new(type: :implicit, dependency: dependency)
 
           module_eval do
             define_method(dependency) do |*args|

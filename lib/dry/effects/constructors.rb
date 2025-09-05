@@ -18,14 +18,14 @@ module Dry
       end
 
       # @api public
-      def Retry(scope) = Effects::Retry::Retry.new(type: :retry, scope:)
+      def Retry(scope) = Effects::Retry::Retry.new(type: :retry, scope: scope)
 
       # @api public
-      def Read(scope) = Effects::State::State.new(type: :state, name: :read, scope:)
+      def Read(scope) = Effects::State::State.new(type: :state, name: :read, scope: scope)
 
       # @api public
       def Write(scope, value)
-        Effects::State::State.new(type: :state, name: :write, scope:, payload: [value])
+        Effects::State::State.new(type: :state, name: :write, scope: scope, payload: [value])
       end
 
       instance_methods(false).each { module_function(_1) }

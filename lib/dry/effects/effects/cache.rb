@@ -22,7 +22,7 @@ module Dry
           fetch_or_store = CacheEffect.new(
             type: :cache,
             name: :fetch_or_store,
-            scope:
+            scope: scope
           )
 
           key = key(shared)

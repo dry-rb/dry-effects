@@ -11,7 +11,7 @@ module Dry
         def initialize(id)
           super()
 
-          get = CmpEffect.new(type: :cmp, name: :get, id:)
+          get = CmpEffect.new(type: :cmp, name: :get, id: id)
 
           module_eval do
             define_method(:"#{id}?") { ::Dry::Effects.yield(get) }

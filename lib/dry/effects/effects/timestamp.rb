@@ -16,7 +16,7 @@ module Dry
               if Undefined.equal?(round_to)
                 ::Dry::Effects.yield(Timestamp)
               else
-                ::Dry::Effects.yield(Timestamp.keywords(round_to:))
+                ::Dry::Effects.yield(Timestamp.keywords(round_to: round_to))
               end
             end
           end
