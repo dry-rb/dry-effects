@@ -7,7 +7,6 @@ gemspec:
   email: ["info@hanakai.org"]
   summary: "Algebraic effects"
   homepage: "https://dry-rb.org/gems/dry-effects"
-  required_ruby_version: ">= 3.1.0"
   development_dependencies:
     - bundler
     - rake
