@@ -2,6 +2,8 @@ name:
   gem: dry-effects
   constant: Dry::Effects
 github_org: dry-rb
+ci:
+  jruby: false
 gemspec:
   authors: ["Hanakai team"]
   email: ["info@hanakai.org"]
