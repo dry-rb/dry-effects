@@ -13,7 +13,7 @@ RSpec.describe "forking" do
         fork do |with_stack|
           with_stack.() do
             self.counter += 10
-            [:done, self.counter]
+            [:done, counter]
           end
         end
       ensure
