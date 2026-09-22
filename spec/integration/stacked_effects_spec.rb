@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "concurrent/array"
+
 RSpec.describe "stacked effects" do
   context "different effect types" do
     include Dry::Effects.Random
@@ -132,7 +134,7 @@ RSpec.describe "stacked effects" do
 
     example "parallel + defer" do
       tasks = [0, 1, 2]
-      observed_order = []
+      observed_order = Concurrent::Array.new
       result = with_parallel do
         with_defer do
           pars = tasks.map do |i|
